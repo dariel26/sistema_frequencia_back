@@ -15,6 +15,11 @@ describe("Testando API Coordenador", () => {
     return await request(app).post("/api/v1/coordenador").send(c).expect(201);
   });
 
+  test("Listando Coordenadores", async () => {
+    const res = await request(app).get("/api/v1/coordenador-all").expect(200);
+    expect(res.body).toBeInstanceOf(Array);
+  });
+
   test("Adicionando Coordenador sem atributos", async () => {
     return await request(app).post("/api/v1/coordenador").send({}).expect(400);
   });

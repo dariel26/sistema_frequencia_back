@@ -22,6 +22,11 @@ const DBCoordenador = {
     }
     return true;
   },
+  async listar() {
+    const sql = `select * from Coordenador`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
   async criar(c: ICoordenador) {
     const sql = `insert into Coordenador (nome, senha, estado, papel, email) 
         values ('${c.nome}', md5('${c.senha}'), ${false}, '${c.papel}', '${

@@ -42,6 +42,14 @@ const colecaoCoordenador = {
       trataErr(err, res);
     }
   },
+  async listarTodos(_: any, res: any) {
+    try {
+      const coodenadores = await DBCoordenador.listar();
+      res.status(200).json(coodenadores);
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
 };
 
 export default colecaoCoordenador;
