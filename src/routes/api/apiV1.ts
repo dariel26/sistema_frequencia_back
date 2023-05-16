@@ -1,6 +1,7 @@
 import express from "express";
 import colecaoAluno from "../../colecao/colecaoAluno";
 import colecaoCoordenador from "../../colecao/colecaoCoordenador";
+import colecaoEstagio from "../../colecao/colecaoEstagio";
 import colecaoJwt from "../../colecao/colecaoJwt";
 import colecaoPreceptor from "../../colecao/colecaoPreceptor";
 import acessoApi from "../../middleware/middlewareJwt";
@@ -24,6 +25,12 @@ apiV1.post("/aluno", colecaoAluno.adicionaUm);
 apiV1.get("/aluno/:matricula", colecaoAluno.buscaUmPorMatricula);
 apiV1.patch("/aluno/:matricula", colecaoAluno.atualizaEstadoPorMatricula);
 apiV1.delete("/aluno/:matricula", colecaoAluno.apagaUmPorMatricula);
+
+//ESTAGIO
+apiV1.post("/estagio", colecaoEstagio.adicionaUm);
+apiV1.get("/estagio", colecaoEstagio.listar);
+apiV1.patch("/estagio/:id", colecaoEstagio.mudaNome);
+apiV1.delete("/estagio/:id", colecaoEstagio.apagaUmPorId);
 
 //LOGIN
 apiV1.post("/login", colecaoJwt.login);

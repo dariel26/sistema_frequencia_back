@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/colecao/colecaoPreceptor.ts</title>
+    <title>Code coverage report for src/colecao/colecaoEstagio.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/colecao</a> colecaoPreceptor.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/colecao</a> colecaoEstagio.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">85.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/27</span>
+                <span class='fraction'>23/27</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88% </span>
+                <span class="strong">84% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/25</span>
+                <span class='fraction'>21/25</span>
             </div>
         
             
@@ -115,27 +115,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -144,13 +134,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,52 +158,52 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { requisicaoRuim, trataErr } from "../errors";
-import DBPreceptor, { IPreceptor } from "../interfaces/IPreceptor";
+import DBEstagio, { IEstagio } from "../interfaces/IEstagio";
 &nbsp;
-const colecaoPreceptor = {
+const colecaoEstagio = {
   async adicionaUm(req: any, res: any) {
-    const { nome, senha, estado, papel, email } = req.body;
-    if (requisicaoRuim(!DBPreceptor.valido(req.body), res)) return;
+    const { nome } = req.body;
+    if (requisicaoRuim(!DBEstagio.valido(req.body), res)) return;
     try {
-      const p: IPreceptor = { nome, senha, estado, papel, email };
-      await DBPreceptor.criar(p);
+      const e: IEstagio = { nome };
+      await DBEstagio.criar(e);
       res.status(201).json();
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async buscaUmPorEmail(req: any, res: any) {
-    const { email } = req.params;
+  async listar(_: any, res: any) {
     try {
-      const p = await DBPreceptor.buscarPorEmail(email);
-      res.status(200).json(p);
+      const estagios = await DBEstagio.listar();
+      res.status(200).json(estagios);
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      trataErr(err, res);</span>
     }
   },
-  async apagaUmPorEmail(req: any, res: any) {
-    const { email } = req.params;
+  async apagaUmPorId(req: any, res: any) {
+    const { id } = req.params;
     try {
-      await DBPreceptor.deletar(email);
+      await DBEstagio.apagar(parseInt(id));
       res.status(200).json();
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      trataErr(err, res);</span>
     }
   },
-  async atualizaEstadoPorEmail(req: any, res: any) {
-    const estado: boolean = req.body.estado;
-    const { email } = req.params;
-    if (requisicaoRuim(estado === undefined, res)) return;
+  async mudaNome(req: any, res: any) {
+    const nome: string = req.body.nome;
+    const { id } = req.params;
+    if (requisicaoRuim(nome === undefined, res)) return;
     try {
-      await DBPreceptor.mudarEstado(email, estado);
+      await DBEstagio.editar(parseInt(id), nome);
       res.status(200).json();
     } catch (err) {
+<span class="cstat-no" title="statement not covered" >        console.log(err);</span>
 <span class="cstat-no" title="statement not covered" >      trataErr(err, res);</span>
     }
   },
 };
 &nbsp;
-export default colecaoPreceptor;
+export default colecaoEstagio;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
