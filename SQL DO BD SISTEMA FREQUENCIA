@@ -1,0 +1,106 @@
+CREATE TABLE Coordenador (
+nome TEXT,
+senha TEXT,
+estado BOOLEAN,
+papel TEXT,
+email VARCHAR(100) UNIQUE,
+id_coordenador INT PRIMARY KEY AUTO_INCREMENT
+);
+
+CREATE TABLE Grupo (
+id_grupo BIGINT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(200) UNIQUE
+);
+
+CREATE TABLE Aluno (
+senha TEXT,
+nome TEXT,
+estado BOOLEAN,
+aparelho TEXT,
+papel TEXT,
+matricula VARCHAR(20) UNIQUE,
+id_aluno BIGINT PRIMARY KEY auto_increment,
+id_grupo BIGINT,
+FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo)
+);
+
+CREATE TABLE Preceptor (
+nome TEXT,
+email VARCHAR(100) UNIQUE,
+estado BOOLEAN,
+papel TEXT,
+id_preceptor INT PRIMARY KEY AUTO_INCREMENT,
+senha TEXT
+);
+
+CREATE TABLE Presenca (
+id_presenca BIGINT PRIMARY KEY AUTO_INCREMENT,
+data_hora DATETIME,
+local BLOB,
+estado BOOLEAN,
+periodo TEXT,
+id_aluno BIGINT,
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno)
+);
+
+CREATE TABLE Estagio (
+id_estagio INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(200) UNIQUE
+);
+
+CREATE TABLE Local (
+id_local INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(200) UNIQUE,
+coordenadas BLOB
+);
+
+CREATE TABLE AtivLocal (
+data_hora DATETIME,
+id_ativlocal BIGINT PRIMARY KEY AUTO_INCREMENT,
+id_atividade BIGINT,
+id_local INT,
+FOREIGN KEY(id_local) REFERENCES Local (id_local)
+);
+
+CREATE TABLE PrecAtiv (
+id_atividade BIGINT,
+id_preceptor INT,
+FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor),
+UNIQUE (id_atividade, id_preceptor)
+);
+
+CREATE TABLE AlunoAtiv (
+id_atividade BIGINT,
+id_aluno BIGINT,
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno),
+UNIQUE(id_atividade, id_aluno)
+);
+
+CREATE TABLE CoordEstagio (
+id_coordenador INT,
+id_estagio INT,
+FOREIGN KEY(id_coordenador) REFERENCES Coordenador (id_coordenador),
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio),
+UNIQUE(id_coordenador, id_estagio)
+);
+
+CREATE TABLE Atividade (
+nome VARCHAR(200) UNIQUE,
+id_atividade BIGINT PRIMARY KEY auto_increment,
+id_estagio INT,
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio)
+);
+
+CREATE TABLE EstagioGrupo (
+data DATE,
+id_estagiogrupo INT PRIMARY KEY auto_increment,
+id_grupo BIGINT,
+id_estagio INT,
+FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo),
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio),
+UNIQUE(data, id_grupo, id_estagio)
+);
+
+ALTER TABLE AtivLocal ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade);
+ALTER TABLE PrecAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade);
+ALTER TABLE AlunoAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade);
