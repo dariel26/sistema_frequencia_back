@@ -6,7 +6,7 @@ const p: IPreceptor = {
   nome: "Bruna Costa",
   estado: false,
   papel: "PROFESSOR(A)",
-  email: "bruna@gmail.com",
+  email: "brunaaaaaa@gmailc.odmasda",
   senha: "bruna123",
 };
 

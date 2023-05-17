@@ -8,7 +8,7 @@ const c: ICoordenador = {
   nome: "TEST JWT",
   estado: false,
   papel: "ADMIN",
-  email: "teste.jwt@gmail.com",
+  email: "EsteEmaildesteCOOrdenadoreUnico@gmail",
   senha: "leirad123",
 };
 
@@ -16,7 +16,7 @@ const p: IPreceptor = {
   nome: "TEST JWT",
   estado: false,
   papel: "ADMIN",
-  email: "teste.jwt@gmail.com",
+  email: "emaildeTesteSousarEmTEste@gmail",
   senha: "leirad123",
 };
 
@@ -24,7 +24,7 @@ const a: IAluno = {
   nome: "TEST JWT",
   estado: false,
   papel: "ADMIN",
-  matricula: "1910323232",
+  matricula: "12345678910",
   senha: "leirad123",
 };
 let token: any;

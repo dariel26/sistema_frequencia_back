@@ -40,7 +40,7 @@ const DBPreceptor = {
   },
   async mudarEstado(email: string, estado: boolean) {
     const sql = `update Preceptor set estado=${estado} where email='${email}'`;
-    await db.query(sql);
+    return await db.query(sql);
   },
 };
 

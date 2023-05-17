@@ -14,7 +14,7 @@ const DBEstagio = {
   },
   async criar(e: IEstagio) {
     const sql = `insert into Estagio (nome) values ('${e.nome}')`;
-    await db.query(sql);
+    return await db.query(sql);
   },
   async listar() {
     const sql = `select * from Estagio`;
@@ -23,11 +23,11 @@ const DBEstagio = {
   },
   async editar(id_estagio: number, nome: string) {
     const sql = `update Estagio set nome='${nome}' where id_estagio=${id_estagio}`;
-    await db.query(sql);
+    return await db.query(sql);
   },
   async apagar(id_estagio: number) {
     const sql = `delete from Estagio where id_estagio=${id_estagio}`;
-    await db.query(sql);
+    return await db.query(sql);
   },
 };
 

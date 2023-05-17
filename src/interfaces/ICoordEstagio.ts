@@ -14,7 +14,7 @@ const DBCoordEstagio = {
   },
   async associar(ce: ICoordEstagio) {
     const sql = `insert into CoordEstagio (id_coordenador, id_estagio) values (${ce.id_coordenador}, ${ce.id_estagio})`;
-    await db.query(sql);
+    return await db.query(sql);
   },
   async listar() {
     const sql = `select * from CoordEstagio`;
@@ -23,7 +23,7 @@ const DBCoordEstagio = {
   },
   async apagar(ce: ICoordEstagio) {
     const sql = `delete from CoordEstagio where id_coordenador=${ce.id_coordenador} and id_estagio=${ce.id_estagio}`;
-    await db.query(sql);
+    return await db.query(sql);
   },
 };
 

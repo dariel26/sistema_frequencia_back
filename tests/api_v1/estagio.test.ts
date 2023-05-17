@@ -3,7 +3,7 @@ import request from "supertest";
 import { IEstagio } from "../../src/interfaces/IEstagio";
 
 const e: IEstagio = {
-  nome: "testeEstagio",
+  nome: "nomeDeEstagioImpossivel",
 };
 let id: any;
 
@@ -24,7 +24,7 @@ describe("Testando API Estagio", () => {
   test("Listando Estagios existentes", async () => {
     const res = await request(app).get("/api/v1/estagio").expect(200);
     id = res.body[0].id_estagio;
-    expect(res.body).toBeInstanceOf(Array);
+    expect(res.body.length).toEqual(1);
   });
 
   test("Mudando nome de Estagio existente por id", async () => {

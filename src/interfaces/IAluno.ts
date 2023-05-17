@@ -42,7 +42,7 @@ const DBAluno = {
   },
   async mudarEstado(matricula: string, estado: boolean) {
     const sql = `update Aluno set estado=${estado} where matricula='${matricula}'`;
-    await db.query(sql);
+    return await db.query(sql);
   },
 };
 

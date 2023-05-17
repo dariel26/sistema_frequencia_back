@@ -6,7 +6,7 @@ const a: IAluno = {
   nome: "teste",
   estado: false,
   papel: "ALUNO",
-  matricula: "123123",
+  matricula: "123321123321",
   senha: "teste123",
 };
 

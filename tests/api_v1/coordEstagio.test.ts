@@ -7,12 +7,12 @@ const c: ICoordenador = {
   nome: "CoordEstagio",
   estado: false,
   papel: "ADMIN",
-  email: "coordEstagio@gmail.com",
+  email: "esteemaileunico@gmail.com",
   senha: "leirad123",
 };
 
 const e: IEstagio = {
-  nome: "coordEstagio123",
+  nome: "NomeDeEstagioUnicoTambem",
 };
 
 let idEstagio: any;
@@ -28,7 +28,7 @@ describe("Testando API CoordEstagio", () => {
   });
 
   test("Listando Coordenadores", async () => {
-    const res = await request(app).get("/api/v1/coordenador-all").expect(200);
+    const res = await request(app).get("/api/v1/coordenador-todos").expect(200);
     expect(res.body).toBeInstanceOf(Array);
     idCoordenador = res.body[0].id_coordenador;
   });

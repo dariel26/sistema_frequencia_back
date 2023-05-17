@@ -45,7 +45,7 @@ const DBCoordenador = {
   },
   async mudarEstado(email: string, estado: boolean) {
     const sql = `update Coordenador set estado=${estado} where email='${email}'`;
-    await db.query(sql);
+    return await db.query(sql);
   },
 };
 
