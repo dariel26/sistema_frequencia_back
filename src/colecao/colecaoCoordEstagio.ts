@@ -13,20 +13,21 @@ const colecaoCoordEstagio = {
       trataErr(err, res);
     }
   },
-  async listar(_: any, res: any) {
-    try {
-      const associacoes = await DBCoordEstagio.listar();
-      res.status(200).json(associacoes);
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
   async apagaUmPorIds(req: any, res: any) {
     const { id_coordenador, id_estagio } = req.body;
     if (requisicaoRuim(!DBCoordEstagio.valido(req.body), res)) return;
     try {
       await DBCoordEstagio.apagar({ id_coordenador, id_estagio });
       res.status(200).json();
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
+  async buscaPorIdEstagio(req: any, res: any) {
+    const { id_estagio } = req.params;
+    try {
+      const coordenadores = await DBCoordEstagio.buscarPorIdEstagio(id_estagio);
+      res.status(200).json(coordenadores);
     } catch (err) {
       trataErr(err, res);
     }

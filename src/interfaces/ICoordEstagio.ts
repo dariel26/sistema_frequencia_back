@@ -16,8 +16,9 @@ const DBCoordEstagio = {
     const sql = `insert into CoordEstagio (id_coordenador, id_estagio) values (${ce.id_coordenador}, ${ce.id_estagio})`;
     return await db.query(sql);
   },
-  async listar() {
-    const sql = `select * from CoordEstagio`;
+  async buscarPorIdEstagio(id_estagio: number) {
+    const sql = `select C.id_coordenador, C.nome, C.email from CoordEstagio as CE, Coordenador as C 
+    where CE.id_estagio = ${id_estagio} and CE.id_coordenador = C.id_coordenador`;
     const dados = await db.query(sql);
     return dados[0];
   },

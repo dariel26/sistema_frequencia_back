@@ -15,8 +15,8 @@ const e: IEstagio = {
   nome: "NomeDeEstagioUnicoTambem",
 };
 
-let idEstagio: any;
-let idCoordenador: any;
+let id_estagio: any;
+let id_coordenador: any;
 
 describe("Testando API CoordEstagio", () => {
   test("Adicionando Estagio", async () => {
@@ -30,24 +30,26 @@ describe("Testando API CoordEstagio", () => {
   test("Listando Coordenadores", async () => {
     const res = await request(app).get("/api/v1/coordenador-todos").expect(200);
     expect(res.body).toBeInstanceOf(Array);
-    idCoordenador = res.body[0].id_coordenador;
+    id_coordenador = res.body[0].id_coordenador;
   });
 
   test("Pegando idEstagio ao listar Estagios", async () => {
     const res = await request(app).get("/api/v1/estagio").expect(200);
-    idEstagio = res.body[0].id_estagio;
+    id_estagio = res.body[0].id_estagio;
     expect(res.body).toBeInstanceOf(Array);
   });
 
   test("Associando Coordenador a um Estagio", async () => {
     await request(app)
       .post("/api/v1/coord-estagio")
-      .send({ id_coordenador: idCoordenador, id_estagio: idEstagio })
+      .send({ id_coordenador: id_coordenador, id_estagio: id_estagio })
       .expect(201);
   });
 
-  test("Buscando associações de Coordenador e Estagio", async () => {
-    const res = await request(app).get("/api/v1/coord-estagio").expect(200);
+  test("Buscando Coordenadores associados ao Estagio", async () => {
+    const res = await request(app)
+      .get("/api/v1/coord-estagio/" + id_estagio)
+      .expect(200);
     expect(res.body).toBeInstanceOf(Array);
     expect(res.body.length).toEqual(1);
   });
@@ -55,13 +57,13 @@ describe("Testando API CoordEstagio", () => {
   test("Deletando Associacao de Coordenador e Estagio", async () => {
     await request(app)
       .delete("/api/v1/coord-estagio")
-      .send({ id_coordenador: idCoordenador, id_estagio: idEstagio })
+      .send({ id_coordenador: id_coordenador, id_estagio: id_estagio })
       .expect(200);
   });
 
   test("Deletando Estagio por id", async () => {
     await request(app)
-      .delete("/api/v1/estagio/" + idEstagio)
+      .delete("/api/v1/estagio/" + id_estagio)
       .expect(200);
   });
 

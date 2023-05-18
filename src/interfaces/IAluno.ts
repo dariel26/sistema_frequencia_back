@@ -31,6 +31,11 @@ const DBAluno = {
     }')`;
     return await db.query(sql);
   },
+  async listar() {
+    const sql = `select nome, id_aluno, matricula from Aluno`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
   async buscarPorMatricula(matricula: string) {
     const sql = `select nome, estado, matricula, papel from Aluno where matricula='${matricula}'`;
     const dados = await db.query(sql);

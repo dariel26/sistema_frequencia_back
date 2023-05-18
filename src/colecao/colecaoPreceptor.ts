@@ -42,6 +42,14 @@ const colecaoPreceptor = {
       trataErr(err, res);
     }
   },
+  async listarTodos(_: any, res: any) {
+    try {
+      const preceptores = await DBPreceptor.listar();
+      res.status(200).json(preceptores);
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
 };
 
 export default colecaoPreceptor;

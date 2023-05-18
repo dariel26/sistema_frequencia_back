@@ -42,6 +42,11 @@ const DBPreceptor = {
     const sql = `update Preceptor set estado=${estado} where email='${email}'`;
     return await db.query(sql);
   },
+  async listar() {
+    const sql = `select id_preceptor, email, nome, papel, estado from Preceptor`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
 };
 
 export default DBPreceptor;

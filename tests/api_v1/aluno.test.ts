@@ -15,6 +15,11 @@ describe("Testando API Aluno", () => {
     return await request(app).post("/api/v1/aluno").send(a).expect(201);
   });
 
+  test("Listando todos os Aluno", async () => {
+    const res = await request(app).get("/api/v1/aluno-todos").expect(200);
+    expect(res.body).toBeInstanceOf(Array);
+  });
+
   test("Adicionando Aluno sem atributos", async () => {
     return await request(app).post("/api/v1/aluno").send({}).expect(400);
   });

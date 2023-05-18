@@ -42,6 +42,14 @@ const colecaoAluno = {
       trataErr(err, res);
     }
   },
+  async listarTodos(_: any, res: any) {
+    try {
+      const alunos = await DBAluno.listar();
+      res.status(200).json(alunos);
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
 };
 
 export default colecaoAluno;

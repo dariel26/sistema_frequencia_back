@@ -15,6 +15,11 @@ describe("Testando API Preceptor", () => {
     return await request(app).post("/api/v1/preceptor").send(p).expect(201);
   });
 
+  test("Listando Preceptores", async () => {
+    const res = await request(app).get("/api/v1/preceptor-todos").expect(200);
+    expect(res.body).toBeInstanceOf(Array);
+  });
+
   test("Adicionando Preceptor sem atributos", async () => {
     return await request(app).post("/api/v1/preceptor").send({}).expect(400);
   });
