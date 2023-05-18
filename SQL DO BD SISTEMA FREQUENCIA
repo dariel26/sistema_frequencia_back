@@ -51,7 +51,7 @@ nome VARCHAR(200) UNIQUE
 CREATE TABLE Local (
 id_local INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(200) UNIQUE,
-coordenadas BLOB
+coordenadas JSON
 );
 
 CREATE TABLE AtivLocal (

@@ -5,7 +5,9 @@ import colecaoAtividade from "../../colecao/colecaoAtividade";
 import colecaoCoordenador from "../../colecao/colecaoCoordenador";
 import colecaoCoordEstagio from "../../colecao/colecaoCoordEstagio";
 import colecaoEstagio from "../../colecao/colecaoEstagio";
+import colecaoGrupo from "../../colecao/colecaoGrupo";
 import colecaoJwt from "../../colecao/colecaoJwt";
+import colecaoLocal from "../../colecao/colecaoLocal";
 import colecaoPrecAtiv from "../../colecao/colecaoPrecAtiv";
 import colecaoPreceptor from "../../colecao/colecaoPreceptor";
 import acessoApi from "../../middleware/middlewareJwt";
@@ -39,6 +41,12 @@ apiV1.get("/estagio", colecaoEstagio.listar);
 apiV1.patch("/estagio/:id", colecaoEstagio.mudaNome);
 apiV1.delete("/estagio/:id", colecaoEstagio.apagaUmPorId);
 
+//GRUPO
+apiV1.post("/grupo", colecaoGrupo.adicionaUm);
+apiV1.get("/grupo", colecaoGrupo.listar);
+apiV1.patch("/grupo/:id_grupo", colecaoGrupo.mudaNome);
+apiV1.delete("/grupo/:id_grupo", colecaoGrupo.apagaUmPorId);
+
 //COORD-ESTAGIO
 apiV1.post("/coord-estagio", colecaoCoordEstagio.associarUm);
 apiV1.get("/coord-estagio/:id_estagio", colecaoCoordEstagio.buscaPorIdEstagio);
@@ -50,6 +58,12 @@ apiV1.get("/atividade/:id_estagio", colecaoAtividade.listarPorIdEstagio);
 apiV1.get("/atividade-todas", colecaoAtividade.listar);
 apiV1.patch("/atividade/:id", colecaoAtividade.mudaNome);
 apiV1.delete("/atividade/:id", colecaoAtividade.apagaUmPorId);
+
+//LOCAL
+apiV1.post("/local", colecaoLocal.adicionaUm);
+apiV1.get("/local", colecaoLocal.listar);
+apiV1.patch("/local/:id_local", colecaoLocal.mudaNome);
+apiV1.delete("/local/:id_local", colecaoLocal.apagaUmPorId);
 
 //PREC-ATIV
 apiV1.post("/prec-ativ", colecaoPrecAtiv.associarUm);
