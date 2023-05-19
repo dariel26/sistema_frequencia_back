@@ -2,9 +2,11 @@ import express from "express";
 import colecaoAluno from "../../colecao/colecaoAluno";
 import colecaoAlunoAtiv from "../../colecao/colecaoAlunoAtiv";
 import colecaoAtividade from "../../colecao/colecaoAtividade";
+import colecaoAtivLocal from "../../colecao/colecaoAtivLocal";
 import colecaoCoordenador from "../../colecao/colecaoCoordenador";
 import colecaoCoordEstagio from "../../colecao/colecaoCoordEstagio";
 import colecaoEstagio from "../../colecao/colecaoEstagio";
+import colecaoEstagioGrupo from "../../colecao/colecaoEstagioGrupo";
 import colecaoGrupo from "../../colecao/colecaoGrupo";
 import colecaoJwt from "../../colecao/colecaoJwt";
 import colecaoLocal from "../../colecao/colecaoLocal";
@@ -65,6 +67,11 @@ apiV1.get("/local", colecaoLocal.listar);
 apiV1.patch("/local/:id_local", colecaoLocal.mudaNome);
 apiV1.delete("/local/:id_local", colecaoLocal.apagaUmPorId);
 
+//ATIV-LOCAL
+apiV1.post("/ativ-local", colecaoAtivLocal.associarUm);
+apiV1.get("/ativ-local/:id_atividade", colecaoAtivLocal.buscarPorIdAtividade);
+apiV1.delete("/ativ-local", colecaoAtivLocal.apagaUmPorIdsData);
+
 //PREC-ATIV
 apiV1.post("/prec-ativ", colecaoPrecAtiv.associarUm);
 apiV1.get("/prec-ativ/:id_atividade", colecaoPrecAtiv.buscarPorIdAtividade);
@@ -74,6 +81,11 @@ apiV1.delete("/prec-ativ", colecaoPrecAtiv.apagaUmPorIds);
 apiV1.post("/aluno-ativ", colecaoAlunoAtiv.associarUm);
 apiV1.get("/aluno-ativ/:id_atividade", colecaoAlunoAtiv.buscarPorIdAtividade);
 apiV1.delete("/aluno-ativ", colecaoAlunoAtiv.apagaUm);
+
+//ESTAGIO-GRUPO
+apiV1.post("/estagio-grupo", colecaoEstagioGrupo.associarUm);
+apiV1.get("/estagio-grupo/:id_grupo", colecaoEstagioGrupo.buscarPorIdGrupo);
+apiV1.delete("/estagio-grupo", colecaoEstagioGrupo.apagaUmPorIdsData);
 
 //LOGIN
 apiV1.post("/login", colecaoJwt.login);

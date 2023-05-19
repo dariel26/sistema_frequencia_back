@@ -33,16 +33,6 @@ id_preceptor INT PRIMARY KEY AUTO_INCREMENT,
 senha TEXT
 );
 
-CREATE TABLE Presenca (
-id_presenca BIGINT PRIMARY KEY AUTO_INCREMENT,
-data_hora DATETIME,
-local BLOB,
-estado BOOLEAN,
-periodo TEXT,
-id_aluno BIGINT,
-FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno)
-);
-
 CREATE TABLE Estagio (
 id_estagio INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(200) UNIQUE
@@ -88,7 +78,7 @@ CREATE TABLE Atividade (
 nome VARCHAR(200) UNIQUE,
 id_atividade BIGINT PRIMARY KEY auto_increment,
 id_estagio INT,
-FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio)
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio),
 );
 
 CREATE TABLE EstagioGrupo (
@@ -99,6 +89,19 @@ id_estagio INT,
 FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo),
 FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio),
 UNIQUE(data, id_grupo, id_estagio)
+);
+
+CREATE TABLE Presenca (
+id_presenca BIGINT PRIMARY KEY AUTO_INCREMENT,
+data_hora DATETIME,
+id_local INT,
+estado BOOLEAN,
+periodo TEXT,
+id_aluno BIGINT,
+coordenadas JSON,
+FOREIGN KEY(id_local) REFERENCES Local (id_local),
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno),
+UNIQUE(id_aluno, id_local, data_hora)
 );
 
 ALTER TABLE AtivLocal ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade);
