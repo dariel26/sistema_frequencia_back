@@ -10,6 +10,8 @@ export function trataErr(err: any, res: any) {
     res.status(401).json();
   } else if (err?.name === "JsonWebTokenError") {
     res.status(401).json();
+  } else if (err?.message === "No Local") {
+    res.status(400).json({ badLocal: true });
   } else {
     res.status(500).json();
   }

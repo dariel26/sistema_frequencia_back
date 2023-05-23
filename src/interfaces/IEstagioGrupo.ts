@@ -32,7 +32,6 @@ const DBEstagioGrupo = {
   async apagar(eg: IEstagioGrupo) {
     const sql = `delete from EstagioGrupo 
     where id_grupo=${eg.id_grupo} and id_estagio=${eg.id_estagio} and data='${eg.data}'`;
-    console.log(sql);
     return await db.query(sql);
   },
 };

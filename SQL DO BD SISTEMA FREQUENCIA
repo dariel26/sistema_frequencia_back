@@ -94,6 +94,7 @@ UNIQUE(data, id_grupo, id_estagio)
 CREATE TABLE Presenca (
 id_presenca BIGINT PRIMARY KEY AUTO_INCREMENT,
 data_hora DATETIME,
+id_atividade,
 id_local INT,
 estado BOOLEAN,
 periodo TEXT,

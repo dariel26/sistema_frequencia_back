@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1684244744028" clover="3.2.0">
-  <project timestamp="1684244744029" name="All files">
-    <metrics statements="230" coveredstatements="210" conditionals="66" coveredconditionals="60" methods="41" coveredmethods="41" elements="337" coveredelements="311" complexity="0" loc="230" ncloc="230" packages="6" files="15" classes="15"/>
+<coverage generated="1684609684339" clover="3.2.0">
+  <project timestamp="1684609684339" name="All files">
+    <metrics statements="553" coveredstatements="500" conditionals="130" coveredconditionals="110" methods="111" coveredmethods="111" elements="794" coveredelements="721" complexity="0" loc="553" ncloc="553" packages="6" files="31" classes="31"/>
     <package name="src">
-      <metrics statements="19" coveredstatements="16" conditionals="10" coveredconditionals="7" methods="2" coveredmethods="2"/>
+      <metrics statements="19" coveredstatements="17" conditionals="10" coveredconditionals="8" methods="2" coveredmethods="2"/>
       <file name="app.ts" path="/home/dariel/Projects/sis_freq_back/src/app.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="6" count="5" type="stmt"/>
-        <line num="8" count="5" type="stmt"/>
-        <line num="9" count="5" type="stmt"/>
-        <line num="10" count="5" type="stmt"/>
-        <line num="12" count="5" type="stmt"/>
+        <line num="6" count="13" type="stmt"/>
+        <line num="8" count="13" type="stmt"/>
+        <line num="9" count="13" type="stmt"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="12" count="13" type="stmt"/>
       </file>
       <file name="errors.ts" path="/home/dariel/Projects/sis_freq_back/src/errors.ts">
-        <metrics statements="14" coveredstatements="11" conditionals="10" coveredconditionals="7" methods="2" coveredmethods="2"/>
-        <line num="1" count="5" type="stmt"/>
-        <line num="4" count="5" type="cond" truecount="1" falsecount="1"/>
+        <metrics statements="14" coveredstatements="12" conditionals="10" coveredconditionals="8" methods="2" coveredmethods="2"/>
+        <line num="1" count="13" type="stmt"/>
+        <line num="4" count="8" type="cond" truecount="1" falsecount="1"/>
         <line num="5" count="0" type="stmt"/>
-        <line num="7" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="7" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="9" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="10" count="0" type="stmt"/>
-        <line num="11" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="11" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="19" count="35" type="cond" truecount="2" falsecount="0"/>
-        <line num="20" count="10" type="stmt"/>
-        <line num="21" count="10" type="stmt"/>
-        <line num="23" count="25" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="19" count="73" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="15" type="stmt"/>
+        <line num="21" count="15" type="stmt"/>
+        <line num="23" count="58" type="stmt"/>
       </file>
     </package>
     <package name="src.colecao">
-      <metrics statements="125" coveredstatements="108" conditionals="29" coveredconditionals="26" methods="18" coveredmethods="18"/>
+      <metrics statements="310" coveredstatements="264" conditionals="61" coveredconditionals="48" methods="49" coveredmethods="49"/>
       <file name="colecaoAluno.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoAluno.ts">
-        <metrics statements="25" coveredstatements="22" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
-        <line num="4" count="5" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
-        <line num="7" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="8" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="10" count="3" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
+        <metrics statements="29" coveredstatements="25" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="7" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="17" count="3" type="stmt"/>
         <line num="18" count="3" type="stmt"/>
         <line num="19" count="3" type="stmt"/>
         <line num="20" count="3" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="26" count="2" type="stmt"/>
-        <line num="27" count="2" type="stmt"/>
-        <line num="28" count="2" type="stmt"/>
-        <line num="29" count="2" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="35" count="3" type="stmt"/>
         <line num="36" count="3" type="stmt"/>
@@ -59,53 +59,159 @@
         <line num="39" count="2" type="stmt"/>
         <line num="40" count="2" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
       </file>
-      <file name="colecaoCoordenador.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoCoordenador.ts">
-        <metrics statements="25" coveredstatements="22" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
-        <line num="4" count="5" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
-        <line num="7" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="8" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="10" count="3" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="19" count="3" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
+      <file name="colecaoAlunoAtiv.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoAlunoAtiv.ts">
+        <metrics statements="18" coveredstatements="15" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="26" count="2" type="stmt"/>
-        <line num="27" count="2" type="stmt"/>
-        <line num="28" count="2" type="stmt"/>
-        <line num="29" count="2" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
-        <line num="35" count="3" type="stmt"/>
-        <line num="36" count="3" type="stmt"/>
-        <line num="37" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="38" count="2" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
-        <line num="40" count="2" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
       </file>
-      <file name="colecaoEstagio.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoEstagio.ts">
-        <metrics statements="25" coveredstatements="21" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
-        <line num="4" count="5" type="stmt"/>
-        <line num="6" count="3" type="stmt"/>
-        <line num="7" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
+      <file name="colecaoAtivLocal.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoAtivLocal.ts">
+        <metrics statements="20" coveredstatements="16" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+      </file>
+      <file name="colecaoAtividade.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoAtividade.ts">
+        <metrics statements="29" coveredstatements="25" conditionals="4" coveredconditionals="3" methods="5" coveredmethods="5"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="6" type="stmt"/>
+        <line num="7" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="5" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="19" count="2" type="stmt"/>
+        <line num="17" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+      </file>
+      <file name="colecaoCoordEstagio.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoCoordEstagio.ts">
+        <metrics statements="19" coveredstatements="16" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+      </file>
+      <file name="colecaoCoordenador.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoCoordenador.ts">
+        <metrics statements="29" coveredstatements="25" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="7" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="37" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+      </file>
+      <file name="colecaoEstagio.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoEstagio.ts">
+        <metrics statements="25" coveredstatements="21" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="9" type="stmt"/>
+        <line num="7" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="8" type="stmt"/>
+        <line num="9" count="8" type="stmt"/>
+        <line num="10" count="8" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="19" count="8" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="25" count="7" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="34" count="2" type="stmt"/>
         <line num="35" count="2" type="stmt"/>
@@ -116,10 +222,60 @@
         <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
       </file>
+      <file name="colecaoEstagioGrupo.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoEstagioGrupo.ts">
+        <metrics statements="20" coveredstatements="16" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+      </file>
+      <file name="colecaoGrupo.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoGrupo.ts">
+        <metrics statements="24" coveredstatements="21" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+      </file>
       <file name="colecaoJwt.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoJwt.ts">
-        <metrics statements="25" coveredstatements="21" conditionals="13" coveredconditionals="10" methods="2" coveredmethods="2"/>
-        <line num="1" count="5" type="stmt"/>
-        <line num="7" count="5" type="stmt"/>
+        <metrics statements="25" coveredstatements="22" conditionals="13" coveredconditionals="11" methods="2" coveredmethods="2"/>
+        <line num="1" count="13" type="stmt"/>
+        <line num="7" count="13" type="stmt"/>
         <line num="9" count="4" type="stmt"/>
         <line num="10" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="16" count="1" type="stmt"/>
@@ -127,8 +283,8 @@
         <line num="20" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="21" count="1" type="stmt"/>
         <line num="25" count="2" type="stmt"/>
-        <line num="28" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="28" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="1" type="stmt"/>
         <line num="34" count="3" type="cond" truecount="1" falsecount="1"/>
         <line num="35" count="0" type="stmt"/>
         <line num="37" count="3" type="stmt"/>
@@ -144,9 +300,9 @@
         <line num="57" count="1" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
       </file>
-      <file name="colecaoPreceptor.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoPreceptor.ts">
-        <metrics statements="25" coveredstatements="22" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
-        <line num="4" count="5" type="stmt"/>
+      <file name="colecaoLocal.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoLocal.ts">
+        <metrics statements="24" coveredstatements="21" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+        <line num="4" count="13" type="stmt"/>
         <line num="6" count="4" type="stmt"/>
         <line num="7" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="8" count="3" type="stmt"/>
@@ -157,12 +313,61 @@
         <line num="17" count="3" type="stmt"/>
         <line num="18" count="3" type="stmt"/>
         <line num="19" count="3" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
         <line num="26" count="2" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
-        <line num="29" count="2" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+      </file>
+      <file name="colecaoPrecAtiv.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoPrecAtiv.ts">
+        <metrics statements="19" coveredstatements="16" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+      </file>
+      <file name="colecaoPreceptor.ts" path="/home/dariel/Projects/sis_freq_back/src/colecao/colecaoPreceptor.ts">
+        <metrics statements="29" coveredstatements="25" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="7" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="35" count="3" type="stmt"/>
         <line num="36" count="3" type="stmt"/>
@@ -171,86 +376,221 @@
         <line num="39" count="2" type="stmt"/>
         <line num="40" count="2" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.db">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="db.ts" path="/home/dariel/Projects/sis_freq_back/src/db/db.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="5" type="stmt"/>
-        <line num="4" count="5" type="stmt"/>
-        <line num="16" count="5" type="stmt"/>
+        <line num="1" count="13" type="stmt"/>
+        <line num="4" count="13" type="stmt"/>
+        <line num="16" count="13" type="stmt"/>
       </file>
     </package>
     <package name="src.interfaces">
-      <metrics statements="53" coveredstatements="53" conditionals="23" coveredconditionals="23" methods="20" coveredmethods="20"/>
+      <metrics statements="160" coveredstatements="155" conditionals="55" coveredconditionals="50" methods="59" coveredmethods="59"/>
       <file name="IAluno.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IAluno.ts">
-        <metrics statements="13" coveredstatements="13" conditionals="7" coveredconditionals="7" methods="5" coveredmethods="5"/>
-        <line num="14" count="5" type="stmt"/>
-        <line num="16" count="4" type="cond" truecount="2" falsecount="0"/>
+        <metrics statements="16" coveredstatements="16" conditionals="7" coveredconditionals="7" methods="6" coveredmethods="6"/>
+        <line num="14" count="13" type="stmt"/>
+        <line num="16" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="23" count="1" type="stmt"/>
-        <line num="25" count="3" type="stmt"/>
-        <line num="28" count="3" type="stmt"/>
-        <line num="32" count="3" type="stmt"/>
-        <line num="35" count="3" type="stmt"/>
-        <line num="36" count="3" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="40" count="2" type="stmt"/>
-        <line num="41" count="2" type="stmt"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="42" count="3" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
+        <line num="46" count="3" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="50" count="2" type="stmt"/>
+      </file>
+      <file name="IAlunoAtiv.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IAlunoAtiv.ts">
+        <metrics statements="11" coveredstatements="10" conditionals="4" coveredconditionals="3" methods="4" coveredmethods="4"/>
+        <line num="8" count="13" type="stmt"/>
+        <line num="10" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+      </file>
+      <file name="IAtivLocal.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IAtivLocal.ts">
+        <metrics statements="11" coveredstatements="10" conditionals="5" coveredconditionals="4" methods="4" coveredmethods="4"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="12" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+      </file>
+      <file name="IAtividade.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IAtividade.ts">
+        <metrics statements="16" coveredstatements="16" conditionals="4" coveredconditionals="4" methods="6" coveredmethods="6"/>
+        <line num="9" count="13" type="stmt"/>
+        <line num="11" count="6" type="cond" truecount="4" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="5" type="stmt"/>
+        <line num="17" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="23" count="5" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+      </file>
+      <file name="ICoordEstagio.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/ICoordEstagio.ts">
+        <metrics statements="11" coveredstatements="10" conditionals="4" coveredconditionals="3" methods="4" coveredmethods="4"/>
+        <line num="8" count="13" type="stmt"/>
+        <line num="10" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
       </file>
       <file name="ICoordenador.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/ICoordenador.ts">
-        <metrics statements="13" coveredstatements="13" conditionals="7" coveredconditionals="7" methods="5" coveredmethods="5"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="14" count="4" type="cond" truecount="2" falsecount="0"/>
+        <metrics statements="16" coveredstatements="16" conditionals="7" coveredconditionals="7" methods="6" coveredmethods="6"/>
+        <line num="12" count="13" type="stmt"/>
+        <line num="14" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="21" count="1" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="26" count="3" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
-        <line num="33" count="3" type="stmt"/>
-        <line num="34" count="3" type="stmt"/>
-        <line num="35" count="3" type="stmt"/>
-        <line num="38" count="2" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
-        <line num="42" count="2" type="stmt"/>
-        <line num="43" count="2" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
+        <line num="44" count="3" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
       </file>
       <file name="IEstagio.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IEstagio.ts">
         <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
-        <line num="8" count="5" type="stmt"/>
-        <line num="10" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="13" type="stmt"/>
+        <line num="10" count="9" type="cond" truecount="2" falsecount="0"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="20" count="2" type="stmt"/>
-        <line num="21" count="2" type="stmt"/>
-        <line num="22" count="2" type="stmt"/>
+        <line num="13" count="8" type="stmt"/>
+        <line num="16" count="8" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="21" count="8" type="stmt"/>
+        <line num="22" count="8" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
+        <line num="29" count="7" type="stmt"/>
+        <line num="30" count="7" type="stmt"/>
+      </file>
+      <file name="IEstagioGrupo.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IEstagioGrupo.ts">
+        <metrics statements="12" coveredstatements="11" conditionals="5" coveredconditionals="4" methods="4" coveredmethods="4"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="12" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+      </file>
+      <file name="IGrupo.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IGrupo.ts">
+        <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
+        <line num="8" count="13" type="stmt"/>
+        <line num="10" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="21" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+      </file>
+      <file name="ILocal.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/ILocal.ts">
+        <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5"/>
+        <line num="9" count="13" type="stmt"/>
+        <line num="11" count="6" type="cond" truecount="4" falsecount="0"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="21" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+      </file>
+      <file name="IPrecAtiv.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IPrecAtiv.ts">
+        <metrics statements="11" coveredstatements="10" conditionals="4" coveredconditionals="3" methods="4" coveredmethods="4"/>
+        <line num="8" count="13" type="stmt"/>
+        <line num="10" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
       </file>
       <file name="IPreceptor.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IPreceptor.ts">
-        <metrics statements="13" coveredstatements="13" conditionals="7" coveredconditionals="7" methods="5" coveredmethods="5"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="14" count="4" type="cond" truecount="2" falsecount="0"/>
+        <metrics statements="16" coveredstatements="16" conditionals="7" coveredconditionals="7" methods="6" coveredmethods="6"/>
+        <line num="12" count="13" type="stmt"/>
+        <line num="14" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="21" count="1" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="26" count="3" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
         <line num="33" count="3" type="stmt"/>
         <line num="34" count="3" type="stmt"/>
         <line num="35" count="3" type="stmt"/>
-        <line num="38" count="2" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
         <line num="42" count="2" type="stmt"/>
         <line num="43" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
       </file>
       <file name="IToken.ts" path="/home/dariel/Projects/sis_freq_back/src/interfaces/IToken.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="7" count="5" type="stmt"/>
+        <line num="7" count="13" type="stmt"/>
       </file>
     </package>
     <package name="src.middleware">
@@ -271,28 +611,59 @@
       </file>
     </package>
     <package name="src.routes.api">
-      <metrics statements="19" coveredstatements="19" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="50" coveredstatements="50" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="apiV1.ts" path="/home/dariel/Projects/sis_freq_back/src/routes/api/apiV1.ts">
-        <metrics statements="19" coveredstatements="19" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="9" count="5" type="stmt"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="13" count="5" type="stmt"/>
-        <line num="14" count="5" type="stmt"/>
-        <line num="15" count="5" type="stmt"/>
-        <line num="18" count="5" type="stmt"/>
-        <line num="19" count="5" type="stmt"/>
-        <line num="20" count="5" type="stmt"/>
-        <line num="21" count="5" type="stmt"/>
-        <line num="24" count="5" type="stmt"/>
-        <line num="25" count="5" type="stmt"/>
-        <line num="26" count="5" type="stmt"/>
-        <line num="27" count="5" type="stmt"/>
-        <line num="30" count="5" type="stmt"/>
-        <line num="31" count="5" type="stmt"/>
-        <line num="32" count="5" type="stmt"/>
-        <line num="33" count="5" type="stmt"/>
-        <line num="36" count="5" type="stmt"/>
-        <line num="37" count="5" type="stmt"/>
+        <metrics statements="50" coveredstatements="50" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="17" count="13" type="stmt"/>
+        <line num="20" count="13" type="stmt"/>
+        <line num="21" count="13" type="stmt"/>
+        <line num="22" count="13" type="stmt"/>
+        <line num="23" count="13" type="stmt"/>
+        <line num="24" count="13" type="stmt"/>
+        <line num="27" count="13" type="stmt"/>
+        <line num="28" count="13" type="stmt"/>
+        <line num="29" count="13" type="stmt"/>
+        <line num="30" count="13" type="stmt"/>
+        <line num="31" count="13" type="stmt"/>
+        <line num="34" count="13" type="stmt"/>
+        <line num="35" count="13" type="stmt"/>
+        <line num="36" count="13" type="stmt"/>
+        <line num="37" count="13" type="stmt"/>
+        <line num="38" count="13" type="stmt"/>
+        <line num="41" count="13" type="stmt"/>
+        <line num="42" count="13" type="stmt"/>
+        <line num="43" count="13" type="stmt"/>
+        <line num="44" count="13" type="stmt"/>
+        <line num="47" count="13" type="stmt"/>
+        <line num="48" count="13" type="stmt"/>
+        <line num="49" count="13" type="stmt"/>
+        <line num="50" count="13" type="stmt"/>
+        <line num="53" count="13" type="stmt"/>
+        <line num="54" count="13" type="stmt"/>
+        <line num="55" count="13" type="stmt"/>
+        <line num="58" count="13" type="stmt"/>
+        <line num="59" count="13" type="stmt"/>
+        <line num="60" count="13" type="stmt"/>
+        <line num="61" count="13" type="stmt"/>
+        <line num="62" count="13" type="stmt"/>
+        <line num="65" count="13" type="stmt"/>
+        <line num="66" count="13" type="stmt"/>
+        <line num="67" count="13" type="stmt"/>
+        <line num="68" count="13" type="stmt"/>
+        <line num="71" count="13" type="stmt"/>
+        <line num="72" count="13" type="stmt"/>
+        <line num="73" count="13" type="stmt"/>
+        <line num="76" count="13" type="stmt"/>
+        <line num="77" count="13" type="stmt"/>
+        <line num="78" count="13" type="stmt"/>
+        <line num="81" count="13" type="stmt"/>
+        <line num="82" count="13" type="stmt"/>
+        <line num="83" count="13" type="stmt"/>
+        <line num="86" count="13" type="stmt"/>
+        <line num="87" count="13" type="stmt"/>
+        <line num="88" count="13" type="stmt"/>
+        <line num="91" count="13" type="stmt"/>
+        <line num="92" count="13" type="stmt"/>
       </file>
     </package>
   </project>

@@ -1,3 +1,5 @@
+import db from "../db/db";
+
 export interface IPresenca {
   id_presenca?: number;
   data_hora: Date;
@@ -5,7 +7,8 @@ export interface IPresenca {
   periodo: string;
   id_aluno: number;
   id_local: number;
-  coordeadas: string;
+  id_atividade: number;
+  coordenadas: string;
 }
 
 const DBPresenca = {
@@ -16,18 +19,37 @@ const DBPresenca = {
       obj.periodo === undefined,
       obj.id_aluno === undefined,
       obj.id_local === undefined,
-      obj.coordeadas === undefined)
+      obj.coordenadas === undefined,
+      obj.id_atividade === undefined)
     ) {
       return false;
     }
     return true;
   },
-  criar(p: IPresenca) {
-    const sql = `insert into Presenca (data_hora, estado, periodo, id_aluno, id_local, coordenadas)
-    values ('${p.data_hora}', ${p.estado}, '${p.periodo}', ${p.id_aluno}, ${p.id_local}, '${p.coordeadas}')`;
+  async criar(p: IPresenca) {
+    const sql = `insert into Presenca (data_hora, estado, periodo, id_aluno, id_local, id_atividade, coordenadas)
+    values ('${p.data_hora}', ${p.estado}, '${p.periodo}', ${p.id_aluno}, ${p.id_local}, ${p.id_atividade},'${p.coordenadas}')`;
+    return await db.query(sql);
   },
-  buscarPorAluno(id_aluno: number) {},
-  buscarPorAtividade(id_atividade: number) {},
+  async buscarPorAluno(id_aluno: number) {
+    const sql = `select * from Presenca where id_aluno=${id_aluno}`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
+  async buscarPorAtividade(id_atividade: number) {
+    const sql = `select * from Presenca where id_atividade=${id_atividade}`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
+  async listar() {
+    const sql = `select * from Presenca`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
+  async apagarPorId(id_presenca: number) {
+    const sql = `delete from Presenca where id_presenca=${id_presenca}`;
+    return await db.query(sql);
+  },
 };
 
 export default DBPresenca;

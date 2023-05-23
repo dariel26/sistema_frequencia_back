@@ -12,6 +12,7 @@ import colecaoJwt from "../../colecao/colecaoJwt";
 import colecaoLocal from "../../colecao/colecaoLocal";
 import colecaoPrecAtiv from "../../colecao/colecaoPrecAtiv";
 import colecaoPreceptor from "../../colecao/colecaoPreceptor";
+import colecaoPresenca from "../../colecao/colecaoPresenca";
 import acessoApi from "../../middleware/middlewareJwt";
 
 const apiV1 = express.Router();
@@ -86,6 +87,13 @@ apiV1.delete("/aluno-ativ", colecaoAlunoAtiv.apagaUm);
 apiV1.post("/estagio-grupo", colecaoEstagioGrupo.associarUm);
 apiV1.get("/estagio-grupo/:id_grupo", colecaoEstagioGrupo.buscarPorIdGrupo);
 apiV1.delete("/estagio-grupo", colecaoEstagioGrupo.apagaUmPorIdsData);
+
+//PRESENCA
+apiV1.post("/presenca", colecaoPresenca.criarUma);
+apiV1.get("/presenca", colecaoPresenca.listarTodas);
+apiV1.get("/presenca-aluno/:id_aluno", colecaoPresenca.buscarPorIdAluno);
+apiV1.get("/presenca-atividade/:id_atividade", colecaoPresenca.buscarPorIdAtividade);
+apiV1.delete("/presenca/:id_presenca", colecaoPresenca.deletarPorId);
 
 //LOGIN
 apiV1.post("/login", colecaoJwt.login);

@@ -10,7 +10,6 @@ const colecaoEstagioGrupo = {
       await DBEstagioGrupo.associar(eg);
       res.status(201).json();
     } catch (err) {
-        console.log(err);
       trataErr(err, res);
     }
   },
@@ -18,7 +17,7 @@ const colecaoEstagioGrupo = {
     const { id_grupo, id_estagio, data } = req.body;
     if (requisicaoRuim(!DBEstagioGrupo.valido(req.body), res)) return;
     try {
-      console.log(await DBEstagioGrupo.apagar({ id_grupo, id_estagio, data }));
+      await DBEstagioGrupo.apagar({ id_grupo, id_estagio, data });
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);

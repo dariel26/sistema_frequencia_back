@@ -38,7 +38,6 @@ const colecaoEstagio = {
       await DBEstagio.editar(parseInt(id), nome);
       res.status(200).json();
     } catch (err) {
-        console.log(err);
       trataErr(err, res);
     }
   },

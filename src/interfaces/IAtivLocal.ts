@@ -24,7 +24,7 @@ const DBAtivLocal = {
     return await db.query(sql);
   },
   async buscarPorIdAtividade(id_atividade: number) {
-    const sql = `select L.nome, L.coordenadas, AL.data_hora from AtivLocal as AL, Local as L 
+    const sql = `select L.nome, L.id_local, L.coordenadas, AL.data_hora from AtivLocal as AL, Local as L 
     where AL.id_atividade = ${id_atividade} and AL.id_local = L.id_local`;
     const dados = await db.query(sql);
     return dados[0];

@@ -10,7 +10,6 @@ const colecaoAtivLocal = {
       await DBAtivLocal.associar(al);
       res.status(201).json();
     } catch (err) {
-        console.log(err);
       trataErr(err, res);
     }
   },
