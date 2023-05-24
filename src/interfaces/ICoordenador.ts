@@ -9,6 +9,9 @@ export interface ICoordenador {
   email: string;
 }
 
+export const PAPEL_ADMIN = "ADMIN";
+export const PAPEL_COORDENADOR = "COORDENADOR(A)";
+
 const DBCoordenador = {
   valido(obj: any) {
     if (
@@ -29,9 +32,9 @@ const DBCoordenador = {
   },
   async criar(c: ICoordenador) {
     const sql = `insert into Coordenador (nome, senha, estado, papel, email) 
-        values ('${c.nome}', md5('${c.senha}'), ${false}, '${c.papel}', '${
-      c.email
-    }')`;
+        values ('${c.nome}', md5('${
+      c.senha
+    }'), ${false}, '${PAPEL_COORDENADOR}', '${c.email}')`;
     return await db.query(sql);
   },
   async buscarPorEmail(email: string) {

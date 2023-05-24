@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBEstagio, { IEstagio } from "../interfaces/IEstagio";
 
-const colecaoEstagio = {
+const cEstagio = {
   async adicionaUm(req: any, res: any) {
     const { nome } = req.body;
     if (requisicaoRuim(!DBEstagio.valido(req.body), res)) return;
@@ -43,4 +43,4 @@ const colecaoEstagio = {
   },
 };
 
-export default colecaoEstagio;
+export default cEstagio;

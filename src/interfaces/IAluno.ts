@@ -11,6 +11,8 @@ export interface IAluno {
   matricula: string;
 }
 
+export const PAPEL_ALUNO = "ALUNO(A)";
+
 const DBAluno = {
   valido(obj: any) {
     if (
@@ -26,7 +28,7 @@ const DBAluno = {
   },
   async criar(a: IAluno) {
     const sql = `insert into Aluno (nome, senha, estado, papel, matricula) 
-        values ('${a.nome}', md5('${a.senha}'), ${false}, '${a.papel}', '${
+        values ('${a.nome}', md5('${a.senha}'), ${false}, '${PAPEL_ALUNO}', '${
       a.matricula
     }')`;
     return await db.query(sql);

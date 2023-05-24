@@ -1,13 +1,13 @@
 import { requisicaoRuim, trataErr } from "../errors";
-import DBCoordenador, { ICoordenador } from "../interfaces/ICoordenador";
+import DBPreceptor, { IPreceptor } from "../interfaces/IPreceptor";
 
-const colecaoCoordenador = {
+const cPreceptor = {
   async adicionaUm(req: any, res: any) {
     const { nome, senha, estado, papel, email } = req.body;
-    if (requisicaoRuim(!DBCoordenador.valido(req.body), res)) return;
+    if (requisicaoRuim(!DBPreceptor.valido(req.body), res)) return;
     try {
-      const c: ICoordenador = { nome, senha, estado, papel, email };
-      await DBCoordenador.criar(c);
+      const p: IPreceptor = { nome, senha, estado, papel, email };
+      await DBPreceptor.criar(p);
       res.status(201).json();
     } catch (err) {
       trataErr(err, res);
@@ -16,8 +16,8 @@ const colecaoCoordenador = {
   async buscaUmPorEmail(req: any, res: any) {
     const { email } = req.params;
     try {
-      const c = await DBCoordenador.buscarPorEmail(email);
-      res.status(200).json(c);
+      const p = await DBPreceptor.buscarPorEmail(email);
+      res.status(200).json(p);
     } catch (err) {
       trataErr(err, res);
     }
@@ -25,7 +25,7 @@ const colecaoCoordenador = {
   async apagaUmPorEmail(req: any, res: any) {
     const { email } = req.params;
     try {
-      await DBCoordenador.deletar(email);
+      await DBPreceptor.deletar(email);
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);
@@ -36,7 +36,7 @@ const colecaoCoordenador = {
     const { email } = req.params;
     if (requisicaoRuim(estado === undefined, res)) return;
     try {
-      await DBCoordenador.mudarEstado(email, estado);
+      await DBPreceptor.mudarEstado(email, estado);
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);
@@ -44,12 +44,12 @@ const colecaoCoordenador = {
   },
   async listarTodos(_: any, res: any) {
     try {
-      const coodenadores = await DBCoordenador.listar();
-      res.status(200).json(coodenadores);
+      const preceptores = await DBPreceptor.listar();
+      res.status(200).json(preceptores);
     } catch (err) {
       trataErr(err, res);
     }
   },
 };
 
-export default colecaoCoordenador;
+export default cPreceptor;

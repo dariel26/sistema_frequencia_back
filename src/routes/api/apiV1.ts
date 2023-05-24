@@ -1,101 +1,104 @@
+require("dotenv").config();
 import express from "express";
-import colecaoAluno from "../../colecao/colecaoAluno";
-import colecaoAlunoAtiv from "../../colecao/colecaoAlunoAtiv";
-import colecaoAtividade from "../../colecao/colecaoAtividade";
-import colecaoAtivLocal from "../../colecao/colecaoAtivLocal";
-import colecaoCoordenador from "../../colecao/colecaoCoordenador";
-import colecaoCoordEstagio from "../../colecao/colecaoCoordEstagio";
-import colecaoEstagio from "../../colecao/colecaoEstagio";
-import colecaoEstagioGrupo from "../../colecao/colecaoEstagioGrupo";
-import colecaoGrupo from "../../colecao/colecaoGrupo";
-import colecaoJwt from "../../colecao/colecaoJwt";
-import colecaoLocal from "../../colecao/colecaoLocal";
-import colecaoPrecAtiv from "../../colecao/colecaoPrecAtiv";
-import colecaoPreceptor from "../../colecao/colecaoPreceptor";
-import colecaoPresenca from "../../colecao/colecaoPresenca";
-import acessoApi from "../../middleware/middlewareJwt";
+import cAluno from "../../controllers/cAluno";
+import cAlunoAtiv from "../../controllers/cAlunoAtiv";
+import cAtividade from "../../controllers/cAtividade";
+import cAtivLocal from "../../controllers/cAtivLocal";
+import cCoordenador from "../../controllers/cCoordenador";
+import cCoordEstagio from "../../controllers/cCoordEstagio";
+import cEstagio from "../../controllers/cEstagio";
+import cEstagioGrupo from "../../controllers/cEstagioGrupo";
+import cGrupo from "../../controllers/cGrupo";
+import cJwt from "../../controllers/cJwt";
+import cLocal from "../../controllers/cLocal";
+import cPrecAtiv from "../../controllers/cPrecAtiv";
+import cPreceptor from "../../controllers/cPreceptor";
+import cPresenca from "../../controllers/cPresenca";
+import mHabilidade from "../../middleware/habilidades";
+import acessoPadrao from "../../middleware/middlewareJwt";
 
 const apiV1 = express.Router();
 
 //COORDENADOR
-apiV1.post("/coordenador", colecaoCoordenador.adicionaUm);
-apiV1.get("/coordenador/:email", colecaoCoordenador.buscaUmPorEmail);
-apiV1.get("/coordenador-todos", colecaoCoordenador.listarTodos);
-apiV1.patch("/coordenador/:email", colecaoCoordenador.atualizaEstadoPorEmail);
-apiV1.delete("/coordenador/:email", colecaoCoordenador.apagaUmPorEmail);
+apiV1.post("/coordenador",[acessoPadrao, mHabilidade.editarCoordenador], cCoordenador.adicionaUm);
+apiV1.get("/coordenador/:email",[acessoPadrao, mHabilidade.lerCoordenador], cCoordenador.buscaUmPorEmail);
+apiV1.get("/coordenador-todos", [acessoPadrao, mHabilidade.lerCoordenador], cCoordenador.listarTodos);
+apiV1.patch("/coordenador/:email", [acessoPadrao, mHabilidade.editarCoordenador],cCoordenador.atualizaEstadoPorEmail);
+apiV1.delete("/coordenador/:email", [acessoPadrao, mHabilidade.editarCoordenador],cCoordenador.apagaUmPorEmail);
 
 //PRECEPTOR
-apiV1.post("/preceptor", colecaoPreceptor.adicionaUm);
-apiV1.get("/preceptor/:email", colecaoPreceptor.buscaUmPorEmail);
-apiV1.get("/preceptor-todos", colecaoPreceptor.listarTodos);
-apiV1.patch("/preceptor/:email", colecaoPreceptor.atualizaEstadoPorEmail);
-apiV1.delete("/preceptor/:email", colecaoPreceptor.apagaUmPorEmail);
+apiV1.post("/preceptor", [acessoPadrao, mHabilidade.editarPreceptor], cPreceptor.adicionaUm);
+apiV1.get("/preceptor/:email", [acessoPadrao, mHabilidade.lerPreceptor], cPreceptor.buscaUmPorEmail);
+apiV1.get("/preceptor-todos", [acessoPadrao, mHabilidade.lerPreceptor],cPreceptor.listarTodos);
+apiV1.patch("/preceptor/:email", [acessoPadrao, mHabilidade.editarPreceptor], cPreceptor.atualizaEstadoPorEmail);
+apiV1.delete("/preceptor/:email", [acessoPadrao, mHabilidade.editarPreceptor], cPreceptor.apagaUmPorEmail);
 
 //ALUNO
-apiV1.post("/aluno", colecaoAluno.adicionaUm);
-apiV1.get("/aluno/:matricula", colecaoAluno.buscaUmPorMatricula);
-apiV1.get("/aluno-todos", colecaoAluno.listarTodos);
-apiV1.patch("/aluno/:matricula", colecaoAluno.atualizaEstadoPorMatricula);
-apiV1.delete("/aluno/:matricula", colecaoAluno.apagaUmPorMatricula);
+apiV1.post("/aluno", [acessoPadrao, mHabilidade.editarAluno], cAluno.adicionaUm);
+apiV1.get("/aluno/:matricula", [acessoPadrao, mHabilidade.lerAluno], cAluno.buscaUmPorMatricula);
+apiV1.get("/aluno-todos", [acessoPadrao, mHabilidade.lerAluno], cAluno.listarTodos);
+apiV1.patch("/aluno/:matricula", [acessoPadrao, mHabilidade.editarAluno], cAluno.atualizaEstadoPorMatricula);
+apiV1.delete("/aluno/:matricula", cAluno.apagaUmPorMatricula);
 
 //ESTAGIO
-apiV1.post("/estagio", colecaoEstagio.adicionaUm);
-apiV1.get("/estagio", colecaoEstagio.listar);
-apiV1.patch("/estagio/:id", colecaoEstagio.mudaNome);
-apiV1.delete("/estagio/:id", colecaoEstagio.apagaUmPorId);
+apiV1.post("/estagio", cEstagio.adicionaUm);
+apiV1.get("/estagio", cEstagio.listar);
+apiV1.patch("/estagio/:id", cEstagio.mudaNome);
+apiV1.delete("/estagio/:id", cEstagio.apagaUmPorId);
 
 //GRUPO
-apiV1.post("/grupo", colecaoGrupo.adicionaUm);
-apiV1.get("/grupo", colecaoGrupo.listar);
-apiV1.patch("/grupo/:id_grupo", colecaoGrupo.mudaNome);
-apiV1.delete("/grupo/:id_grupo", colecaoGrupo.apagaUmPorId);
+apiV1.post("/grupo", cGrupo.adicionaUm);
+apiV1.get("/grupo", cGrupo.listar);
+apiV1.patch("/grupo/:id_grupo", cGrupo.mudaNome);
+apiV1.delete("/grupo/:id_grupo", cGrupo.apagaUmPorId);
 
 //COORD-ESTAGIO
-apiV1.post("/coord-estagio", colecaoCoordEstagio.associarUm);
-apiV1.get("/coord-estagio/:id_estagio", colecaoCoordEstagio.buscaPorIdEstagio);
-apiV1.delete("/coord-estagio", colecaoCoordEstagio.apagaUmPorIds);
+apiV1.post("/coord-estagio", cCoordEstagio.associarUm);
+apiV1.get("/coord-estagio/:id_estagio", cCoordEstagio.buscaPorIdEstagio);
+apiV1.delete("/coord-estagio", cCoordEstagio.apagaUmPorIds);
 
 //ATIVIDADE
-apiV1.post("/atividade", colecaoAtividade.adicionaUm);
-apiV1.get("/atividade/:id_estagio", colecaoAtividade.listarPorIdEstagio);
-apiV1.get("/atividade-todas", colecaoAtividade.listar);
-apiV1.patch("/atividade/:id", colecaoAtividade.mudaNome);
-apiV1.delete("/atividade/:id", colecaoAtividade.apagaUmPorId);
+apiV1.post("/atividade", cAtividade.adicionaUm);
+apiV1.get("/atividade/:id_estagio", cAtividade.listarPorIdEstagio);
+apiV1.get("/atividade-todas", cAtividade.listar);
+apiV1.patch("/atividade/:id", cAtividade.mudaNome);
+apiV1.delete("/atividade/:id", cAtividade.apagaUmPorId);
 
 //LOCAL
-apiV1.post("/local", colecaoLocal.adicionaUm);
-apiV1.get("/local", colecaoLocal.listar);
-apiV1.patch("/local/:id_local", colecaoLocal.mudaNome);
-apiV1.delete("/local/:id_local", colecaoLocal.apagaUmPorId);
+apiV1.post("/local", cLocal.adicionaUm);
+apiV1.get("/local", cLocal.listar);
+apiV1.patch("/local/:id_local", cLocal.mudaNome);
+apiV1.delete("/local/:id_local", cLocal.apagaUmPorId);
 
 //ATIV-LOCAL
-apiV1.post("/ativ-local", colecaoAtivLocal.associarUm);
-apiV1.get("/ativ-local/:id_atividade", colecaoAtivLocal.buscarPorIdAtividade);
-apiV1.delete("/ativ-local", colecaoAtivLocal.apagaUmPorIdsData);
+apiV1.post("/ativ-local", cAtivLocal.associarUm);
+apiV1.get("/ativ-local/:id_atividade", cAtivLocal.buscarPorIdAtividade);
+apiV1.delete("/ativ-local", cAtivLocal.apagaUmPorIdsData);
 
 //PREC-ATIV
-apiV1.post("/prec-ativ", colecaoPrecAtiv.associarUm);
-apiV1.get("/prec-ativ/:id_atividade", colecaoPrecAtiv.buscarPorIdAtividade);
-apiV1.delete("/prec-ativ", colecaoPrecAtiv.apagaUmPorIds);
+apiV1.post("/prec-ativ", cPrecAtiv.associarUm);
+apiV1.get("/prec-ativ/:id_atividade", cPrecAtiv.buscarPorIdAtividade);
+apiV1.delete("/prec-ativ", cPrecAtiv.apagaUmPorIds);
 
 //ALUNO-ATIV
-apiV1.post("/aluno-ativ", colecaoAlunoAtiv.associarUm);
-apiV1.get("/aluno-ativ/:id_atividade", colecaoAlunoAtiv.buscarPorIdAtividade);
-apiV1.delete("/aluno-ativ", colecaoAlunoAtiv.apagaUm);
+apiV1.get("/aluno-ativ", cAlunoAtiv.listarTodas);
+apiV1.post("/aluno-ativ", cAlunoAtiv.associarUm);
+apiV1.get("/aluno-ativ/:id_atividade", cAlunoAtiv.buscarPorIdAtividade);
+apiV1.delete("/aluno-ativ", cAlunoAtiv.apagaUm);
 
 //ESTAGIO-GRUPO
-apiV1.post("/estagio-grupo", colecaoEstagioGrupo.associarUm);
-apiV1.get("/estagio-grupo/:id_grupo", colecaoEstagioGrupo.buscarPorIdGrupo);
-apiV1.delete("/estagio-grupo", colecaoEstagioGrupo.apagaUmPorIdsData);
+apiV1.post("/estagio-grupo", cEstagioGrupo.associarUm);
+apiV1.get("/estagio-grupo/:id_grupo", cEstagioGrupo.buscarPorIdGrupo);
+apiV1.delete("/estagio-grupo", cEstagioGrupo.apagaUmPorIdsData);
 
 //PRESENCA
-apiV1.post("/presenca", colecaoPresenca.criarUma);
-apiV1.get("/presenca", colecaoPresenca.listarTodas);
-apiV1.get("/presenca-aluno/:id_aluno", colecaoPresenca.buscarPorIdAluno);
-apiV1.get("/presenca-atividade/:id_atividade", colecaoPresenca.buscarPorIdAtividade);
-apiV1.delete("/presenca/:id_presenca", colecaoPresenca.deletarPorId);
+apiV1.post("/presenca", cPresenca.criarUma);
+apiV1.get("/presenca", cPresenca.listarTodas);
+apiV1.get("/presenca-aluno/:id_aluno", cPresenca.buscarPorIdAluno);
+apiV1.get("/presenca-atividade/:id_atividade", cPresenca.buscarPorIdAtividade);
+apiV1.delete("/presenca/:id_presenca", cPresenca.deletarPorId);
 
 //LOGIN
-apiV1.post("/login", colecaoJwt.login);
-apiV1.get("/logout", acessoApi, colecaoJwt.logout);
+apiV1.post("/login", cJwt.login);
+apiV1.get("/logout", acessoPadrao, cJwt.logout);
 export default apiV1;

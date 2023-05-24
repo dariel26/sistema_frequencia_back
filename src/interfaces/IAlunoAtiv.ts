@@ -26,6 +26,11 @@ const DBAlunoAtiv = {
     const sql = `delete from AlunoAtiv where id_atividade=${aa.id_atividade} and id_aluno=${aa.id_aluno}`;
     return await db.query(sql);
   },
+  async listar() {
+    const sql = `select * from AlunoAtiv`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
 };
 
 export default DBAlunoAtiv;

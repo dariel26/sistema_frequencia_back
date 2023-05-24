@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBAlunoAtiv from "../interfaces/IAlunoAtiv";
 
-const colecaoAlunoAtiv = {
+const cAlunoAtiv = {
   async associarUm(req: any, res: any) {
     const { id_atividade, id_aluno } = req.body;
     if (requisicaoRuim(!DBAlunoAtiv.valido(req.body), res)) return;
@@ -31,6 +31,14 @@ const colecaoAlunoAtiv = {
       trataErr(err, res);
     }
   },
+  async listarTodas(_: any, res: any) {
+    try {
+      const alunos = await DBAlunoAtiv.listar();
+      res.status(200).json(alunos);
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
 };
 
-export default colecaoAlunoAtiv;
+export default cAlunoAtiv;

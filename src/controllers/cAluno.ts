@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBAluno, { IAluno } from "../interfaces/IAluno";
 
-const colecaoAluno = {
+const cAluno = {
   async adicionaUm(req: any, res: any) {
     const { nome, senha, estado, papel, matricula } = req.body;
     if (requisicaoRuim(!DBAluno.valido(req.body), res)) return;
@@ -52,4 +52,4 @@ const colecaoAluno = {
   },
 };
 
-export default colecaoAluno;
+export default cAluno;

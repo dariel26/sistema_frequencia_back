@@ -9,6 +9,8 @@ export interface IPreceptor {
   nome: string;
 }
 
+export const PAPEL_PRECEPTOR = "PRECEPTOR(A)";
+
 const DBPreceptor = {
   valido(obj: any) {
     if (
@@ -24,7 +26,7 @@ const DBPreceptor = {
   },
   async criar(p: IPreceptor) {
     const sql = `insert into Preceptor (nome, senha, estado, papel, email) 
-        values ('${p.nome}', md5('${p.senha}'), ${false}, '${p.papel}', '${
+        values ('${p.nome}', md5('${p.senha}'), ${false}, '${PAPEL_PRECEPTOR}', '${
       p.email
     }')`;
     return await db.query(sql);

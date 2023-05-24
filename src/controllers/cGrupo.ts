@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBGrupo, { IGrupo } from "../interfaces/IGrupo";
 
-const colecaoGrupo = {
+const cGrupo = {
   async adicionaUm(req: any, res: any) {
     const { nome } = req.body;
     if (requisicaoRuim(!DBGrupo.valido(req.body), res)) return;
@@ -43,4 +43,4 @@ const colecaoGrupo = {
   },
 };
 
-export default colecaoGrupo;
+export default cGrupo;

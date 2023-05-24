@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBPrecAtiv, { IPrecAtiv } from "../interfaces/IPrecAtiv";
 
-const colecaoPrecAtiv = {
+const cPrecAtiv = {
   async associarUm(req: any, res: any) {
     const { id_atividade, id_preceptor } = req.body;
     if (requisicaoRuim(!DBPrecAtiv.valido(req.body), res)) return;
@@ -34,4 +34,4 @@ const colecaoPrecAtiv = {
   },
 };
 
-export default colecaoPrecAtiv;
+export default cPrecAtiv;

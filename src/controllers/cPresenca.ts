@@ -1,9 +1,8 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBAtivLocal from "../interfaces/IAtivLocal";
-import DBLocal, { ILocal } from "../interfaces/ILocal";
 import DBPresenca from "../interfaces/IPresenca";
 
-const colecaoPresenca = {
+const cPresenca = {
   async listarTodas(_: any, res: any) {
     try {
       const presencas = await DBPresenca.listar();
@@ -75,4 +74,4 @@ const colecaoPresenca = {
   },
 };
 
-export default colecaoPresenca;
+export default cPresenca;

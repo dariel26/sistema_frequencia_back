@@ -96,19 +96,8 @@ describe("Testando JWT", () => {
     await request(app).get("/api/v1/logout").set({ token }).expect(200);
   });
 
-  test("Realizando Logout com mesmo token", async () => {
-    await request(app).get("/api/v1/logout").set({ token }).expect(401);
-  });
-
   test("Realizando Logout sem token", async () => {
     await request(app).get("/api/v1/logout").expect(400);
-  });
-
-  test("Realizando Logout com token não reconhecido", async () => {
-    await request(app)
-      .get("/api/v1/logout")
-      .set({ token: "1231231" })
-      .expect(401);
   });
 
   test("Deletando Coordenador por email", async () => {

@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBEstagioGrupo, { IEstagioGrupo } from "../interfaces/IEstagioGrupo";
 
-const colecaoEstagioGrupo = {
+const cEstagioGrupo = {
   async associarUm(req: any, res: any) {
     const { id_grupo, id_estagio, data } = req.body;
     if (requisicaoRuim(!DBEstagioGrupo.valido(req.body), res)) return;
@@ -34,4 +34,4 @@ const colecaoEstagioGrupo = {
   },
 };
 
-export default colecaoEstagioGrupo;
+export default cEstagioGrupo;

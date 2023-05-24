@@ -1,13 +1,13 @@
 import { requisicaoRuim, trataErr } from "../errors";
-import DBPreceptor, { IPreceptor } from "../interfaces/IPreceptor";
+import DBCoordenador, { ICoordenador } from "../interfaces/ICoordenador";
 
-const colecaoPreceptor = {
+const cCoordenador = {
   async adicionaUm(req: any, res: any) {
     const { nome, senha, estado, papel, email } = req.body;
-    if (requisicaoRuim(!DBPreceptor.valido(req.body), res)) return;
+    if (requisicaoRuim(!DBCoordenador.valido(req.body), res)) return;
     try {
-      const p: IPreceptor = { nome, senha, estado, papel, email };
-      await DBPreceptor.criar(p);
+      const c: ICoordenador = { nome, senha, estado, papel, email };
+      await DBCoordenador.criar(c);
       res.status(201).json();
     } catch (err) {
       trataErr(err, res);
@@ -16,8 +16,8 @@ const colecaoPreceptor = {
   async buscaUmPorEmail(req: any, res: any) {
     const { email } = req.params;
     try {
-      const p = await DBPreceptor.buscarPorEmail(email);
-      res.status(200).json(p);
+      const c = await DBCoordenador.buscarPorEmail(email);
+      res.status(200).json(c);
     } catch (err) {
       trataErr(err, res);
     }
@@ -25,7 +25,7 @@ const colecaoPreceptor = {
   async apagaUmPorEmail(req: any, res: any) {
     const { email } = req.params;
     try {
-      await DBPreceptor.deletar(email);
+      await DBCoordenador.deletar(email);
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);
@@ -36,7 +36,7 @@ const colecaoPreceptor = {
     const { email } = req.params;
     if (requisicaoRuim(estado === undefined, res)) return;
     try {
-      await DBPreceptor.mudarEstado(email, estado);
+      await DBCoordenador.mudarEstado(email, estado);
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);
@@ -44,12 +44,12 @@ const colecaoPreceptor = {
   },
   async listarTodos(_: any, res: any) {
     try {
-      const preceptores = await DBPreceptor.listar();
-      res.status(200).json(preceptores);
+      const coodenadores = await DBCoordenador.listar();
+      res.status(200).json(coodenadores);
     } catch (err) {
       trataErr(err, res);
     }
   },
 };
 
-export default colecaoPreceptor;
+export default cCoordenador;

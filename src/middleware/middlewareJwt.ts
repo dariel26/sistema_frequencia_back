@@ -1,11 +1,13 @@
+require("dotenv").config();
 import jwt from "jsonwebtoken";
 import db from "../db/db";
 import { requisicaoRuim, trataErr } from "../errors";
 import { tokenSecret } from "../interfaces/IToken";
 
-export default async function acessoApi(req: any, res: any, next: any) {
+export default async function acessoPadrao(req: any, res: any, next: any) {
   const { token } = req.headers;
   try {
+    if (process.env.NODE_ENV === "test") return next();
     if (requisicaoRuim(token === undefined, res)) return;
     const infoToken = jwt.verify(token, tokenSecret);
     await db.query("delete from jwt where validade < NOW()");

@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBLocal, { ILocal } from "../interfaces/ILocal";
 
-const colecaoLocal = {
+const cLocal = {
   async adicionaUm(req: any, res: any) {
     const { nome, coordenadas } = req.body;
     if (requisicaoRuim(!DBLocal.valido(req.body), res)) return;
@@ -43,4 +43,4 @@ const colecaoLocal = {
   },
 };
 
-export default colecaoLocal;
+export default cLocal;

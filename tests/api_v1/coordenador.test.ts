@@ -5,7 +5,7 @@ import { ICoordenador } from "../../src/interfaces/ICoordenador";
 const c: ICoordenador = {
   nome: "Dariel",
   estado: false,
-  papel: "ADMIN",
+  papel: "COORDENADOR(A)",
   email: "umEmailNovo@gmail.com",
   senha: "leirad123",
 };

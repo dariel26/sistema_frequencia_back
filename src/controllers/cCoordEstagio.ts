@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBCoordEstagio, { ICoordEstagio } from "../interfaces/ICoordEstagio";
 
-const colecaoCoordEstagio = {
+const cCoordEstagio = {
   async associarUm(req: any, res: any) {
     const { id_coordenador, id_estagio } = req.body;
     if (requisicaoRuim(!DBCoordEstagio.valido(req.body), res)) return;
@@ -34,4 +34,4 @@ const colecaoCoordEstagio = {
   },
 };
 
-export default colecaoCoordEstagio;
+export default cCoordEstagio;

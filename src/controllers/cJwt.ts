@@ -4,7 +4,7 @@ import db from "../db/db";
 import { requisicaoRuim, trataErr } from "../errors";
 import { IToken, tokenSecret } from "../interfaces/IToken";
 
-const colecaoJwt = {
+const cJwt = {
   async login(req: any, res: any) {
     const { email, matricula, senha } = req.body;
     if (
@@ -61,4 +61,4 @@ const colecaoJwt = {
   },
 };
 
-export default colecaoJwt;
+export default cJwt;

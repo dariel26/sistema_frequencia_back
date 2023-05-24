@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBAtividade, { IAtividade } from "../interfaces/IAtividade";
 
-const colecaoAtividade = {
+const cAtividade = {
   async adicionaUm(req: any, res: any) {
     const { nome, id_estagio } = req.body;
     if (requisicaoRuim(!DBAtividade.valido(req.body), res)) return;
@@ -52,4 +52,4 @@ const colecaoAtividade = {
   },
 };
 
-export default colecaoAtividade;
+export default cAtividade;

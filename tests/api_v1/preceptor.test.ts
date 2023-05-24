@@ -5,7 +5,7 @@ import { IPreceptor } from "../../src/interfaces/IPreceptor";
 const p: IPreceptor = {
   nome: "Bruna Costa",
   estado: false,
-  papel: "PROFESSOR(A)",
+  papel: "PRECEPTOR(A)",
   email: "brunaaaaaa@gmailc.odmasda",
   senha: "bruna123",
 };

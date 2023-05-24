@@ -66,6 +66,12 @@ describe("Testando API AlunoAtiv", () => {
       .expect(201);
   });
 
+  test("Listando todos Alunos associados à Atividade", async () => {
+    const res = await request(app).get("/api/v1/aluno-ativ").expect(200);
+    expect(res.body).toBeInstanceOf(Array);
+    expect(res.body.length).toEqual(1);
+  });
+
   test("Buscando Alunos associados à Atividade", async () => {
     const res = await request(app)
       .get("/api/v1/aluno-ativ/" + id_atividade)

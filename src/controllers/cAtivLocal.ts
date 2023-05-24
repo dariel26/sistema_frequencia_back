@@ -1,7 +1,7 @@
 import { requisicaoRuim, trataErr } from "../errors";
 import DBAtivLocal, { IAtivLocal } from "../interfaces/IAtivLocal";
 
-const colecaoAtivLocal = {
+const cAtivLocal = {
   async associarUm(req: any, res: any) {
     const { id_atividade, id_local, data_hora } = req.body;
     if (requisicaoRuim(!DBAtivLocal.valido(req.body), res)) return;
@@ -34,4 +34,4 @@ const colecaoAtivLocal = {
   },
 };
 
-export default colecaoAtivLocal;
+export default cAtivLocal;
