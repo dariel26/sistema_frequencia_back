@@ -4,7 +4,7 @@ import { IAluno } from "../../src/interfaces/IAluno";
 
 const a: IAluno = {
   nome: "teste",
-  estado: false,
+  estado: true,
   papel: "ALUNO(A)",
   matricula: "123321123321",
   senha: "teste123",

@@ -26,7 +26,7 @@ const DBPreceptor = {
   },
   async criar(p: IPreceptor) {
     const sql = `insert into Preceptor (nome, senha, estado, papel, email) 
-        values ('${p.nome}', md5('${p.senha}'), ${false}, '${PAPEL_PRECEPTOR}', '${
+        values ('${p.nome}', md5('${p.senha}'), ${true}, '${PAPEL_PRECEPTOR}', '${
       p.email
     }')`;
     return await db.query(sql);

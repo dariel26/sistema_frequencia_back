@@ -9,6 +9,7 @@ import cCoordEstagio from "../../controllers/cCoordEstagio";
 import cEstagio from "../../controllers/cEstagio";
 import cEstagioGrupo from "../../controllers/cEstagioGrupo";
 import cGrupo from "../../controllers/cGrupo";
+import cUsuario from "../../controllers/cUsuario";
 import cJwt from "../../controllers/cJwt";
 import cLocal from "../../controllers/cLocal";
 import cPrecAtiv from "../../controllers/cPrecAtiv";
@@ -22,11 +23,14 @@ const apiV1 = express.Router();
 //LOGIN
 apiV1.post("/login", cJwt.login);
 
-//MIDDLEWARE
+//MIDDLEWARE PARA AS ROTAS ABAIXO DESTA LINHA
 apiV1.use(acessoPadrao);
 
 //LOGOUT
 apiV1.get("/logout", cJwt.logout);
+
+//INFO-USUARIO
+apiV1.get("/info-usuario", cUsuario.retornaInfoUsuario);
 
 //COORDENADOR
 apiV1.post("/coordenador",checarHabilidade("edit", "coordenador"), cCoordenador.adicionaUm);

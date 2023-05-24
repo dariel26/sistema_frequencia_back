@@ -34,7 +34,7 @@ const DBCoordenador = {
     const sql = `insert into Coordenador (nome, senha, estado, papel, email) 
         values ('${c.nome}', md5('${
       c.senha
-    }'), ${false}, '${PAPEL_COORDENADOR}', '${c.email}')`;
+    }'), ${true}, '${PAPEL_COORDENADOR}', '${c.email}')`;
     return await db.query(sql);
   },
   async buscarPorEmail(email: string) {

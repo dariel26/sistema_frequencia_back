@@ -38,29 +38,8 @@ describe("Testando JWT", () => {
     return await request(app).post("/api/v1/aluno").send(a).expect(201);
   });
 
-  test("Mudando estado de Aluno existente por matricula", async () => {
-    await request(app)
-      .patch("/api/v1/aluno/" + a.matricula)
-      .send({ estado: true })
-      .expect(200);
-  });
-
   test("Adicionando Preceptor", async () => {
     return await request(app).post("/api/v1/preceptor").send(p).expect(201);
-  });
-
-  test("Mudando estado de Preceptor existente por email", async () => {
-    await request(app)
-      .patch("/api/v1/preceptor/" + p.email)
-      .send({ estado: true })
-      .expect(200);
-  });
-
-  test("Mudando estado de Coordenador existente por email", async () => {
-    await request(app)
-      .patch("/api/v1/coordenador/" + c.email)
-      .send({ estado: true })
-      .expect(200);
   });
 
   test("Realizando Login como Coordenandor", async () => {

@@ -5,14 +5,14 @@ import { PAPEL_ADMIN, PAPEL_COORDENADOR } from "../interfaces/ICoordenador";
 import { PAPEL_PRECEPTOR } from "../interfaces/IPreceptor";
 import { IToken } from "../interfaces/IToken";
 
-export function defineHabilidadesPara(infoUsuario: IToken) {
+export function defineHabilidadesPara(infoToken: IToken) {
   const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
-  if (infoUsuario.papel === PAPEL_ADMIN) {
+  if (infoToken.papel === PAPEL_ADMIN) {
     can("manage", "all");
-  } else if (infoUsuario.papel === PAPEL_ALUNO) {
+  } else if (infoToken.papel === PAPEL_ALUNO) {
     can("edit", "presenca");
     can("read", "all");
-  } else if (infoUsuario.papel === PAPEL_COORDENADOR) {
+  } else if (infoToken.papel === PAPEL_COORDENADOR) {
     can("manage", "aluno");
     can("manage", "preceptor");
     can("manage", "grupo");
@@ -22,7 +22,7 @@ export function defineHabilidadesPara(infoUsuario: IToken) {
     can("manage", "precAtiv");
     can("manage", "estagioGrupo");
     can("read", "all");
-  } else if (infoUsuario.papel === PAPEL_PRECEPTOR) {
+  } else if (infoToken.papel === PAPEL_PRECEPTOR) {
     can("read", "all");
   }
   return build();

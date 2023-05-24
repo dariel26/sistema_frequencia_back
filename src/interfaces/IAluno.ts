@@ -28,7 +28,7 @@ const DBAluno = {
   },
   async criar(a: IAluno) {
     const sql = `insert into Aluno (nome, senha, estado, papel, matricula) 
-        values ('${a.nome}', md5('${a.senha}'), ${false}, '${PAPEL_ALUNO}', '${
+        values ('${a.nome}', md5('${a.senha}'), ${true}, '${PAPEL_ALUNO}', '${
       a.matricula
     }')`;
     return await db.query(sql);
