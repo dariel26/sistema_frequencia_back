@@ -9,8 +9,8 @@ export interface ICoordenador {
   email: string;
 }
 
-export const PAPEL_ADMIN = "ADMIN";
-export const PAPEL_COORDENADOR = "COORDENADOR(A)";
+export const PAPEL_ADMIN: string = "ADMIN";
+export const PAPEL_COORDENADOR: string = "COORDENADOR(A)";
 
 const DBCoordenador = {
   valido(obj: any) {
@@ -30,11 +30,23 @@ const DBCoordenador = {
     const dados = await db.query(sql);
     return dados[0];
   },
+  async quantidadeDeAdmins() {
+    const sql = `select * from Coordenador where papel='${PAPEL_ADMIN}'`;
+    const dados = await db.query(sql);
+    return dados[0]?.length;
+  },
   async criar(c: ICoordenador) {
     const sql = `insert into Coordenador (nome, senha, estado, papel, email) 
         values ('${c.nome}', md5('${
       c.senha
     }'), ${true}, '${PAPEL_COORDENADOR}', '${c.email}')`;
+    return await db.query(sql);
+  },
+  async criarUmAdmin(c: ICoordenador) {
+    const sql = `insert into Coordenador (nome, senha, estado, papel, email) 
+        values ('${c.nome}', md5('${c.senha}'), ${true}, '${PAPEL_ADMIN}', '${
+      c.email
+    }')`;
     return await db.query(sql);
   },
   async buscarPorEmail(email: string) {
@@ -46,8 +58,8 @@ const DBCoordenador = {
     const sql = `delete from Coordenador where email='${email}'`;
     return await db.query(sql);
   },
-  async mudarEstado(email: string, estado: boolean) {
-    const sql = `update Coordenador set estado=${estado} where email='${email}'`;
+  async mudarPapel(email: string, papel: string) {
+    const sql = `update Coordenador set papel='${papel}' where email='${email}'`;
     return await db.query(sql);
   },
 };

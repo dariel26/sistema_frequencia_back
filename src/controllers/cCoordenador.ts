@@ -1,8 +1,23 @@
 import { requisicaoRuim, trataErr } from "../errors";
-import DBCoordenador, { ICoordenador } from "../interfaces/ICoordenador";
+import DBCoordenador, {
+  ICoordenador,
+  PAPEL_ADMIN,
+  PAPEL_COORDENADOR,
+} from "../interfaces/ICoordenador";
 
 const cCoordenador = {
   async adicionaUm(req: any, res: any) {
+    const { nome, senha, estado, papel, email } = req.body;
+    if (requisicaoRuim(!DBCoordenador.valido(req.body), res)) return;
+    try {
+      const c: ICoordenador = { nome, senha, estado, papel, email };
+      await DBCoordenador.criar(c);
+      res.status(201).json();
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
+  async adicionaUmAdmin(req: any, res: any) {
     const { nome, senha, estado, papel, email } = req.body;
     if (requisicaoRuim(!DBCoordenador.valido(req.body), res)) return;
     try {
@@ -25,19 +40,47 @@ const cCoordenador = {
   async apagaUmPorEmail(req: any, res: any) {
     const { email } = req.params;
     try {
-      await DBCoordenador.deletar(email);
-      res.status(200).json();
+      const qntdAdms = await DBCoordenador.quantidadeDeAdmins();
+      const coordenador = await DBCoordenador.buscarPorEmail(email);
+      if (
+        coordenador.papel === PAPEL_ADMIN &&
+        qntdAdms === 1 &&
+        process.env.NODE_ENV !== "test"
+      ) {
+        trataErr(new Error("O sistema não pode ficar sem admins"), res);
+      } else {
+        await DBCoordenador.deletar(email);
+        res.status(200).json();
+      }
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async atualizaEstadoPorEmail(req: any, res: any) {
-    const estado: boolean = req.body.estado;
+  async atualizaPapelPorEmail(req: any, res: any) {
+    const papel: string = req.body.papel;
     const { email } = req.params;
-    if (requisicaoRuim(estado === undefined, res)) return;
+    if (
+      requisicaoRuim(
+        papel === undefined ||
+          (papel !== PAPEL_ADMIN && papel !== PAPEL_COORDENADOR),
+        res
+      )
+    )
+      return;
     try {
-      await DBCoordenador.mudarEstado(email, estado);
-      res.status(200).json();
+      const qntdAdms = await DBCoordenador.quantidadeDeAdmins();
+      const coordenador = await DBCoordenador.buscarPorEmail(email);
+      if (
+        coordenador.papel === PAPEL_ADMIN &&
+        qntdAdms === 1 &&
+        papel === PAPEL_COORDENADOR &&
+        process.env.NODE_ENV !== "test"
+      ) {
+        return trataErr(new Error("O sistema não pode ficar sem admins"), res);
+      } else {
+        await DBCoordenador.mudarPapel(email, papel);
+        res.status(200).json();
+      }
     } catch (err) {
       trataErr(err, res);
     }

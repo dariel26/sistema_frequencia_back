@@ -8,7 +8,6 @@ const cUsuario = {
       const infoUsuario = { ...infoToken, regrasHabilidades: habilidades.rules };
       return res.status(200).json(infoUsuario);
     } catch (err) {
-      console.log(err);
       res.status(500).json();
     }
   },

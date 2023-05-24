@@ -50,8 +50,7 @@ const cPresenca = {
       const x2 = JSON.parse(coordenadas).lat;
       const y2 = JSON.parse(coordenadas).lon;
       const distancia = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-      if (requisicaoRuim(distancia === NaN || distancia === undefined, res))
-        return;
+      if (requisicaoRuim(distancia === undefined || distancia < 0, res)) return;
       if (distancia > 20) {
         //metros?
         trataErr(new Error("No Local"), res);

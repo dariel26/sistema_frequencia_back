@@ -1,6 +1,6 @@
 import app from "../../src/app";
 import request from "supertest";
-import { ICoordenador } from "../../src/interfaces/ICoordenador";
+import { ICoordenador, PAPEL_ADMIN } from "../../src/interfaces/ICoordenador";
 
 const c: ICoordenador = {
   nome: "Dariel",
@@ -46,14 +46,14 @@ describe("Testando API Coordenador", () => {
     );
   });
 
-  test("Mudando estado de Coordenador existente por email", async () => {
+  test("Mudando papel de Coordenador existente por email", async () => {
     await request(app)
       .patch("/api/v1/coordenador/" + c.email)
-      .send({ estado: true })
+      .send({ papel: PAPEL_ADMIN })
       .expect(200);
   });
 
-  test("Mudando estado de Coordenador existente por email sem enviar estado", async () => {
+  test("Mudando papel de Coordenador existente por email sem enviar estado", async () => {
     await request(app)
       .patch("/api/v1/coordenador/" + c.email)
       .send({})
@@ -69,7 +69,7 @@ describe("Testando API Coordenador", () => {
         nome: c.nome,
         email: c.email,
         estado: 1,
-        papel: c.papel,
+        papel: PAPEL_ADMIN,
       })
     );
   });
