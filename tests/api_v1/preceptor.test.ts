@@ -16,7 +16,7 @@ describe("Testando API Preceptor", () => {
   });
 
   test("Listando Preceptores", async () => {
-    const res = await request(app).get("/api/v1/preceptor-todos").expect(200);
+    const res = await request(app).get("/api/v1/preceptor").expect(200);
     expect(res.body).toBeInstanceOf(Array);
   });
 

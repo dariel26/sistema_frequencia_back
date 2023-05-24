@@ -16,7 +16,7 @@ describe("Testando API Aluno", () => {
   });
 
   test("Listando todos os Aluno", async () => {
-    const res = await request(app).get("/api/v1/aluno-todos").expect(200);
+    const res = await request(app).get("/api/v1/aluno").expect(200);
     expect(res.body).toBeInstanceOf(Array);
   });
 

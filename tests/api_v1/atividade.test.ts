@@ -42,7 +42,7 @@ describe("Testando API Atividade", () => {
   });
 
   test("Listando Atividades", async () => {
-    const res = await request(app).get("/api/v1/atividade-todas").expect(200);
+    const res = await request(app).get("/api/v1/atividade").expect(200);
     id_atividade = res.body[0].id_atividade;
     expect(res.body.length).toEqual(1);
   });
@@ -55,7 +55,7 @@ describe("Testando API Atividade", () => {
   });
 
   test("Verificando mudança de nome da atividade", async () => {
-    const res = await request(app).get("/api/v1/atividade-todas").expect(200);
+    const res = await request(app).get("/api/v1/atividade").expect(200);
     expect(res.body[0].nome).toEqual("Novo nome atividade");
   });
 

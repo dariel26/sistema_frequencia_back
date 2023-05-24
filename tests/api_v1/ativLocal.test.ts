@@ -41,7 +41,7 @@ describe("Testando API AtivLocal", () => {
   });
 
   test("Listando Atividades", async () => {
-    const res = await request(app).get("/api/v1/atividade-todas").expect(200);
+    const res = await request(app).get("/api/v1/atividade").expect(200);
     id_atividade = res.body[0].id_atividade;
     expect(res.body.length).toEqual(1);
   });

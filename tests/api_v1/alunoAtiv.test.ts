@@ -44,7 +44,7 @@ describe("Testando API AlunoAtiv", () => {
   });
 
   test("Listando Atividades", async () => {
-    const res = await request(app).get("/api/v1/atividade-todas").expect(200);
+    const res = await request(app).get("/api/v1/atividade").expect(200);
     id_atividade = res.body[0].id_atividade;
     expect(res.body.length).toEqual(1);
   });
@@ -54,7 +54,7 @@ describe("Testando API AlunoAtiv", () => {
   });
 
   test("Listando todos os Aluno", async () => {
-    const res = await request(app).get("/api/v1/aluno-todos").expect(200);
+    const res = await request(app).get("/api/v1/aluno").expect(200);
     id_aluno = res.body[0].id_aluno;
     expect(res.body).toBeInstanceOf(Array);
   });
