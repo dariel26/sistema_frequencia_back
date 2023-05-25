@@ -5,9 +5,9 @@ import apiV1 from "./routes/api/apiV1";
 
 const app = express();
 
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use("/api/v1", apiV1);
 

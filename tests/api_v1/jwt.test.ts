@@ -45,7 +45,7 @@ describe("Testando JWT", () => {
   test("Realizando Login como Coordenandor", async () => {
     const res = await request(app)
       .post("/api/v1/login")
-      .send({ email: c.email, senha: c.senha })
+      .send({ login: c.email, senha: c.senha })
       .expect(200);
     token = res.body;
     expect(res.body).toContain(String());
@@ -54,7 +54,7 @@ describe("Testando JWT", () => {
   test("Realizando Login como Preceptor", async () => {
     const res = await request(app)
       .post("/api/v1/login")
-      .send({ email: p.email, senha: p.senha })
+      .send({ login: p.email, senha: p.senha })
       .expect(200);
     expect(res.body).toContain(String());
   });
@@ -62,7 +62,7 @@ describe("Testando JWT", () => {
   test("Realizando Login como Aluno", async () => {
     const res = await request(app)
       .post("/api/v1/login")
-      .send({ matricula: a.matricula, senha: a.senha })
+      .send({ login: a.matricula, senha: a.senha })
       .expect(200);
     expect(res.body).toContain(String());
   });

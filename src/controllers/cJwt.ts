@@ -6,28 +6,23 @@ import { IToken, tokenSecret } from "../interfaces/IToken";
 
 const cJwt = {
   async login(req: any, res: any) {
-    const { email, matricula, senha } = req.body;
-    if (
-      requisicaoRuim(
-        senha === undefined || (email === undefined && matricula === undefined),
-        res
-      )
-    )
-      return;
+    let { login, senha } = req.body;
+    if (requisicaoRuim(senha === undefined || login === undefined, res)) return;
 
     try {
       let dados: any;
-      if (matricula !== undefined) {
+      const matricula = parseInt(login.toString());
+      if (!isNaN(matricula)) {
         dados = await db.query(
           `select nome, papel, matricula from Aluno where matricula='${matricula}' and senha=md5('${senha}') and estado=1`
         );
       } else {
         dados = await db.query(
-          `select nome, papel, email from Coordenador where email='${email}' and senha=md5('${senha}') and estado=1`
+          `select nome, papel, email from Coordenador where email='${login}' and senha=md5('${senha}') and estado=1`
         );
         if (dados[0][0] === undefined) {
           dados = await db.query(
-            `select nome, papel, email from Preceptor where email='${email}' and senha=md5('${senha}') and estado=1`
+            `select nome, papel, email from Preceptor where email='${login}' and senha=md5('${senha}') and estado=1`
           );
         }
       }
