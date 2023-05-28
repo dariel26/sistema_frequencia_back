@@ -26,7 +26,7 @@ const DBCoordenador = {
     return true;
   },
   async listar() {
-    const sql = `select * from Coordenador`;
+    const sql = `select id_coordenador, nome, email, papel, estado from Coordenador`;
     const dados = await db.query(sql);
     return dados[0];
   },
@@ -58,8 +58,8 @@ const DBCoordenador = {
     const sql = `delete from Coordenador where email='${email}'`;
     return await db.query(sql);
   },
-  async mudarPapel(email: string, papel: string) {
-    const sql = `update Coordenador set papel='${papel}' where email='${email}'`;
+  async mudarPapel(email: string, papel: string, nome: string) {
+    const sql = `update Coordenador set papel='${papel}', nome='${nome}' where email='${email}'`;
     return await db.query(sql);
   },
 };

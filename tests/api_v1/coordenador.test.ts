@@ -46,10 +46,10 @@ describe("Testando API Coordenador", () => {
     );
   });
 
-  test("Mudando papel de Coordenador existente por email", async () => {
+  test("Atualizando Coordenador existente por email", async () => {
     await request(app)
       .patch("/api/v1/coordenador/" + c.email)
-      .send({ papel: PAPEL_ADMIN })
+      .send({ papel: PAPEL_ADMIN, nome: c.nome})
       .expect(200);
   });
 

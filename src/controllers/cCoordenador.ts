@@ -56,12 +56,13 @@ const cCoordenador = {
       trataErr(err, res);
     }
   },
-  async atualizaPapelPorEmail(req: any, res: any) {
-    const papel: string = req.body.papel;
+  async atualizarPorEmail(req: any, res: any) {
+    const { papel, nome } = req.body;
     const { email } = req.params;
     if (
       requisicaoRuim(
         papel === undefined ||
+          nome === undefined ||
           (papel !== PAPEL_ADMIN && papel !== PAPEL_COORDENADOR),
         res
       )
@@ -78,7 +79,7 @@ const cCoordenador = {
       ) {
         return trataErr(new Error("O sistema não pode ficar sem admins"), res);
       } else {
-        await DBCoordenador.mudarPapel(email, papel);
+        await DBCoordenador.mudarPapel(email, papel, nome);
         res.status(200).json();
       }
     } catch (err) {

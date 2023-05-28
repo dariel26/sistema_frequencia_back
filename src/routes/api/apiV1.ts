@@ -36,7 +36,7 @@ apiV1.get("/info-usuario", cUsuario.retornaInfoUsuario);
 apiV1.post("/coordenador",checarHabilidade("edit", "coordenador"), cCoordenador.adicionaUm);
 apiV1.get("/coordenador/:email",checarHabilidade("read", "coordenador"), cCoordenador.buscaUmPorEmail);
 apiV1.get("/coordenador", checarHabilidade("read", "coordenador"), cCoordenador.listarTodos);
-apiV1.patch("/coordenador/:email", checarHabilidade("edit", "admin"),cCoordenador.atualizaPapelPorEmail);
+apiV1.patch("/coordenador/:email", checarHabilidade("edit", "admin"), cCoordenador.atualizarPorEmail);
 apiV1.delete("/coordenador/:email", checarHabilidade("edit", "coordenador"),cCoordenador.apagaUmPorEmail);
 
 //PRECEPTOR
