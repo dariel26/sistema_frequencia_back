@@ -26,10 +26,16 @@ const cPreceptor = {
       trataErr(err, res);
     }
   },
-  async apagaUmPorEmail(req: any, res: any) {
-    const { email } = req.params;
+  async apagaVariosPorEmail(req: any, res: any) {
+    const emails = req.body;
+    if (requisicaoRuim(!Array.isArray(emails), res)) return;
+    for (let email of emails) {
+      if (requisicaoRuim(email === undefined, res)) return;
+    }
     try {
-      await DBPreceptor.deletar(email);
+      for (let email of emails) {
+        await DBPreceptor.deletar(email);
+      }
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);

@@ -83,7 +83,8 @@ describe("Testando API PrecAtiv", () => {
 
   test("Deletando Preceptor por email", async () => {
     await request(app)
-      .delete("/api/v1/preceptor/" + p.email)
+      .post("/api/v1/preceptor/delete")
+      .send([p.email])
       .expect(200);
   });
 

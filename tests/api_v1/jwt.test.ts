@@ -81,19 +81,22 @@ describe("Testando JWT", () => {
 
   test("Deletando Coordenador por email", async () => {
     await request(app)
-      .delete("/api/v1/coordenador/" + c.email)
+      .post("/api/v1/coordenador/delete")
+      .send([c.email])
       .expect(200);
   });
 
   test("Deletando Preceptor por email", async () => {
     await request(app)
-      .delete("/api/v1/preceptor/" + p.email)
+      .post("/api/v1/preceptor/delete")
+      .send([p.email])
       .expect(200);
   });
 
   test("Deletando Aluno por matricula", async () => {
     await request(app)
-      .delete("/api/v1/aluno/" + a.matricula)
+      .post("/api/v1/aluno/delete")
+      .send([a.matricula])
       .expect(200);
   });
 });

@@ -26,10 +26,16 @@ const cAluno = {
       trataErr(err, res);
     }
   },
-  async apagaUmPorMatricula(req: any, res: any) {
-    const { matricula } = req.params;
+  async apagaVariosPorMatricula(req: any, res: any) {
+    const matriculas = req.body;
+    if (requisicaoRuim(!Array.isArray(matriculas), res)) return;
+    for (let m of matriculas) {
+      if (requisicaoRuim(m === undefined, res)) return;
+    }
     try {
-      await DBAluno.deletar(matricula);
+      for (let m of matriculas) {
+        await DBAluno.deletar(m);
+      }
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);

@@ -73,7 +73,8 @@ describe("Testando API Aluno", () => {
 
   test("Deletando Aluno por matricula", async () => {
     await request(app)
-      .delete("/api/v1/aluno/" + a.matricula)
+      .post("/api/v1/aluno/delete")
+      .send([a.matricula])
       .expect(200);
   });
 

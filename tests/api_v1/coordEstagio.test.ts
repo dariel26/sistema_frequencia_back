@@ -69,7 +69,8 @@ describe("Testando API CoordEstagio", () => {
 
   test("Deletando Coordenador por email", async () => {
     await request(app)
-      .delete("/api/v1/coordenador/" + c.email)
+      .post("/api/v1/coordenador/delete")
+      .send([c.email])
       .expect(200);
   });
 });

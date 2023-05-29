@@ -33,25 +33,25 @@ apiV1.get("/logout", cJwt.logout);
 apiV1.get("/info-usuario", cUsuario.retornaInfoUsuario);
 
 //COORDENADOR
-apiV1.post("/coordenador",checarHabilidade("edit", "coordenador"), cCoordenador.adicionaVarios);
-apiV1.get("/coordenador/:email",checarHabilidade("read", "coordenador"), cCoordenador.buscaUmPorEmail);
+apiV1.post("/coordenador", checarHabilidade("edit", "coordenador"), cCoordenador.adicionaVarios);
+apiV1.get("/coordenador/:email", checarHabilidade("read", "coordenador"), cCoordenador.buscaUmPorEmail);
 apiV1.get("/coordenador", checarHabilidade("read", "coordenador"), cCoordenador.listarTodos);
 apiV1.patch("/coordenador/:email", checarHabilidade("edit", "admin"), cCoordenador.atualizarPorEmail);
-apiV1.delete("/coordenador/:email", checarHabilidade("edit", "coordenador"),cCoordenador.apagaUmPorEmail);
+apiV1.post("/coordenador/delete", checarHabilidade("edit", "coordenador"), cCoordenador.apagaVariosPorEmail);
 
 //PRECEPTOR
 apiV1.post("/preceptor", checarHabilidade("edit", "preceptor"), cPreceptor.adicionaVarios);
 apiV1.get("/preceptor/:email", checarHabilidade("read", "preceptor"), cPreceptor.buscaUmPorEmail);
-apiV1.get("/preceptor", checarHabilidade("read", "preceptor"),cPreceptor.listarTodos);
+apiV1.get("/preceptor", checarHabilidade("read", "preceptor"), cPreceptor.listarTodos);
 apiV1.patch("/preceptor/:email", checarHabilidade("edit", "preceptor"), cPreceptor.atualizaNomePorEmail);
-apiV1.delete("/preceptor/:email", checarHabilidade("edit", "preceptor"), cPreceptor.apagaUmPorEmail);
+apiV1.post("/preceptor/delete", checarHabilidade("edit", "preceptor"), cPreceptor.apagaVariosPorEmail);
 
 //ALUNO
 apiV1.post("/aluno", checarHabilidade("edit", "aluno"), cAluno.adicionaVarios);
 apiV1.get("/aluno/:matricula", checarHabilidade("read", "aluno"), cAluno.buscaUmPorMatricula);
 apiV1.get("/aluno", checarHabilidade("read", "aluno"), cAluno.listarTodos);
 apiV1.patch("/aluno/:matricula", checarHabilidade("edit", "aluno"), cAluno.atualizaNomePorMatricula);
-apiV1.delete("/aluno/:matricula", checarHabilidade("edit", "aluno"), cAluno.apagaUmPorMatricula);
+apiV1.post("/aluno/delete", checarHabilidade("edit", "aluno"), cAluno.apagaVariosPorMatricula);
 
 //ESTAGIO
 apiV1.post("/estagio", checarHabilidade("edit", "estagio"), cEstagio.adicionaUm);

@@ -183,7 +183,8 @@ describe("Testando API Presenca", () => {
 
   test("Deletando Aluno por matricula", async () => {
     await request(app)
-      .delete("/api/v1/aluno/" + al.matricula)
+      .post("/api/v1/aluno/delete")
+      .send([al.matricula])
       .expect(200);
   });
 

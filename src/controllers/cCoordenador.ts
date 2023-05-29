@@ -30,21 +30,27 @@ const cCoordenador = {
       trataErr(err, res);
     }
   },
-  async apagaUmPorEmail(req: any, res: any) {
-    const { email } = req.params;
+  async apagaVariosPorEmail(req: any, res: any) {
+    const emails = req.body;
+    if (requisicaoRuim(!Array.isArray(emails), res)) return;
+    for (let email of emails) {
+      if (requisicaoRuim(email === undefined, res)) return;
+    }
     try {
-      const qntdAdms = await DBCoordenador.quantidadeDeAdmins();
-      const coordenador = await DBCoordenador.buscarPorEmail(email);
-      if (
-        coordenador.papel === PAPEL_ADMIN &&
-        qntdAdms === 1 &&
-        process.env.NODE_ENV !== "test"
-      ) {
-        trataErr(new Error("O sistema não pode ficar sem admins"), res);
-      } else {
-        await DBCoordenador.deletar(email);
-        res.status(200).json();
+      for (let email of emails) {
+        const qntdAdms = await DBCoordenador.quantidadeDeAdmins();
+        const coordenador = await DBCoordenador.buscarPorEmail(email);
+        if (
+          coordenador.papel === PAPEL_ADMIN &&
+          qntdAdms === 1 &&
+          process.env.NODE_ENV !== "test"
+        ) {
+          return trataErr(new Error("O sistema não pode ficar sem admins"), res);
+        } else {
+          await DBCoordenador.deletar(email);
+        }
       }
+      res.status(200).json();
     } catch (err) {
       trataErr(err, res);
     }
