@@ -31,12 +31,12 @@ const cPreceptor = {
       trataErr(err, res);
     }
   },
-  async atualizaEstadoPorEmail(req: any, res: any) {
-    const estado: boolean = req.body.estado;
+  async atualizaNomePorEmail(req: any, res: any) {
+    const nome: string = req.body.nome;
     const { email } = req.params;
-    if (requisicaoRuim(estado === undefined, res)) return;
+    if (requisicaoRuim(nome === undefined, res)) return;
     try {
-      await DBPreceptor.mudarEstado(email, estado);
+      await DBPreceptor.mudarNome(email, nome);
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);

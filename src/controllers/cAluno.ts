@@ -31,12 +31,12 @@ const cAluno = {
       trataErr(err, res);
     }
   },
-  async atualizaEstadoPorMatricula(req: any, res: any) {
-    const estado: boolean = req.body.estado;
+  async atualizaNomePorMatricula(req: any, res: any) {
+    const nome: string = req.body.nome;
     const { matricula } = req.params;
-    if (requisicaoRuim(estado === undefined, res)) return;
+    if (requisicaoRuim(nome === undefined, res)) return;
     try {
-      await DBAluno.mudarEstado(matricula, estado);
+      await DBAluno.mudarNome(matricula, nome);
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);

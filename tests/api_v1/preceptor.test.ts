@@ -46,10 +46,10 @@ describe("Testando API Preceptor", () => {
     );
   });
 
-  test("Mudando estado de Preceptor existente por email", async () => {
+  test("Mudando nome do Preceptor existente por email", async () => {
     await request(app)
       .patch("/api/v1/preceptor/" + p.email)
-      .send({ estado: true })
+      .send({ nome: 'novoNome' })
       .expect(200);
   });
 
@@ -66,7 +66,7 @@ describe("Testando API Preceptor", () => {
       .expect(200);
     expect(res.body).toEqual(
       expect.objectContaining({
-        nome: p.nome,
+        nome: 'novoNome',
         email: p.email,
         estado: 1,
         papel: p.papel,

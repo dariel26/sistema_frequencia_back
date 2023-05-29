@@ -43,10 +43,10 @@ describe("Testando API Aluno", () => {
     );
   });
 
-  test("Mudando estado de Aluno existente por matricula", async () => {
+  test("Mudando nome de Aluno existente por matricula", async () => {
     await request(app)
       .patch("/api/v1/aluno/" + a.matricula)
-      .send({ estado: true })
+      .send({ nome: 'novoAluno' })
       .expect(200);
   });
 
@@ -63,7 +63,7 @@ describe("Testando API Aluno", () => {
       .expect(200);
     expect(res.body).toEqual(
       expect.objectContaining({
-        nome: a.nome,
+        nome: 'novoAluno',
         matricula: a.matricula,
         estado: 1,
         papel: a.papel,

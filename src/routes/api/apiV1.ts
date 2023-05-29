@@ -43,14 +43,14 @@ apiV1.delete("/coordenador/:email", checarHabilidade("edit", "coordenador"),cCoo
 apiV1.post("/preceptor", checarHabilidade("edit", "preceptor"), cPreceptor.adicionaUm);
 apiV1.get("/preceptor/:email", checarHabilidade("read", "preceptor"), cPreceptor.buscaUmPorEmail);
 apiV1.get("/preceptor", checarHabilidade("read", "preceptor"),cPreceptor.listarTodos);
-apiV1.patch("/preceptor/:email", checarHabilidade("edit", "preceptor"), cPreceptor.atualizaEstadoPorEmail);
+apiV1.patch("/preceptor/:email", checarHabilidade("edit", "preceptor"), cPreceptor.atualizaNomePorEmail);
 apiV1.delete("/preceptor/:email", checarHabilidade("edit", "preceptor"), cPreceptor.apagaUmPorEmail);
 
 //ALUNO
 apiV1.post("/aluno", checarHabilidade("edit", "aluno"), cAluno.adicionaUm);
 apiV1.get("/aluno/:matricula", checarHabilidade("read", "aluno"), cAluno.buscaUmPorMatricula);
 apiV1.get("/aluno", checarHabilidade("read", "aluno"), cAluno.listarTodos);
-apiV1.patch("/aluno/:matricula", checarHabilidade("edit", "aluno"), cAluno.atualizaEstadoPorMatricula);
+apiV1.patch("/aluno/:matricula", checarHabilidade("edit", "aluno"), cAluno.atualizaNomePorMatricula);
 apiV1.delete("/aluno/:matricula", checarHabilidade("edit", "aluno"), cAluno.apagaUmPorMatricula);
 
 //ESTAGIO

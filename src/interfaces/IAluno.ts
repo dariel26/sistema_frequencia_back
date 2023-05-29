@@ -47,8 +47,8 @@ const DBAluno = {
     const sql = `delete from Aluno where matricula='${matricula}'`;
     return await db.query(sql);
   },
-  async mudarEstado(matricula: string, estado: boolean) {
-    const sql = `update Aluno set estado=${estado} where matricula='${matricula}'`;
+  async mudarNome(matricula: string, nome: string) {
+    const sql = `update Aluno set nome='${nome}' where matricula='${matricula}'`;
     return await db.query(sql);
   },
 };

@@ -40,8 +40,8 @@ const DBPreceptor = {
     const sql = `delete from Preceptor where email='${email}'`;
     return await db.query(sql);
   },
-  async mudarEstado(email: string, estado: boolean) {
-    const sql = `update Preceptor set estado=${estado} where email='${email}'`;
+  async mudarNome(email: string, nome: string) {
+    const sql = `update Preceptor set nome='${nome}' where email='${email}'`;
     return await db.query(sql);
   },
   async listar() {
