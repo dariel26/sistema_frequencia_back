@@ -50,7 +50,7 @@ describe("Testando API AlunoAtiv", () => {
   });
 
   test("Adicionando Aluno", async () => {
-    return await request(app).post("/api/v1/aluno").send(al).expect(201);
+    return await request(app).post("/api/v1/aluno").send([al]).expect(201);
   });
 
   test("Listando todos os Aluno", async () => {

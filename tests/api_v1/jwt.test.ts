@@ -31,15 +31,15 @@ let token: any;
 
 describe("Testando JWT", () => {
   test("Adicionando Coordenador", async () => {
-    return await request(app).post("/api/v1/coordenador").send(c).expect(201);
+    return await request(app).post("/api/v1/coordenador").send([c]).expect(201);
   });
 
   test("Adicionando Aluno", async () => {
-    return await request(app).post("/api/v1/aluno").send(a).expect(201);
+    return await request(app).post("/api/v1/aluno").send([a]).expect(201);
   });
 
   test("Adicionando Preceptor", async () => {
-    return await request(app).post("/api/v1/preceptor").send(p).expect(201);
+    return await request(app).post("/api/v1/preceptor").send([p]).expect(201);
   });
 
   test("Realizando Login como Coordenandor", async () => {

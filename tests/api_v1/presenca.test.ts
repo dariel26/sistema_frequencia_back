@@ -54,7 +54,7 @@ describe("Testando API Presenca", () => {
   });
 
   test("Adicionando Aluno", async () => {
-    return await request(app).post("/api/v1/aluno").send(al).expect(201);
+    return await request(app).post("/api/v1/aluno").send([al]).expect(201);
   });
 
   test("Listando Estagios existentes", async () => {

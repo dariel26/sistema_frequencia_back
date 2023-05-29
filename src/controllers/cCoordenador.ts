@@ -6,23 +6,16 @@ import DBCoordenador, {
 } from "../interfaces/ICoordenador";
 
 const cCoordenador = {
-  async adicionaUm(req: any, res: any) {
-    const { nome, senha, estado, papel, email } = req.body;
-    if (requisicaoRuim(!DBCoordenador.valido(req.body), res)) return;
-    try {
-      const c: ICoordenador = { nome, senha, estado, papel, email };
-      await DBCoordenador.criar(c);
-      res.status(201).json();
-    } catch (err) {
-      trataErr(err, res);
+  async adicionaVarios(req: any, res: any) {
+    const coordenadores = req.body;
+    if (requisicaoRuim(!Array.isArray(coordenadores), res)) return;
+    for (let c of coordenadores) {
+      if (requisicaoRuim(!DBCoordenador.valido(c), res)) return;
     }
-  },
-  async adicionaUmAdmin(req: any, res: any) {
-    const { nome, senha, estado, papel, email } = req.body;
-    if (requisicaoRuim(!DBCoordenador.valido(req.body), res)) return;
     try {
-      const c: ICoordenador = { nome, senha, estado, papel, email };
-      await DBCoordenador.criar(c);
+      for (let c of coordenadores) {
+        await DBCoordenador.criar(c);
+      }
       res.status(201).json();
     } catch (err) {
       trataErr(err, res);
@@ -62,8 +55,8 @@ const cCoordenador = {
     if (
       requisicaoRuim(
         papel === undefined ||
-          nome === undefined ||
-          (papel !== PAPEL_ADMIN && papel !== PAPEL_COORDENADOR),
+        nome === undefined ||
+        (papel !== PAPEL_ADMIN && papel !== PAPEL_COORDENADOR),
         res
       )
     )

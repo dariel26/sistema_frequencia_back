@@ -24,7 +24,7 @@ describe("Testando API CoordEstagio", () => {
   });
 
   test("Adicionando Coordenador", async () => {
-    return await request(app).post("/api/v1/coordenador").send(c).expect(201);
+    return await request(app).post("/api/v1/coordenador").send([c]).expect(201);
   });
 
   test("Listando Coordenadores", async () => {

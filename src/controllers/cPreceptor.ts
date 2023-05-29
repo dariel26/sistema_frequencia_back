@@ -2,12 +2,16 @@ import { requisicaoRuim, trataErr } from "../errors";
 import DBPreceptor, { IPreceptor } from "../interfaces/IPreceptor";
 
 const cPreceptor = {
-  async adicionaUm(req: any, res: any) {
-    const { nome, senha, estado, papel, email } = req.body;
-    if (requisicaoRuim(!DBPreceptor.valido(req.body), res)) return;
+  async adicionaVarios(req: any, res: any) {
+    const preceptores = req.body;
+    if (requisicaoRuim(!Array.isArray(preceptores), res)) return;
+    for (let p of preceptores) {
+      if (requisicaoRuim(!DBPreceptor.valido(p), res)) return;
+    }
     try {
-      const p: IPreceptor = { nome, senha, estado, papel, email };
-      await DBPreceptor.criar(p);
+      for (let p of preceptores) {
+        await DBPreceptor.criar(p);
+      }
       res.status(201).json();
     } catch (err) {
       trataErr(err, res);

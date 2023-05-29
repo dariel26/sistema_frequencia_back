@@ -12,7 +12,7 @@ const p: IPreceptor = {
 
 describe("Testando API Preceptor", () => {
   test("Adicionando Preceptor", async () => {
-    return await request(app).post("/api/v1/preceptor").send(p).expect(201);
+    return await request(app).post("/api/v1/preceptor").send([p]).expect(201);
   });
 
   test("Listando Preceptores", async () => {
@@ -27,7 +27,7 @@ describe("Testando API Preceptor", () => {
   test("Adicionando Preceptor email repetido", async () => {
     const res = await request(app)
       .post("/api/v1/preceptor")
-      .send(p)
+      .send([p])
       .expect(500);
     expect(res.body.existe).toEqual(true);
   });

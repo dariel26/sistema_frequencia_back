@@ -12,7 +12,7 @@ const a: IAluno = {
 
 describe("Testando API Aluno", () => {
   test("Adicionando Aluno", async () => {
-    return await request(app).post("/api/v1/aluno").send(a).expect(201);
+    return await request(app).post("/api/v1/aluno").send([a]).expect(201);
   });
 
   test("Listando todos os Aluno", async () => {
@@ -25,7 +25,7 @@ describe("Testando API Aluno", () => {
   });
 
   test("Adicionando Aluno matricula repetida", async () => {
-    const res = await request(app).post("/api/v1/aluno").send(a).expect(500);
+    const res = await request(app).post("/api/v1/aluno").send([a]).expect(500);
     expect(res.body.existe).toEqual(true);
   });
 

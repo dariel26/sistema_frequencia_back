@@ -12,7 +12,7 @@ const c: ICoordenador = {
 
 describe("Testando API Coordenador", () => {
   test("Adicionando Coordenador", async () => {
-    return await request(app).post("/api/v1/coordenador").send(c).expect(201);
+    return await request(app).post("/api/v1/coordenador").send([c]).expect(201);
   });
 
   test("Listando Coordenadores", async () => {
@@ -27,7 +27,7 @@ describe("Testando API Coordenador", () => {
   test("Adicionando Coordenador email repetido", async () => {
     const res = await request(app)
       .post("/api/v1/coordenador")
-      .send(c)
+      .send([c])
       .expect(500);
     expect(res.body.existe).toEqual(true);
   });

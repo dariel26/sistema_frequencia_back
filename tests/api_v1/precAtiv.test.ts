@@ -50,7 +50,7 @@ describe("Testando API PrecAtiv", () => {
   });
 
   test("Adicionando Preceptor", async () => {
-    return await request(app).post("/api/v1/preceptor").send(p).expect(201);
+    return await request(app).post("/api/v1/preceptor").send([p]).expect(201);
   });
 
   test("Listando Preceptores", async () => {
