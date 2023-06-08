@@ -31,6 +31,8 @@ apiV1.get("/logout", cJwt.logout);
 
 //INFO-USUARIO
 apiV1.get("/info-usuario", cUsuario.retornaInfoUsuario);
+apiV1.post("/info-usuario/padrao", cUsuario.usuarioSenhaPadrao);
+apiV1.post("/info-usuario/mudar-senha", cUsuario.mudarSenha);
 
 //COORDENADOR
 apiV1.post("/coordenador", checarHabilidade("edit", "coordenador"), cCoordenador.adicionaVarios);

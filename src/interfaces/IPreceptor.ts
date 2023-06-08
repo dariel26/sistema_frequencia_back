@@ -49,6 +49,10 @@ const DBPreceptor = {
     const dados = await db.query(sql);
     return dados[0];
   },
+  async mudarSenha(email: string, senha: string) {
+    const sql = `update Preceptor set senha=md5('${senha}') where email='${email}'`;
+    return await db.query(sql);
+  },
 };
 
 export default DBPreceptor;

@@ -62,6 +62,10 @@ const DBCoordenador = {
     const sql = `update Coordenador set papel='${papel}', nome='${nome}' where email='${email}'`;
     return await db.query(sql);
   },
+  async mudarSenha(email: string, senha: string) {
+    const sql = `update Coordenador set senha=md5('${senha}') where email='${email}'`;
+    return await db.query(sql);
+  },
 };
 
 export default DBCoordenador;

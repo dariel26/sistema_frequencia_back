@@ -2,7 +2,7 @@ require("dotenv").config();
 import jwt from "jsonwebtoken";
 import db from "../db/db";
 import { requisicaoRuim, trataErr } from "../errors";
-import { IToken, tokenSecret } from "../interfaces/IToken";
+import DBToken, { IToken, tokenSecret } from "../interfaces/IToken";
 
 const cJwt = {
   async login(req: any, res: any) {
@@ -10,26 +10,10 @@ const cJwt = {
     if (requisicaoRuim(senha === undefined || login === undefined, res)) return;
 
     try {
-      let dados: any;
-      const matricula = parseInt(login.toString());
-      if (!isNaN(matricula)) {
-        dados = await db.query(
-          `select nome, papel, matricula from Aluno where matricula='${matricula}' and senha=md5('${senha}') and estado=1`
-        );
+      const pessoa = await DBToken.login({ login, senha });
+      if (pessoa === undefined) {
+        return res.status(401).json({ message: "Credencias Incorretas" });
       } else {
-        dados = await db.query(
-          `select nome, papel, email from Coordenador where email='${login}' and senha=md5('${senha}') and estado=1`
-        );
-        if (dados[0][0] === undefined) {
-          dados = await db.query(
-            `select nome, papel, email from Preceptor where email='${login}' and senha=md5('${senha}') and estado=1`
-          );
-        }
-      }
-      if (dados[0][0] === undefined) {
-        return res.status(401).json({ credenciaisEstado: false });
-      } else {
-        const pessoa = dados[0][0];
         const infoToken: IToken = {
           nome: pessoa.nome,
           papel: pessoa.papel,
