@@ -7,17 +7,18 @@ const cCoordEstagio = {
     if (requisicaoRuim(!DBCoordEstagio.valido(req.body), res)) return;
     try {
       const ce: ICoordEstagio = { id_coordenador, id_estagio };
+      await DBCoordEstagio.apagar({id_estagio});
       await DBCoordEstagio.associar(ce);
       res.status(201).json();
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async apagaUmPorIds(req: any, res: any) {
-    const { id_coordenador, id_estagio } = req.body;
+  async apagaUmPorId(req: any, res: any) {
+    const { id_estagio } = req.body;
     if (requisicaoRuim(!DBCoordEstagio.valido(req.body), res)) return;
     try {
-      await DBCoordEstagio.apagar({ id_coordenador, id_estagio });
+      await DBCoordEstagio.apagar({ id_estagio });
       res.status(200).json();
     } catch (err) {
       trataErr(err, res);

@@ -60,6 +60,17 @@ const cAluno = {
       trataErr(err, res);
     }
   },
+  async incluirEmGrupo(req: any, res: any) {
+    const id_grupo: string = req.body.id_grupo;
+    const { matricula } = req.params;
+    if (requisicaoRuim(id_grupo === undefined, res)) return;
+    try {
+      await DBAluno.adicionarGrupo(matricula, id_grupo);
+      res.status(200).json();
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
 };
 
 export default cAluno;

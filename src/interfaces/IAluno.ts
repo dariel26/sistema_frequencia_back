@@ -55,6 +55,10 @@ const DBAluno = {
     const sql = `update Aluno set senha=md5('${senha}') where matricula='${matricula}'`;
     return await db.query(sql);
   },
+  async adicionarGrupo(matricula: string, id_grupo: string) {
+    const sql = `update Aluno set id_grupo=${id_grupo} where matricula='${matricula}'`;
+    return await db.query(sql);
+  }
 };
 
 export default DBAluno;

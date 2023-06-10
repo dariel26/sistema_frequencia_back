@@ -49,62 +49,90 @@ data_hora DATETIME,
 id_ativlocal BIGINT PRIMARY KEY AUTO_INCREMENT,
 id_atividade BIGINT,
 id_local INT,
-FOREIGN KEY(id_local) REFERENCES Local (id_local)
+FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE
 );
 
 CREATE TABLE PrecAtiv (
 id_atividade BIGINT,
 id_preceptor INT,
-FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor),
+FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor) ON DELETE CASCADE,
 UNIQUE (id_atividade, id_preceptor)
 );
 
 CREATE TABLE AlunoAtiv (
 id_atividade BIGINT,
 id_aluno BIGINT,
-FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno),
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
 UNIQUE(id_atividade, id_aluno)
 );
 
 CREATE TABLE CoordEstagio (
 id_coordenador INT,
-id_estagio INT,
-FOREIGN KEY(id_coordenador) REFERENCES Coordenador (id_coordenador),
-FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio),
-UNIQUE(id_coordenador, id_estagio)
+id_estagio INT UNIQUE,
+FOREIGN KEY(id_coordenador) REFERENCES Coordenador (id_coordenador) ON DELETE CASCADE,
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
 );
 
 CREATE TABLE Atividade (
 nome VARCHAR(200) UNIQUE,
 id_atividade BIGINT PRIMARY KEY auto_increment,
 id_estagio INT,
-FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio),
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
 );
 
 CREATE TABLE EstagioGrupo (
-data DATE,
+data_inicio DATE,
+data_final DATE,
 id_estagiogrupo INT PRIMARY KEY auto_increment,
 id_grupo BIGINT,
 id_estagio INT,
-FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo),
-FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio),
-UNIQUE(data, id_grupo, id_estagio)
+FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo) ON DELETE CASCADE,
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE,
+UNIQUE(id_grupo, id_estagio)
 );
 
 CREATE TABLE Presenca (
 id_presenca BIGINT PRIMARY KEY AUTO_INCREMENT,
 data_hora DATETIME,
-id_atividade,
+id_atividade BIGINT,
 id_local INT,
 estado BOOLEAN,
 periodo TEXT,
 id_aluno BIGINT,
 coordenadas JSON,
-FOREIGN KEY(id_local) REFERENCES Local (id_local),
-FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno),
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE,
+FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
 UNIQUE(id_aluno, id_local, data_hora)
 );
 
-ALTER TABLE AtivLocal ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade);
-ALTER TABLE PrecAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade);
-ALTER TABLE AlunoAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade);
+CREATE TABLE jwt (
+    id_token BIGINT PRIMARY KEY AUTO_INCREMENT,
+    token text,
+    validade DATETIME
+);
+
+ALTER TABLE AtivLocal ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
+ALTER TABLE PrecAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
+ALTER TABLE AlunoAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
+
+CREATE VIEW view_grupo_aluno AS 
+SELECT g.id_grupo, g.nome AS nome_grupo, 
+CASE WHEN COUNT(a.id_aluno) = 0 THEN JSON_ARRAY()
+            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', a.nome, 'matricula', a.matricula))
+       END AS alunos
+FROM Grupo AS g 
+LEFT JOIN Aluno a ON a.id_grupo = g.id_grupo
+GROUP BY g.id_grupo, g.nome;
+
+CREATE VIEW view_estagio AS 
+SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
+CASE WHEN COUNT(g.id_grupo) = 0 THEN JSON_ARRAY()
+            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', g.nome, 'data_inicio', eg.data_inicio, 'data_final', eg.data_final))
+       END AS grupos
+FROM Estagio AS e 
+LEFT JOIN CoordEstagio AS ce ON ce.id_estagio = e.id_estagio
+LEFT JOIN Coordenador AS c ON ce.id_coordenador = c.id_coordenador
+LEFT JOIN EstagioGrupo AS eg ON eg.id_estagio = e.id_estagio
+LEFT JOIN Grupo AS g ON g.id_grupo = eg.id_grupo
+GROUP BY e.id_estagio, c.nome;

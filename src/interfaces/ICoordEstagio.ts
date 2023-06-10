@@ -22,8 +22,8 @@ const DBCoordEstagio = {
     const dados = await db.query(sql);
     return dados[0];
   },
-  async apagar(ce: ICoordEstagio) {
-    const sql = `delete from CoordEstagio where id_coordenador=${ce.id_coordenador} and id_estagio=${ce.id_estagio}`;
+  async apagar({ id_estagio }: { id_estagio: string }) {
+    const sql = `delete from CoordEstagio where id_estagio=${id_estagio}`;
     return await db.query(sql);
   },
 };

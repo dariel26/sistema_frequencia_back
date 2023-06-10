@@ -17,7 +17,7 @@ const DBGrupo = {
     return await db.query(sql);
   },
   async listar() {
-    const sql = `select * from Grupo`;
+    const sql = `select * from view_grupo_aluno`;
     const dados = await db.query(sql);
     return dados[0];
   },

@@ -17,7 +17,7 @@ const DBEstagio = {
     return await db.query(sql);
   },
   async listar() {
-    const sql = `select * from Estagio`;
+    const sql = `select * from view_estagio`;
     const dados = await db.query(sql);
     return dados[0];
   },
