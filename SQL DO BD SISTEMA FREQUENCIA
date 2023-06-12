@@ -129,10 +129,14 @@ CREATE VIEW view_estagio AS
 SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
 CASE WHEN COUNT(g.id_grupo) = 0 THEN JSON_ARRAY()
             ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', g.nome, 'data_inicio', eg.data_inicio, 'data_final', eg.data_final))
-       END AS grupos
+       END AS grupos,
+CASE WHEN COUNT(a.id_atividade) = 0 THEN JSON_ARRAY()
+	ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', a.nome, 'id_atividade', a.id_atividade))
+END AS atividades
 FROM Estagio AS e 
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio = e.id_estagio
 LEFT JOIN Coordenador AS c ON ce.id_coordenador = c.id_coordenador
 LEFT JOIN EstagioGrupo AS eg ON eg.id_estagio = e.id_estagio
 LEFT JOIN Grupo AS g ON g.id_grupo = eg.id_grupo
+LEFT JOIN Atividade AS a ON a.id_estagio = e.id_estagio
 GROUP BY e.id_estagio, c.nome;
