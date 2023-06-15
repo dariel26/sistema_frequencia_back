@@ -3,7 +3,7 @@ import express from "express";
 import cAluno from "../../controllers/cAluno";
 import cAlunoAtiv from "../../controllers/cAlunoAtiv";
 import cAtividade from "../../controllers/cAtividade";
-import cAtivLocal from "../../controllers/cAtivLocal";
+import cAtivLocalAluno from "../../controllers/cAtivLocalAluno";
 import cCoordenador from "../../controllers/cCoordenador";
 import cCoordEstagio from "../../controllers/cCoordEstagio";
 import cEstagio from "../../controllers/cEstagio";
@@ -86,10 +86,10 @@ apiV1.get("/local", checarHabilidade("read", "local"), cLocal.listar);
 apiV1.patch("/local/:id_local", checarHabilidade("edit", "local"), cLocal.mudaNome);
 apiV1.delete("/local/:id_local", checarHabilidade("edit", "local"), cLocal.apagaUmPorId);
 
-//ATIV-LOCAL
-apiV1.post("/ativ-local", checarHabilidade("edit", "ativ-local"), cAtivLocal.associarUm);
-apiV1.get("/ativ-local/:id_atividade", checarHabilidade("read", "ativ-local"), cAtivLocal.buscarPorIdAtividade);
-apiV1.delete("/ativ-local", checarHabilidade("edit", "ativ-local"), cAtivLocal.apagaUmPorIdsData);
+//ATIV-LOCAL-ALUNO
+apiV1.post("/ativ-local-aluno", checarHabilidade("edit", "ativLocalAluno"), cAtivLocalAluno.associarUm);
+apiV1.get("/ativ-local-aluno/:id_atividade", checarHabilidade("read", "ativLocalAluno"), cAtivLocalAluno.buscarPorIdAtividade);
+apiV1.delete("/ativ-local-aluno", checarHabilidade("edit", "ativLocalAluno"), cAtivLocalAluno.apagaUmPorIdsData);
 
 //PREC-ATIV
 apiV1.post("/prec-ativ", checarHabilidade("edit", "prec-ativ"), cPrecAtiv.associarUm);

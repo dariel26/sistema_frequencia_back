@@ -18,7 +18,7 @@ export function defineHabilidadesPara(infoToken: IToken) {
     can("manage", "grupo");
     can("manage", "atividade");
     can("manage", "local");
-    can("manage", "ativLocal");
+    can("manage", "ativLocalAluno");
     can("manage", "precAtiv");
     can("manage", "estagioGrupo");
     can("read", "all");

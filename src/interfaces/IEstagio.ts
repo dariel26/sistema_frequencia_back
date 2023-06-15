@@ -16,8 +16,13 @@ const DBEstagio = {
     const sql = `insert into Estagio (nome) values ('${e.nome}')`;
     return await db.query(sql);
   },
-  async listar() {
-    const sql = `select * from view_estagio`;
+  async listarEstagioGrupo() {
+    const sql = `select * from view_estagio_grupo`;
+    const dados = await db.query(sql);
+    return dados[0];
+  },
+  async listarEstagioAtividade() {
+    const sql = `select * from view_estagio_atividade`;
     const dados = await db.query(sql);
     return dados[0];
   },

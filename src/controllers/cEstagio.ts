@@ -15,7 +15,15 @@ const cEstagio = {
   },
   async listar(_: any, res: any) {
     try {
-      const estagios = await DBEstagio.listar();
+      const estagiosComGrupos = await DBEstagio.listarEstagioGrupo();
+      const estagiosComAtividades = await DBEstagio.listarEstagioAtividade();
+      let estagios: any = [];
+      estagiosComGrupos.forEach((eg: any) => {
+        const ea = estagiosComAtividades.find(
+          (ea: any) => ea.id_estagio === eg.id_estagio
+        );
+        estagios.push({ ...eg, atividades: ea.atividades });
+      });
       res.status(200).json(estagios);
     } catch (err) {
       trataErr(err, res);

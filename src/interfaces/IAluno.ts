@@ -34,7 +34,7 @@ const DBAluno = {
     return await db.query(sql);
   },
   async listar() {
-    const sql = `select nome, id_aluno, matricula from Aluno`;
+    const sql = `select nome, id_aluno, matricula, id_grupo from Aluno`;
     const dados = await db.query(sql);
     return dados[0];
   },

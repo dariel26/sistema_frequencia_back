@@ -44,12 +44,14 @@ nome VARCHAR(200) UNIQUE,
 coordenadas JSON
 );
 
-CREATE TABLE AtivLocal (
+CREATE TABLE AtivLocalAluno (
 data_hora DATETIME,
-id_ativlocal BIGINT PRIMARY KEY AUTO_INCREMENT,
+id_ativlocalaluno BIGINT PRIMARY KEY AUTO_INCREMENT,
 id_atividade BIGINT,
 id_local INT,
-FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE
+id_aluno BIGINT,
+FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE
 );
 
 CREATE TABLE PrecAtiv (
@@ -57,13 +59,6 @@ id_atividade BIGINT,
 id_preceptor INT,
 FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor) ON DELETE CASCADE,
 UNIQUE (id_atividade, id_preceptor)
-);
-
-CREATE TABLE AlunoAtiv (
-id_atividade BIGINT,
-id_aluno BIGINT,
-FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
-UNIQUE(id_atividade, id_aluno)
 );
 
 CREATE TABLE CoordEstagio (
@@ -112,9 +107,8 @@ CREATE TABLE jwt (
     validade DATETIME
 );
 
-ALTER TABLE AtivLocal ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
+ALTER TABLE AtivLocalAluno ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
 ALTER TABLE PrecAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
-ALTER TABLE AlunoAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
 
 CREATE VIEW view_grupo_aluno AS 
 SELECT g.id_grupo, g.nome AS nome_grupo, 
@@ -125,18 +119,25 @@ FROM Grupo AS g
 LEFT JOIN Aluno a ON a.id_grupo = g.id_grupo
 GROUP BY g.id_grupo, g.nome;
 
-CREATE VIEW view_estagio AS 
+CREATE VIEW view_estagio_grupo AS 
 SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
 CASE WHEN COUNT(g.id_grupo) = 0 THEN JSON_ARRAY()
             ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', g.nome, 'data_inicio', eg.data_inicio, 'data_final', eg.data_final))
-       END AS grupos,
-CASE WHEN COUNT(a.id_atividade) = 0 THEN JSON_ARRAY()
-	ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', a.nome, 'id_atividade', a.id_atividade))
-END AS atividades
+       END AS grupos
 FROM Estagio AS e 
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio = e.id_estagio
 LEFT JOIN Coordenador AS c ON ce.id_coordenador = c.id_coordenador
 LEFT JOIN EstagioGrupo AS eg ON eg.id_estagio = e.id_estagio
 LEFT JOIN Grupo AS g ON g.id_grupo = eg.id_grupo
+GROUP BY e.id_estagio, c.nome;
+
+CREATE VIEW view_estagio_atividade AS
+SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
+CASE WHEN COUNT(a.id_atividade) = 0 THEN JSON_ARRAY()
+            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', a.nome, 'id_atividade', a.id_atividade))
+       END AS atividades
+FROM Estagio AS e 
+LEFT JOIN CoordEstagio AS ce ON ce.id_estagio = e.id_estagio
+LEFT JOIN Coordenador AS c ON ce.id_coordenador = c.id_coordenador
 LEFT JOIN Atividade AS a ON a.id_estagio = e.id_estagio
 GROUP BY e.id_estagio, c.nome;

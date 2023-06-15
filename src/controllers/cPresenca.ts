@@ -1,5 +1,5 @@
 import { requisicaoRuim, trataErr } from "../errors";
-import DBAtivLocal from "../interfaces/IAtivLocal";
+import DBAtivLocalAluno from "../interfaces/IAtivLocalAluno";
 import DBPresenca from "../interfaces/IPresenca";
 
 const cPresenca = {
@@ -43,7 +43,7 @@ const cPresenca = {
       req.body;
     try {
       if (requisicaoRuim(!DBPresenca.valido(req.body), res)) return;
-      const al = await DBAtivLocal.buscarPorIdAtividade(id_atividade);
+      const al = await DBAtivLocalAluno.buscarPorIdAtividade(id_atividade);
       if (requisicaoRuim(al[0]?.coordenadas === undefined, res)) return;
       const x1 = al[0]?.coordenadas.lat;
       const y1 = al[0]?.coordenadas.lon;
