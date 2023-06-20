@@ -1,91 +1,69 @@
-import { requisicaoRuim, trataErr } from "../errors";
-import DBCoordenador, {
-  ICoordenador,
-  PAPEL_ADMIN,
-  PAPEL_COORDENADOR,
-} from "../interfaces/ICoordenador";
+import DBCoordenador from "../db/DBCoordenador";
+import { trataErr } from "../errors";
+import { ICoordenador } from "../interfaces";
+import { PAPEL_ADMIN } from "../papeis";
 
 const cCoordenador = {
-  async adicionaVarios(req: any, res: any) {
-    const coordenadores = req.body;
-    if (requisicaoRuim(!Array.isArray(coordenadores), res)) return;
-    for (let c of coordenadores) {
-      if (requisicaoRuim(!DBCoordenador.valido(c), res)) return;
-    }
+  async criarVarios(req: any, res: any) {
+    const { coordenadores } = req.body;
     try {
-      for (let c of coordenadores) {
-        await DBCoordenador.criar(c);
+      await DBCoordenador.criar(coordenadores);
+      res.status(201).json({ message: "Coordenadores salvos!" });
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
+  async deletarVarios(req: any, res: any) {
+    const ids = req.params.ids.split(",");
+    try {
+      const coordenadores = await DBCoordenador.listar();
+      const admins = coordenadores.filter(
+        (c: ICoordenador) => c.papel === PAPEL_ADMIN
+      );
+      const adminsDeletados = admins.filter((a: ICoordenador) =>
+        ids.includes(String(a.id_coordenador))
+      );
+      if (adminsDeletados.length === admins.length) {
+        return res
+          .status(500)
+          .json({ message: "O sistema não pode ficar sem ADMINS" });
       }
-      res.status(201).json();
+      await DBCoordenador.deletar(ids);
+      res.status(200).json({ message: "Coordenadores deletados!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async buscaUmPorEmail(req: any, res: any) {
-    const { email } = req.params;
+  async editarVarios(req: any, res: any) {
+    const { novosDados } = req.body;
     try {
-      const c = await DBCoordenador.buscarPorEmail(email);
-      res.status(200).json(c);
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async apagaVariosPorEmail(req: any, res: any) {
-    const emails = req.body;
-    if (requisicaoRuim(!Array.isArray(emails), res)) return;
-    for (let email of emails) {
-      if (requisicaoRuim(email === undefined, res)) return;
-    }
-    try {
-      for (let email of emails) {
-        const qntdAdms = await DBCoordenador.quantidadeDeAdmins();
-        const coordenador = await DBCoordenador.buscarPorEmail(email);
-        if (
-          coordenador.papel === PAPEL_ADMIN &&
-          qntdAdms === 1 &&
-          process.env.NODE_ENV !== "test"
-        ) {
-          return trataErr(new Error("O sistema não pode ficar sem admins"), res);
-        } else {
-          await DBCoordenador.deletar(email);
+      const coordenadores = await DBCoordenador.listar();
+      const admins = coordenadores.filter(
+        (c: ICoordenador) => c.papel === PAPEL_ADMIN
+      );
+      const novosAdmins = novosDados.filter(
+        (c: ICoordenador) => c.papel === PAPEL_ADMIN
+      );
+      if (novosAdmins.length === 0) {
+        for (let dado of novosDados) {
+          const id = dado.id_coordenador;
+          const coordenador = coordenadores.find(
+            (c: ICoordenador) => c.id_coordenador === id
+          );
+          if (coordenador.papel === PAPEL_ADMIN && admins.length === 1) {
+            return res
+              .status(500)
+              .json({ message: "O sistema não pode ficar sem ADMINS" });
+          }
         }
       }
-      res.status(200).json();
+      await DBCoordenador.editar(novosDados);
+      res.status(200).json({ message: "Coordenadores editados!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async atualizarPorEmail(req: any, res: any) {
-    const { papel, nome } = req.body;
-    const { email } = req.params;
-    if (
-      requisicaoRuim(
-        papel === undefined ||
-        nome === undefined ||
-        (papel !== PAPEL_ADMIN && papel !== PAPEL_COORDENADOR),
-        res
-      )
-    )
-      return;
-    try {
-      const qntdAdms = await DBCoordenador.quantidadeDeAdmins();
-      const coordenador = await DBCoordenador.buscarPorEmail(email);
-      if (
-        coordenador.papel === PAPEL_ADMIN &&
-        qntdAdms === 1 &&
-        papel === PAPEL_COORDENADOR &&
-        process.env.NODE_ENV !== "test"
-      ) {
-        return trataErr(new Error("O sistema não pode ficar sem admins"), res);
-      } else {
-        await DBCoordenador.mudarPapel(email, papel, nome);
-        res.status(200).json();
-      }
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async listarTodos(_: any, res: any) {
+  async listar(_: any, res: any) {
     try {
       const coodenadores = await DBCoordenador.listar();
       res.status(200).json(coodenadores);

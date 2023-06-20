@@ -1,58 +1,27 @@
-import { requisicaoRuim, trataErr } from "../errors";
-import DBAluno, { IAluno } from "../interfaces/IAluno";
+import { Request, Response } from "express";
+import DBAluno from "../db/DBAluno";
+import { trataErr } from "../errors";
 
 const cAluno = {
-  async adicionaVarios(req: any, res: any) {
-    const alunos = req.body;
-    if (requisicaoRuim(!Array.isArray(alunos), res)) return;
-    for (let a of alunos) {
-      if (requisicaoRuim(!DBAluno.valido(a), res)) return;
-    }
+  async criarVarios(req: Request, res: Response) {
+    const { alunos } = req.body;
     try {
-      for (let a of alunos) {
-        await DBAluno.criar(a);
-      }
-      res.status(201).json();
+      await DBAluno.criar(alunos);
+      res.status(201).json({ message: "Alunos salvos!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async buscaUmPorMatricula(req: any, res: any) {
-    const { matricula } = req.params;
+  async deletarVarios(req: Request, res: Response) {
+    const ids = req.params.ids.split(",");
     try {
-      const a = await DBAluno.buscarPorMatricula(matricula);
-      res.status(200).json(a);
+      await DBAluno.deletar(ids);
+      res.status(200).json({ message: "Alunos deletados!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async apagaVariosPorMatricula(req: any, res: any) {
-    const matriculas = req.body;
-    if (requisicaoRuim(!Array.isArray(matriculas), res)) return;
-    for (let m of matriculas) {
-      if (requisicaoRuim(m === undefined, res)) return;
-    }
-    try {
-      for (let m of matriculas) {
-        await DBAluno.deletar(m);
-      }
-      res.status(200).json();
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async atualizaNomePorMatricula(req: any, res: any) {
-    const nome: string = req.body.nome;
-    const { matricula } = req.params;
-    if (requisicaoRuim(nome === undefined, res)) return;
-    try {
-      await DBAluno.mudarNome(matricula, nome);
-      res.status(200).json();
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async listarTodos(_: any, res: any) {
+  async listar(_: Request, res: Response) {
     try {
       const alunos = await DBAluno.listar();
       res.status(200).json(alunos);
@@ -60,13 +29,11 @@ const cAluno = {
       trataErr(err, res);
     }
   },
-  async incluirEmGrupo(req: any, res: any) {
-    const id_grupo: string = req.body.id_grupo;
-    const { matricula } = req.params;
-    if (requisicaoRuim(id_grupo === undefined, res)) return;
+  async editarVarios(req: Request, res: Response) {
+    const { novosDados } = req.body;
     try {
-      await DBAluno.adicionarGrupo(matricula, id_grupo);
-      res.status(200).json();
+      await DBAluno.editar(novosDados);
+      res.status(200).json({ message: "Alunos atualizados!" });
     } catch (err) {
       trataErr(err, res);
     }

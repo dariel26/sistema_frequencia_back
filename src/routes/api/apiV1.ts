@@ -29,56 +29,53 @@ apiV1.use(acessoPadrao);
 //LOGOUT
 apiV1.get("/logout", cJwt.logout);
 
-//INFO-USUARIO
-apiV1.get("/info-usuario", cUsuario.retornaInfoUsuario);
-apiV1.post("/info-usuario/padrao", cUsuario.usuarioSenhaPadrao);
-apiV1.post("/info-usuario/mudar-senha", cUsuario.mudarSenha);
+//USUARIO
+apiV1.get("/usuario/info", cUsuario.retornaInfoUsuario);
+apiV1.get("/usuario/padrao", cUsuario.usuarioSenhaPadrao);
+apiV1.post("/usuario/senha", cUsuario.mudarSenha);
 
 //COORDENADOR
-apiV1.post("/coordenador", checarHabilidade("edit", "coordenador"), cCoordenador.adicionaVarios);
-apiV1.get("/coordenador/:email", checarHabilidade("read", "coordenador"), cCoordenador.buscaUmPorEmail);
-apiV1.get("/coordenador", checarHabilidade("read", "coordenador"), cCoordenador.listarTodos);
-apiV1.patch("/coordenador/:email", checarHabilidade("edit", "admin"), cCoordenador.atualizarPorEmail);
-apiV1.post("/coordenador/delete", checarHabilidade("edit", "coordenador"), cCoordenador.apagaVariosPorEmail);
+apiV1.post("/coordenador", checarHabilidade("edit", "coordenador"), cCoordenador.criarVarios);
+apiV1.get("/coordenador", checarHabilidade("read", "coordenador"), cCoordenador.listar);
+apiV1.put("/coordenador", checarHabilidade("edit", "coordenador"), cCoordenador.editarVarios);
+apiV1.delete("/coordenador/:ids", checarHabilidade("edit", "coordenador"), cCoordenador.deletarVarios);
 
 //PRECEPTOR
-apiV1.post("/preceptor", checarHabilidade("edit", "preceptor"), cPreceptor.adicionaVarios);
-apiV1.get("/preceptor/:email", checarHabilidade("read", "preceptor"), cPreceptor.buscaUmPorEmail);
-apiV1.get("/preceptor", checarHabilidade("read", "preceptor"), cPreceptor.listarTodos);
-apiV1.patch("/preceptor/:email", checarHabilidade("edit", "preceptor"), cPreceptor.atualizaNomePorEmail);
-apiV1.post("/preceptor/delete", checarHabilidade("edit", "preceptor"), cPreceptor.apagaVariosPorEmail);
+apiV1.post("/preceptor", checarHabilidade("edit", "preceptor"), cPreceptor.criarVarios);
+apiV1.get("/preceptor", checarHabilidade("read", "preceptor"), cPreceptor.listar);
+apiV1.put("/preceptor", checarHabilidade("edit", "preceptor"), cPreceptor.editarVarios);
+apiV1.delete("/preceptor/:ids", checarHabilidade("edit", "preceptor"), cPreceptor.deletarVarios);
 
 //ALUNO
-apiV1.post("/aluno", checarHabilidade("edit", "aluno"), cAluno.adicionaVarios);
-apiV1.get("/aluno/:matricula", checarHabilidade("read", "aluno"), cAluno.buscaUmPorMatricula);
-apiV1.get("/aluno", checarHabilidade("read", "aluno"), cAluno.listarTodos);
-apiV1.patch("/aluno/:matricula", checarHabilidade("edit", "aluno"), cAluno.atualizaNomePorMatricula);
-apiV1.post("/aluno/delete", checarHabilidade("edit", "aluno"), cAluno.apagaVariosPorMatricula);
-apiV1.post("/aluno-grupo/:matricula", checarHabilidade("edit", "aluno"), cAluno.incluirEmGrupo);
+apiV1.post("/aluno", checarHabilidade("edit", "aluno"), cAluno.criarVarios);
+apiV1.get("/aluno", checarHabilidade("read", "aluno"), cAluno.listar);
+apiV1.put("/aluno", checarHabilidade("edit", "aluno"), cAluno.editarVarios);
+apiV1.delete("/aluno/:ids", checarHabilidade("edit", "aluno"), cAluno.deletarVarios);
 
 //ESTAGIO
-apiV1.post("/estagio", checarHabilidade("edit", "estagio"), cEstagio.adicionaUm);
+apiV1.post("/estagio", checarHabilidade("edit", "estagio"), cEstagio.criarVarios);
 apiV1.get("/estagio", checarHabilidade("read", "estagio"), cEstagio.listar);
-apiV1.patch("/estagio/:id", checarHabilidade("edit", "estagio"), cEstagio.mudaNome);
-apiV1.delete("/estagio/:id", checarHabilidade("edit", "estagio"), cEstagio.apagaUmPorId);
+apiV1.put("/estagio", checarHabilidade("edit", "estagio"), cEstagio.editarVarios);
+apiV1.delete("/estagio/:ids", checarHabilidade("edit", "estagio"), cEstagio.deletarVarios);
 
 //GRUPO
-apiV1.post("/grupo", checarHabilidade("edit", "grupo"), cGrupo.adicionaUm);
+apiV1.post("/grupo", checarHabilidade("edit", "grupo"), cGrupo.criarVarios);
 apiV1.get("/grupo", checarHabilidade("read", "grupo"), cGrupo.listar);
-apiV1.patch("/grupo/:id_grupo", checarHabilidade("edit", "grupo"), cGrupo.mudaNome);
-apiV1.delete("/grupo/:id_grupo", checarHabilidade("edit", "grupo"), cGrupo.apagaUmPorId);
+apiV1.put("/grupo", checarHabilidade("edit", "grupo"), cGrupo.editarVarios);
+apiV1.delete("/grupo/:ids", checarHabilidade("edit", "grupo"), cGrupo.deletarVarios);
 
 //COORD-ESTAGIO
-apiV1.post("/coord-estagio", checarHabilidade("edit", "coord-estagio"), cCoordEstagio.associarUm);
-apiV1.get("/coord-estagio/:id_estagio", checarHabilidade("read", "coord-estagio"), cCoordEstagio.buscaPorIdEstagio);
-apiV1.delete("/coord-estagio", checarHabilidade("edit", "coord-estagio"), cCoordEstagio.apagaUmPorId);
+apiV1.post("/coord-estagio", checarHabilidade("edit", "coord-estagio"), cCoordEstagio.criarVarios);
+
+//ESTAGIO-GRUPO
+apiV1.post("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.criarVarios);
+apiV1.delete("/estagio-grupo/:ids", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.deletarVarios);
 
 //ATIVIDADE
-apiV1.post("/atividade", checarHabilidade("edit", "atividade"), cAtividade.adicionaUm);
-apiV1.get("/atividade/:id_estagio", checarHabilidade("read", "atividade"), cAtividade.listarPorIdEstagio);
+apiV1.post("/atividade", checarHabilidade("edit", "atividade"), cAtividade.criarVarias);
 apiV1.get("/atividade", checarHabilidade("read", "atividade"), cAtividade.listar);
-apiV1.patch("/atividade/:id", checarHabilidade("edit", "atividade"), cAtividade.mudaNome);
-apiV1.delete("/atividade/:id", checarHabilidade("edit", "atividade"), cAtividade.apagaUmPorId);
+apiV1.put("/atividade", checarHabilidade("edit", "atividade"), cAtividade.editarVarias);
+apiV1.delete("/atividade/:ids", checarHabilidade("edit", "atividade"), cAtividade.deletarVarias);
 
 //LOCAL
 apiV1.post("/local", checarHabilidade("edit", "local"), cLocal.adicionaUm);
@@ -101,11 +98,6 @@ apiV1.get("/aluno-ativ", checarHabilidade("read", "aluno-ativ"), cAlunoAtiv.list
 apiV1.post("/aluno-ativ", checarHabilidade("edit", "aluno-ativ"), cAlunoAtiv.associarUm);
 apiV1.get("/aluno-ativ/:id_atividade", checarHabilidade("read", "aluno-ativ"), cAlunoAtiv.buscarPorIdAtividade);
 apiV1.delete("/aluno-ativ", checarHabilidade("edit", "aluno-ativ"), cAlunoAtiv.apagaUm);
-
-//ESTAGIO-GRUPO
-apiV1.post("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.associarUm);
-apiV1.get("/estagio-grupo/:id_grupo", checarHabilidade("read", "estagio-grupo"), cEstagioGrupo.buscarPorIdGrupo);
-apiV1.delete("/estagio-grupo/grupo/:id_grupo/estagio/:id_estagio", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.apagaUmPorIdsData);
 
 //PRESENCA
 apiV1.post("/presenca", checarHabilidade("edit", "presenca"), cPresenca.criarUma);

@@ -1,11 +1,13 @@
 require("dotenv").config();
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import db from "../db/db";
 import { requisicaoRuim, trataErr } from "../errors";
-import DBToken, { IToken, tokenSecret } from "../interfaces/IToken";
+import { IUsuario } from "../interfaces";
+import DBToken, { tokenSecret } from "../interfaces/IToken";
 
 const cJwt = {
-  async login(req: any, res: any) {
+  async login(req: Request, res: Response) {
     let { login, senha } = req.body;
     if (requisicaoRuim(senha === undefined || login === undefined, res)) return;
 
@@ -14,13 +16,13 @@ const cJwt = {
       if (pessoa === undefined) {
         return res.status(401).json({ message: "Credencias Incorretas" });
       } else {
-        const infoToken: IToken = {
+        const usuario: IUsuario = {
           nome: pessoa.nome,
           papel: pessoa.papel,
-          matricula: pessoa.matricula,
-          email: pessoa.email,
+          login: pessoa.login,
+          id: pessoa.id,
         };
-        const token = jwt.sign(infoToken, tokenSecret, { expiresIn: "24h" });
+        const token = jwt.sign(usuario, tokenSecret, { expiresIn: "24h" });
         res.status(200).json(token);
       }
     } catch (err) {

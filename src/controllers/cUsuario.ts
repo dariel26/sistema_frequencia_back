@@ -1,20 +1,21 @@
 import { Request, Response } from "express";
+import { compare } from "../cipher/cipher";
+import DBAluno from "../db/DBAluno";
+import DBCoordenador from "../db/DBCoordenador";
+import DBPreceptor from "../db/DBPreceptor";
+import DBUsuario from "../db/DBUsuario";
 import { requisicaoRuim, trataErr } from "../errors";
-import DBAluno from "../interfaces/IAluno";
-import DBCoordenador, {
-  PAPEL_ADMIN,
-  PAPEL_COORDENADOR,
-} from "../interfaces/ICoordenador";
-import DBPreceptor, { PAPEL_PRECEPTOR } from "../interfaces/IPreceptor";
-import DBToken from "../interfaces/IToken";
+import { CustomRequest, ICoordenador, IToken, IUsuario } from "../interfaces";
 import { defineHabilidadesPara } from "../middleware/habilidades";
+import { PAPEL_ADMIN, PAPEL_COORDENADOR, PAPEL_PRECEPTOR } from "../papeis";
 
 const cUsuario = {
-  async retornaInfoUsuario(req: any, res: any) {
+  async retornaInfoUsuario(req: Request, res: Response) {
     try {
-      const infoToken = req.infoToken;
+      const requisicao = req as CustomRequest;
+      const infoToken: IToken = requisicao.infoToken;
       const habilidades = defineHabilidadesPara(infoToken);
-      const infoUsuario = {
+      const infoUsuario: IUsuario = {
         ...infoToken,
         regrasHabilidades: habilidades.rules,
       };
@@ -23,34 +24,60 @@ const cUsuario = {
       res.status(500).json();
     }
   },
-  async usuarioSenhaPadrao(req: any, res: any) {
-    let { login, senha } = req.body;
-    if (requisicaoRuim(senha === undefined || login === undefined, res)) return;
+  async usuarioSenhaPadrao(req: Request, res: Response) {
+    const requisicao = req as CustomRequest;
+    const login = requisicao.infoToken.login;
     try {
-      const pessoa = await DBToken.login({ login, senha });
-      if (pessoa === undefined) {
-        res.status(200).json(false);
+      const usuario = await DBUsuario.buscaPorLogin(login);
+      if (usuario === undefined) {
+        res.status(404).json({ message: "Usuario não existe!" });
       } else {
-        res.status(200).json(true);
+        const hashSenha = usuario.senha;
+        if (hashSenha === undefined)
+          res
+            .status(500)
+            .json({ message: "O usuário não possui senha no banco de dados" });
+        else {
+          if (await compare(login, hashSenha))
+            res.status(200).json({ padrao: true });
+          else {
+            res.status(200).json({ padrao: false });
+          }
+        }
       }
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async mudarSenha(req: any, res: any) {
-    const {senha} = req.body;
-    const infoToken = req.infoToken;
-    if (requisicaoRuim(senha === undefined, res)) return;
+  async mudarSenha(req: Request, res: Response) {
+    const { novosDados } = req.body;
+    const requisicao = req as CustomRequest;
+    const infoToken = requisicao.infoToken;
     try {
       if (
         infoToken.papel === PAPEL_COORDENADOR ||
         infoToken.papel === PAPEL_ADMIN
       ) {
-        await DBCoordenador.mudarSenha(infoToken.email, senha);
+        await DBCoordenador.editar(
+          novosDados.map(({ id, senha }: { id: string; senha: string }) => ({
+            id_coordenador: id,
+            senha,
+          }))
+        );
       } else if (infoToken.papel === PAPEL_PRECEPTOR) {
-        await DBPreceptor.mudarSenha(infoToken.email, senha);
+        await DBPreceptor.editar(
+          novosDados.map(({ id, senha }: { id: string; senha: string }) => ({
+            id_preceptor: id,
+            senha,
+          }))
+        );
       } else {
-        await DBAluno.mudarSenha(infoToken.matricula, senha);
+        await DBAluno.editar(
+          novosDados.map(({ id, senha }: { id: string; senha: string }) => ({
+            id_aluno: id,
+            senha,
+          }))
+        );
       }
       res.status(200).json();
     } catch (err) {

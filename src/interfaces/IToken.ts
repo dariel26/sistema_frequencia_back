@@ -1,4 +1,6 @@
+import { compare } from "../cipher/cipher";
 import db from "../db/db";
+import { IUsuario } from "../interfaces";
 
 export interface IToken {
   papel: String;
@@ -9,24 +11,24 @@ export interface IToken {
 export const tokenSecret = "djasAJDi@e23819#@(*!ksDAHS";
 
 const DBToken = {
-  login: async ({ login, senha }: { login: string; senha: string }) => {
-    let dados;
-    const matricula = parseInt(login);
-    if (!isNaN(matricula)) {
-      dados = await db.query(
-        `select nome, papel, matricula from Aluno where matricula='${matricula}' and senha=md5('${senha}') and estado=1`
-      );
+  login: async ({
+    login,
+    senha,
+  }: {
+    login: string;
+    senha: string;
+  }): Promise<IUsuario | undefined> => {
+    const sql = "SELECT * FROM view_usuario WHERE login=?";
+    const [usuarios] = await db.query(sql, [login]);
+    if (usuarios.length < 1) {
+      return undefined;
     } else {
-      dados = await db.query(
-        `select nome, papel, email from Coordenador where email='${login}' and senha=md5('${senha}') and estado=1`
-      );
-      if (dados[0][0] === undefined) {
-        dados = await db.query(
-          `select nome, papel, email from Preceptor where email='${login}' and senha=md5('${senha}') and estado=1`
-        );
-      }
+      const usuario = usuarios[0];
+      const senhaHash = usuario.senha;
+      const corresponde = await compare(senha, senhaHash);
+      if (!corresponde) return undefined;
+      return usuario;
     }
-    return dados[0][0];
   },
 };
 

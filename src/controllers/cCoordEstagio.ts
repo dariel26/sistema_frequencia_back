@@ -1,34 +1,16 @@
-import { requisicaoRuim, trataErr } from "../errors";
-import DBCoordEstagio, { ICoordEstagio } from "../interfaces/ICoordEstagio";
+import { Request, Response } from "express";
+import DBCoordEstagio from "../db/DBCoordEstagio";
+import { trataErr } from "../errors";
 
 const cCoordEstagio = {
-  async associarUm(req: any, res: any) {
-    const { id_coordenador, id_estagio } = req.body;
-    if (requisicaoRuim(!DBCoordEstagio.valido(req.body), res)) return;
+  async criarVarios(req: Request, res: Response) {
+    const { dados } = req.body;
     try {
-      const ce: ICoordEstagio = { id_coordenador, id_estagio };
-      await DBCoordEstagio.apagar({id_estagio});
-      await DBCoordEstagio.associar(ce);
+      await DBCoordEstagio.deletar(
+        dados.map(({ id_estagio }: { id_estagio: string }) => id_estagio)
+      );
+      await DBCoordEstagio.criar(dados);
       res.status(201).json();
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async apagaUmPorId(req: any, res: any) {
-    const { id_estagio } = req.body;
-    if (requisicaoRuim(!DBCoordEstagio.valido(req.body), res)) return;
-    try {
-      await DBCoordEstagio.apagar({ id_estagio });
-      res.status(200).json();
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async buscaPorIdEstagio(req: any, res: any) {
-    const { id_estagio } = req.params;
-    try {
-      const coordenadores = await DBCoordEstagio.buscarPorIdEstagio(id_estagio);
-      res.status(200).json(coordenadores);
     } catch (err) {
       trataErr(err, res);
     }

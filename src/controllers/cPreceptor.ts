@@ -1,58 +1,36 @@
-import { requisicaoRuim, trataErr } from "../errors";
-import DBPreceptor, { IPreceptor } from "../interfaces/IPreceptor";
+import { Request, Response } from "express";
+import DBPreceptor from "../db/DBPreceptor";
+import { trataErr } from "../errors";
 
 const cPreceptor = {
-  async adicionaVarios(req: any, res: any) {
-    const preceptores = req.body;
-    if (requisicaoRuim(!Array.isArray(preceptores), res)) return;
-    for (let p of preceptores) {
-      if (requisicaoRuim(!DBPreceptor.valido(p), res)) return;
-    }
+  async criarVarios(req: Request, res: Response) {
+    const { preceptores } = req.body;
     try {
-      for (let p of preceptores) {
-        await DBPreceptor.criar(p);
-      }
-      res.status(201).json();
+      await DBPreceptor.criar(preceptores);
+      res.status(201).json({ message: "Preceptores salvos!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async buscaUmPorEmail(req: any, res: any) {
-    const { email } = req.params;
+  async deletarVarios(req: Request, res: Response) {
+    const ids = req.params.ids.split(",");
     try {
-      const p = await DBPreceptor.buscarPorEmail(email);
-      res.status(200).json(p);
+      await DBPreceptor.deletar(ids);
+      res.status(200).json({ message: "Preceptores deletados!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async apagaVariosPorEmail(req: any, res: any) {
-    const emails = req.body;
-    if (requisicaoRuim(!Array.isArray(emails), res)) return;
-    for (let email of emails) {
-      if (requisicaoRuim(email === undefined, res)) return;
-    }
+  async editarVarios(req: Request, res: Response) {
+    const { novosDados } = req.body;
     try {
-      for (let email of emails) {
-        await DBPreceptor.deletar(email);
-      }
-      res.status(200).json();
+      await DBPreceptor.editar(novosDados);
+      res.status(200).json({ message: "Preceptores editados!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async atualizaNomePorEmail(req: any, res: any) {
-    const nome: string = req.body.nome;
-    const { email } = req.params;
-    if (requisicaoRuim(nome === undefined, res)) return;
-    try {
-      await DBPreceptor.mudarNome(email, nome);
-      res.status(200).json();
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async listarTodos(_: any, res: any) {
+  async listar(_: any, res: any) {
     try {
       const preceptores = await DBPreceptor.listar();
       res.status(200).json(preceptores);

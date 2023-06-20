@@ -76,7 +76,7 @@ FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
 );
 
 CREATE TABLE EstagioGrupo (
-data_inicio DATE,
+data_inicial DATE,
 data_final DATE,
 id_estagiogrupo INT PRIMARY KEY auto_increment,
 id_grupo BIGINT,
@@ -113,7 +113,7 @@ ALTER TABLE PrecAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_ativ
 CREATE VIEW view_grupo_aluno AS 
 SELECT g.id_grupo, g.nome AS nome_grupo, 
 CASE WHEN COUNT(a.id_aluno) = 0 THEN JSON_ARRAY()
-            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', a.nome, 'matricula', a.matricula))
+            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', a.nome, 'matricula', a.matricula, 'id_aluno', a.id_aluno))
        END AS alunos
 FROM Grupo AS g 
 LEFT JOIN Aluno a ON a.id_grupo = g.id_grupo
@@ -122,7 +122,7 @@ GROUP BY g.id_grupo, g.nome;
 CREATE VIEW view_estagio_grupo AS 
 SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
 CASE WHEN COUNT(g.id_grupo) = 0 THEN JSON_ARRAY()
-            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', g.nome, 'data_inicio', eg.data_inicio, 'data_final', eg.data_final))
+            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', g.nome, 'data_inicial', eg.data_inicial, 'data_final', eg.data_final, 'id_grupo', g.id_grupo, 'id_estagiogrupo', eg.id_estagiogrupo))
        END AS grupos
 FROM Estagio AS e 
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio = e.id_estagio
@@ -141,3 +141,34 @@ LEFT JOIN CoordEstagio AS ce ON ce.id_estagio = e.id_estagio
 LEFT JOIN Coordenador AS c ON ce.id_coordenador = c.id_coordenador
 LEFT JOIN Atividade AS a ON a.id_estagio = e.id_estagio
 GROUP BY e.id_estagio, c.nome;
+
+CREATE VIEW view_usuario AS
+SELECT
+    a.matricula AS login,
+    a.senha,
+    a.papel,
+    a.nome,
+    a.estado,
+    a.id_aluno AS id
+FROM
+    Aluno a
+UNION ALL
+SELECT
+    c.email AS login,
+    c.senha,
+    c.papel,
+    c.nome,
+    c.estado,
+    c.id_coordenador AS id
+FROM
+    Coordenador c
+UNION ALL
+SELECT
+    p.email AS login,
+    p.senha,
+    p.papel,
+    p.nome,
+    p.estado,
+    p.id_preceptor AS id
+FROM
+    Preceptor p;

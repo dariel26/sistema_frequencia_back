@@ -1,50 +1,39 @@
-import { requisicaoRuim, trataErr } from "../errors";
-import DBEstagio, { IEstagio } from "../interfaces/IEstagio";
+import { Request, Response } from "express";
+import DBEstagio from "../db/DBEstagio";
+import { trataErr } from "../errors";
 
 const cEstagio = {
-  async adicionaUm(req: any, res: any) {
-    const { nome } = req.body;
-    if (requisicaoRuim(!DBEstagio.valido(req.body), res)) return;
+  async criarVarios(req: Request, res: Response) {
+    const { estagios } = req.body;
     try {
-      const e: IEstagio = { nome };
-      await DBEstagio.criar(e);
-      res.status(201).json();
+      await DBEstagio.criar(estagios);
+      res.status(201).json({ message: "Estágios salvos!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async listar(_: any, res: any) {
+  async listar(_: Request, res: Response) {
     try {
-      const estagiosComGrupos = await DBEstagio.listarEstagioGrupo();
-      const estagiosComAtividades = await DBEstagio.listarEstagioAtividade();
-      let estagios: any = [];
-      estagiosComGrupos.forEach((eg: any) => {
-        const ea = estagiosComAtividades.find(
-          (ea: any) => ea.id_estagio === eg.id_estagio
-        );
-        estagios.push({ ...eg, atividades: ea.atividades });
-      });
+      const estagios = await DBEstagio.listar();
       res.status(200).json(estagios);
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async apagaUmPorId(req: any, res: any) {
-    const { id } = req.params;
+  async deletarVarios(req: Request, res: Response) {
+    const ids = req.params.ids.split(",");
     try {
-      await DBEstagio.apagar(parseInt(id));
-      res.status(200).json();
+      await DBEstagio.deletar(ids);
+      res.status(200).json({ message: "Estágios deletados!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async mudaNome(req: any, res: any) {
-    const nome: string = req.body.nome;
-    const { id } = req.params;
-    if (requisicaoRuim(nome === undefined, res)) return;
+  async editarVarios(req: Request, res: Response) {
+    const { novosDados } = req.body;
     try {
-      await DBEstagio.editar(parseInt(id), nome);
-      res.status(200).json();
+      await DBEstagio.editar(novosDados);
+      res.status(200).json({ message: "Estágios editados!" });
     } catch (err) {
       trataErr(err, res);
     }
