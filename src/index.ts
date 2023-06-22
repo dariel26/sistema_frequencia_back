@@ -1,7 +1,7 @@
 import app from "./app";
 
 const port = 5000;
-const host = 'localhost';
+const host = '192.168.0.103';
 app.get("/", (_, res) => {
   res.json("API ESTÁ RODANDO");
 });

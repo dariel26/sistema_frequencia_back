@@ -101,6 +101,14 @@ FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
 UNIQUE(id_aluno, id_local, data_hora)
 );
 
+CREATE TABLE AtivLocal (
+id_atividadelocal BIGINT PRIMARY KEY AUTO_INCREMENT,
+id_atividade BIGINT,
+id_local INT,
+FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
+);
+
 CREATE TABLE jwt (
     id_token BIGINT PRIMARY KEY AUTO_INCREMENT,
     token text,
@@ -130,6 +138,13 @@ LEFT JOIN Coordenador AS c ON ce.id_coordenador = c.id_coordenador
 LEFT JOIN EstagioGrupo AS eg ON eg.id_estagio = e.id_estagio
 LEFT JOIN Grupo AS g ON g.id_grupo = eg.id_grupo
 GROUP BY e.id_estagio, c.nome;
+
+CREATE VIEW view_atividade_local AS 
+SELECT a.id_atividade, a.nome AS nome_atividade, l.id_local, l.nome AS nome_local, al.id_atividadelocal
+FROM Atividade AS a
+LEFT JOIN AtivLocal AS al ON al.id_atividade = a.id_atividade
+LEFT JOIN Local AS l ON al.id_local = l.id_local 
+ORDER BY a.nome ASC; 
 
 CREATE VIEW view_estagio_atividade AS
 SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,

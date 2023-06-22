@@ -86,6 +86,12 @@ export interface ICoordEstagio {
   id_estagio: number;
 }
 
+export interface IAtivLocal {
+  id_atividade: number;
+  id_local: number;
+  id_atividadelocal?: number;
+}
+
 export interface CustomRequest extends Request {
   infoToken: IToken;
 }
