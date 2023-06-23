@@ -44,23 +44,6 @@ nome VARCHAR(200) UNIQUE,
 coordenadas JSON
 );
 
-CREATE TABLE AtivLocalAluno (
-data_hora DATETIME,
-id_ativlocalaluno BIGINT PRIMARY KEY AUTO_INCREMENT,
-id_atividade BIGINT,
-id_local INT,
-id_aluno BIGINT,
-FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
-FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE
-);
-
-CREATE TABLE PrecAtiv (
-id_atividade BIGINT,
-id_preceptor INT,
-FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor) ON DELETE CASCADE,
-UNIQUE (id_atividade, id_preceptor)
-);
-
 CREATE TABLE CoordEstagio (
 id_coordenador INT,
 id_estagio INT UNIQUE,
@@ -105,8 +88,11 @@ CREATE TABLE AtivLocal (
 id_atividadelocal BIGINT PRIMARY KEY AUTO_INCREMENT,
 id_atividade BIGINT,
 id_local INT,
+id_preceptor INT,
+FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor) ON DELETE CASCADE,
 FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
-FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE,
+UNIQUE(id_atividade, id_local)
 );
 
 CREATE TABLE jwt (
@@ -114,9 +100,6 @@ CREATE TABLE jwt (
     token text,
     validade DATETIME
 );
-
-ALTER TABLE AtivLocalAluno ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
-ALTER TABLE PrecAtiv ADD FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE;
 
 CREATE VIEW view_grupo_aluno AS 
 SELECT g.id_grupo, g.nome AS nome_grupo, 
@@ -140,10 +123,11 @@ LEFT JOIN Grupo AS g ON g.id_grupo = eg.id_grupo
 GROUP BY e.id_estagio, c.nome;
 
 CREATE VIEW view_atividade_local AS 
-SELECT a.id_atividade, a.nome AS nome_atividade, l.id_local, l.nome AS nome_local, al.id_atividadelocal
+SELECT a.id_atividade, a.nome AS nome_atividade, l.id_local, l.nome AS nome_local, al.id_atividadelocal, p.nome AS nome_preceptor, p.id_preceptor
 FROM Atividade AS a
 LEFT JOIN AtivLocal AS al ON al.id_atividade = a.id_atividade
-LEFT JOIN Local AS l ON al.id_local = l.id_local 
+LEFT JOIN Local AS l ON al.id_local = l.id_local
+LEFT JOIN Preceptor AS p ON p.id_preceptor = al.id_preceptor
 ORDER BY a.nome ASC; 
 
 CREATE VIEW view_estagio_atividade AS

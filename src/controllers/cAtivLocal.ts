@@ -7,7 +7,7 @@ const cAtivLocal = {
     const { dados } = req.body;
     try {
       await DBAtivLocal.criar(dados);
-      res.status(201).json({ message: "Atividades asociadas!" });
+      res.status(201).json({ message: "Atividades associadas!" });
     } catch (err) {
       trataErr(err, res);
     }
@@ -25,7 +25,7 @@ const cAtivLocal = {
     const ids = req.params.ids.split(",");
     try {
       await DBAtivLocal.deletar(ids);
-      res.status(200).json({ message: "Atividades desasociadas!" });
+      res.status(200).json({ message: "Atividades desassociadas!" });
     } catch (err) {
       trataErr(err, res);
     }
@@ -34,7 +34,7 @@ const cAtivLocal = {
     const { novosDados } = req.body;
     try {
       await DBAtivLocal.editar(novosDados);
-      res.status(200).json({ message: "Asocições editadas!" });
+      res.status(200).json({ message: "Associções editadas!" });
     } catch (err) {
       trataErr(err, res);
     }

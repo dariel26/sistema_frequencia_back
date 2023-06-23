@@ -90,6 +90,7 @@ export interface IAtivLocal {
   id_atividade: number;
   id_local: number;
   id_atividadelocal?: number;
+  id_preceptor?: number;
 }
 
 export interface CustomRequest extends Request {

@@ -3,8 +3,8 @@ import db from "./db";
 
 const DBAtivLocal = {
   criar: async (dados: IAtivLocal[]) => {
-    const sql = "INSERT INTO AtivLocal (id_atividade, id_local) VALUES ?";
-    const novosDados = dados.map(({ id_atividade, id_local }) => [id_atividade, id_local]);
+    const sql = "INSERT INTO AtivLocal (id_atividade, id_local, id_preceptor) VALUES ?";
+    const novosDados = dados.map(({ id_atividade, id_local, id_preceptor }) => [id_atividade, id_local, id_preceptor]);
     const res = await db.query(sql, [novosDados]);
     return res;
   },
@@ -13,13 +13,15 @@ const DBAtivLocal = {
     const [linhas] = await db.query(sql);
     return linhas;
   },
-  editar: async (novosDados: { id_atividadelocal: string; id_local: string }[]) => {
+  editar: async (novosDados: { id_atividadelocal: string; id_local: string, id_preceptor: string }[]) => {
     let sql = "UPDATE AtivLocal SET ";
-    let campos_disponiveis = ["id_local"];
+    let campos_disponiveis = ["id_local", "id_preceptor"];
     const campos_nulos: string[] = [];
     novosDados.forEach((d) => {
       if (d.id_local === undefined) campos_nulos.push("id_local");
+      if (d.id_preceptor === undefined) campos_nulos.push("id_preceptor");
     });
+    
     campos_disponiveis = campos_disponiveis.filter(
       (campo) => !campos_nulos.includes(campo)
     );

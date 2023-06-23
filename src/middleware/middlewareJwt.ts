@@ -15,7 +15,9 @@ export default async function acessoPadrao(
   try {
     if (process.env.NODE_ENV === "test") return next();
     if (token === undefined)
-      return res.status(401).json({ message: "Token Inválido!" });
+      return res
+        .status(401)
+        .json({ message: "Você não possui chave de acesso!" });
     if (Array.isArray(token))
       return res.status(401).json({ message: "Token Inválido!" });
     const infoToken = jwt.verify(token, tokenSecret);

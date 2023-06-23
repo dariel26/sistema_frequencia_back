@@ -1,5 +1,4 @@
 import { requisicaoRuim, trataErr } from "../errors";
-import DBAtivLocalAluno from "../interfaces/IAtivLocalAluno";
 import DBPresenca from "../interfaces/IPresenca";
 
 const cPresenca = {
@@ -39,37 +38,6 @@ const cPresenca = {
     }
   },
   async criarUma(req: any, res: any) {
-    const { data_hora, estado, periodo, id_aluno, coordenadas, id_atividade } =
-      req.body;
-    try {
-      if (requisicaoRuim(!DBPresenca.valido(req.body), res)) return;
-      const al = await DBAtivLocalAluno.buscarPorIdAtividade(id_atividade);
-      if (requisicaoRuim(al[0]?.coordenadas === undefined, res)) return;
-      const x1 = al[0]?.coordenadas.lat;
-      const y1 = al[0]?.coordenadas.lon;
-      const x2 = JSON.parse(coordenadas).lat;
-      const y2 = JSON.parse(coordenadas).lon;
-      const distancia = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-      if (requisicaoRuim(distancia === undefined || distancia < 0, res)) return;
-      if (distancia > 20) {
-        //metros?
-        trataErr(new Error("No Local"), res);
-        return;
-      }
-      const id_local = al[0].id_local;
-      await DBPresenca.criar({
-        data_hora,
-        estado,
-        periodo,
-        id_aluno,
-        id_local,
-        coordenadas,
-        id_atividade,
-      });
-      res.status(201).json();
-    } catch (err) {
-      trataErr(err, res);
-    }
   },
 };
 

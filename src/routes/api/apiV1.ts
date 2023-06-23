@@ -12,7 +12,6 @@ import cGrupo from "../../controllers/cGrupo";
 import cUsuario from "../../controllers/cUsuario";
 import cJwt from "../../controllers/cJwt";
 import cLocal from "../../controllers/cLocal";
-import cPrecAtiv from "../../controllers/cPrecAtiv";
 import cPreceptor from "../../controllers/cPreceptor";
 import cPresenca from "../../controllers/cPresenca";
 import checarHabilidade from "../../middleware/habilidades";
@@ -88,12 +87,6 @@ apiV1.post("/ativ-local", checarHabilidade("edit", "ativLocalAluno"), cAtivLocal
 apiV1.get("/ativ-local", checarHabilidade("read", "ativLocalAluno"), cAtivLocal.listar);
 apiV1.delete("/ativ-local/:ids", checarHabilidade("edit", "ativLocalAluno"), cAtivLocal.deletarVarios);
 apiV1.put("/ativ-local", checarHabilidade("edit", "ativLocalAluno"), cAtivLocal.editarVarios);
-
-
-//PREC-ATIV
-apiV1.post("/prec-ativ", checarHabilidade("edit", "prec-ativ"), cPrecAtiv.associarUm);
-apiV1.get("/prec-ativ/:id_atividade", checarHabilidade("read", "prec-ativ"), cPrecAtiv.buscarPorIdAtividade);
-apiV1.delete("/prec-ativ", checarHabilidade("edit", "prec-ativ"), cPrecAtiv.apagaUmPorIds);
 
 //ALUNO-ATIV
 apiV1.get("/aluno-ativ", checarHabilidade("read", "aluno-ativ"), cAlunoAtiv.listarTodas);
