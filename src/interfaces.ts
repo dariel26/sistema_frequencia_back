@@ -67,12 +67,6 @@ export interface ILocal {
   coordenadas: string;
 }
 
-export interface IAtividade {
-  id_atividade?: number;
-  id_estagio?: number;
-  nome: string;
-}
-
 export interface IEstagioGrupo {
   id_estagio: number;
   id_grupo: number;
@@ -84,13 +78,6 @@ export interface IEstagioGrupo {
 export interface ICoordEstagio {
   id_coordenador: number;
   id_estagio: number;
-}
-
-export interface IAtivLocal {
-  id_atividade: number;
-  id_local: number;
-  id_atividadelocal?: number;
-  id_preceptor?: number;
 }
 
 export interface CustomRequest extends Request {

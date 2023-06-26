@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken";
 import db from "../db/db";
 import { trataErr } from "../errors";
 import { CustomRequest, IToken } from "../interfaces";
-import { tokenSecret } from "../interfaces/IToken";
+
+export const tokenSecret = "djasAJDi@e23819#@(*!ksDAHS";
 
 export default async function acessoPadrao(
   req: Request,

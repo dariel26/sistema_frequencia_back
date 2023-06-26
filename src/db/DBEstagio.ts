@@ -9,9 +9,8 @@ const DBEstagio = {
     return res;
   },
   listar: async () => {
-    const sql = `SELECT veg.id_estagio, veg.nome_estagio, veg.nome_coordenador, veg.grupos, vea.atividades 
+    const sql = `SELECT veg.id_estagio, veg.nome_estagio, veg.nome_coordenador, veg.grupos
     FROM view_estagio_grupo veg
-    LEFT JOIN view_estagio_atividade vea ON vea.id_estagio=veg.id_estagio
     GROUP BY veg.id_estagio 
     ORDER BY veg.nome_estagio`;
     const [linhas] = await db.query(sql);

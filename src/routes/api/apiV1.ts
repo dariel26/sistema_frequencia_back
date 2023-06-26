@@ -1,32 +1,27 @@
 require("dotenv").config();
 import express from "express";
 import cAluno from "../../controllers/cAluno";
-import cAlunoAtiv from "../../controllers/cAlunoAtiv";
-import cAtividade from "../../controllers/cAtividade";
-import cAtivLocal from "../../controllers/cAtivLocal";
 import cCoordenador from "../../controllers/cCoordenador";
 import cCoordEstagio from "../../controllers/cCoordEstagio";
 import cEstagio from "../../controllers/cEstagio";
 import cEstagioGrupo from "../../controllers/cEstagioGrupo";
 import cGrupo from "../../controllers/cGrupo";
 import cUsuario from "../../controllers/cUsuario";
-import cJwt from "../../controllers/cJwt";
 import cLocal from "../../controllers/cLocal";
 import cPreceptor from "../../controllers/cPreceptor";
-import cPresenca from "../../controllers/cPresenca";
 import checarHabilidade from "../../middleware/habilidades";
 import acessoPadrao from "../../middleware/middlewareJwt";
 
 const apiV1 = express.Router();
 
 //LOGIN
-apiV1.post("/login", cJwt.login);
+apiV1.post("/login", cUsuario.login);
 
 //MIDDLEWARE PARA AS ROTAS ABAIXO DESTA LINHA
 apiV1.use(acessoPadrao);
 
 //LOGOUT
-apiV1.get("/logout", cJwt.logout);
+apiV1.get("/logout", cUsuario.logout);
 
 //USUARIO
 apiV1.get("/usuario/info", cUsuario.retornaInfoUsuario);
@@ -70,35 +65,10 @@ apiV1.post("/coord-estagio", checarHabilidade("edit", "coord-estagio"), cCoordEs
 apiV1.post("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.criarVarios);
 apiV1.delete("/estagio-grupo/:ids", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.deletarVarios);
 
-//ATIVIDADE
-apiV1.post("/atividade", checarHabilidade("edit", "atividade"), cAtividade.criarVarias);
-apiV1.get("/atividade", checarHabilidade("read", "atividade"), cAtividade.listar);
-apiV1.put("/atividade", checarHabilidade("edit", "atividade"), cAtividade.editarVarias);
-apiV1.delete("/atividade/:ids", checarHabilidade("edit", "atividade"), cAtividade.deletarVarias);
-
 //LOCAL
-apiV1.post("/local", checarHabilidade("edit", "local"), cLocal.adicionaUm);
+apiV1.post("/local", checarHabilidade("edit", "local"), cLocal.criarVarios);
 apiV1.get("/local", checarHabilidade("read", "local"), cLocal.listar);
-apiV1.patch("/local/:id_local", checarHabilidade("edit", "local"), cLocal.mudaNome);
-apiV1.delete("/local/:id_local", checarHabilidade("edit", "local"), cLocal.apagaUmPorId);
-
-//ATIV-LOCAL
-apiV1.post("/ativ-local", checarHabilidade("edit", "ativLocalAluno"), cAtivLocal.criarVarios);
-apiV1.get("/ativ-local", checarHabilidade("read", "ativLocalAluno"), cAtivLocal.listar);
-apiV1.delete("/ativ-local/:ids", checarHabilidade("edit", "ativLocalAluno"), cAtivLocal.deletarVarios);
-apiV1.put("/ativ-local", checarHabilidade("edit", "ativLocalAluno"), cAtivLocal.editarVarios);
-
-//ALUNO-ATIV
-apiV1.get("/aluno-ativ", checarHabilidade("read", "aluno-ativ"), cAlunoAtiv.listarTodas);
-apiV1.post("/aluno-ativ", checarHabilidade("edit", "aluno-ativ"), cAlunoAtiv.associarUm);
-apiV1.get("/aluno-ativ/:id_atividade", checarHabilidade("read", "aluno-ativ"), cAlunoAtiv.buscarPorIdAtividade);
-apiV1.delete("/aluno-ativ", checarHabilidade("edit", "aluno-ativ"), cAlunoAtiv.apagaUm);
-
-//PRESENCA
-apiV1.post("/presenca", checarHabilidade("edit", "presenca"), cPresenca.criarUma);
-apiV1.get("/presenca", checarHabilidade("read", "presenca"), cPresenca.listarTodas);
-apiV1.get("/presenca/aluno/:id_aluno", checarHabilidade("read", "presenca"), cPresenca.buscarPorIdAluno);
-apiV1.get("/presenca/atividade/:id_atividade", checarHabilidade("read", "presenca"), cPresenca.buscarPorIdAtividade);
-apiV1.delete("/presenca/:id_presenca", checarHabilidade("edit", "presenca"), cPresenca.deletarPorId);
+apiV1.put("/local", checarHabilidade("edit", "local"), cLocal.editarVarios);
+apiV1.delete("/local/:ids", checarHabilidade("edit", "local"), cLocal.deletarVarios);
 
 export default apiV1;

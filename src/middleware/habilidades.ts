@@ -1,6 +1,6 @@
 require("dotenv").config();
 import { AbilityBuilder, createMongoAbility } from "@casl/ability";
-import { IToken } from "../interfaces/IToken";
+import { IToken } from "../interfaces";
 import { PAPEL_ADMIN, PAPEL_ALUNO, PAPEL_COORDENADOR, PAPEL_PRECEPTOR } from "../papeis";
 
 export function defineHabilidadesPara(infoToken: IToken) {

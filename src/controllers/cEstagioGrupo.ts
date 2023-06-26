@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import DBEstagioGrupo from "../db/EstagioGrupo";
+import DBEstagioGrupo from "../db/DBEstagioGrupo";
 import { trataErr } from "../errors";
 
 const cEstagioGrupo = {

@@ -1,19 +1,18 @@
-import { requisicaoRuim, trataErr } from "../errors";
-import DBLocal, { ILocal } from "../interfaces/ILocal";
+import { Request, Response } from "express";
+import DBLocal from "../db/DBLocal";
+import { trataErr } from "../errors";
 
 const cLocal = {
-  async adicionaUm(req: any, res: any) {
-    const { nome, coordenadas } = req.body;
-    if (requisicaoRuim(!DBLocal.valido(req.body), res)) return;
+  async criarVarios(req: Request, res: Response) {
+    const { locais } = req.body;
     try {
-      const l: ILocal = { nome, coordenadas };
-      await DBLocal.criar(l);
-      res.status(201).json();
+      await DBLocal.criar(locais);
+      res.status(201).json({ message: "Locais salvos!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async listar(_: any, res: any) {
+  async listar(_: Request, res: Response) {
     try {
       const locais = await DBLocal.listar();
       res.status(200).json(locais);
@@ -21,22 +20,20 @@ const cLocal = {
       trataErr(err, res);
     }
   },
-  async apagaUmPorId(req: any, res: any) {
-    const { id_local } = req.params;
+  async deletarVarios(req: Request, res: Response) {
+    const ids = req.params.ids.split(",");
     try {
-      await DBLocal.apagar(parseInt(id_local));
-      res.status(200).json();
+      await DBLocal.deletar(ids);
+      res.status(200).json({ message: "Locais deletados!" });
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async mudaNome(req: any, res: any) {
-    const { nome, coordenadas } = req.body;
-    const { id_local } = req.params;
-    if (requisicaoRuim(!DBLocal.valido(req.body), res)) return;
+  async editarVarios(req: Request, res: Response) {
+    const { novosDados } = req.body;
     try {
-      await DBLocal.editar(parseInt(id_local), nome, coordenadas);
-      res.status(200).json();
+      await DBLocal.editar(novosDados);
+      res.status(200).json({ message: "Locais editados!" });
     } catch (err) {
       trataErr(err, res);
     }
