@@ -80,6 +80,13 @@ FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor) ON DELETE CASCADE,
 FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
 );
 
+CREATE TABLE LocalAtividade (
+id_local INT,
+id_atividade BIGINT UNIQUE,
+FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
+);
+
 CREATE TABLE DataAtividade (
 id_dataatividade BIGINT PRIMARY KEY AUTO_INCREMENT,
 id_atividade BIGINT,
@@ -157,6 +164,7 @@ CREATE VIEW view_atividade AS SELECT
     a.intervalo_alunos,
     a.alunos_no_dia,
     p.nome AS nome_preceptor,
+    l.nome AS nome_local,
     COALESCE((
         SELECT JSON_ARRAYAGG(
             JSON_OBJECT(
@@ -181,6 +189,8 @@ CREATE VIEW view_atividade AS SELECT
 FROM Atividade AS a
 LEFT JOIN PrecAtividade AS pa ON pa.id_atividade = a.id_atividade
 LEFT JOIN Preceptor AS p ON p.id_preceptor = pa.id_preceptor
+LEFT JOIN LocalAtividade AS la ON la.id_atividade=a.id_atividade
+LEFT JOIN Local AS l ON l.id_local=la.id_local
 GROUP BY a.id_atividade;
 
 CREATE VIEW view_grupo AS

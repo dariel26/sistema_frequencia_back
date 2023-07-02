@@ -76,6 +76,11 @@ export interface IPrecAtividade {
   id_preceptor: number;
 }
 
+export interface ILocalAtividade {
+  id_atividade: number;
+  id_local: number;
+}
+
 export interface IDataAtividade {
   id_dataatividade?: number;
   id_atividade: number;

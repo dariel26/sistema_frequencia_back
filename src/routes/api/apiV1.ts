@@ -15,6 +15,7 @@ import cAtividade from "../../controllers/cAtividade";
 import cPrecAtividade from "../../controllers/cPrecAtividade";
 import cDataAtividade from "../../controllers/cDataAtividade";
 import cAlunoDataAtividade from "../../controllers/cAlunoDataAtividade";
+import cLocalAtividade from "../../controllers/cLocalAtividade";
 
 const apiV1 = express.Router();
 
@@ -83,6 +84,9 @@ apiV1.delete("/atividade/:ids", checarHabilidade("edit", "atividade"), cAtividad
 
 //PREC-ATIVIDADE
 apiV1.post("/prec-atividade", checarHabilidade("edit", "coord-estagio"), cPrecAtividade.criarVarios);
+
+//LOCAL-ATIVIDADE
+apiV1.post("/local-atividade", checarHabilidade("edit", "coord-estagio"), cLocalAtividade.criarVarios);
 
 //DATA-ATIVIDADE
 apiV1.post("/data-atividade", checarHabilidade("edit", "coord-estagio"), cDataAtividade.criarVarios);
