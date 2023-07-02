@@ -61,6 +61,33 @@ export interface IGrupo {
   nome: string;
 }
 
+export interface IAtividade {
+  id_atividade?: number;
+  id_estagio: number;
+  nome: string;
+  hora_inicial: string;
+  hora_final: string;
+  intervalo_alunos: string;
+  alunos_no_dia: number;
+}
+
+export interface IPrecAtividade {
+  id_atividade: number;
+  id_preceptor: number;
+}
+
+export interface IDataAtividade {
+  id_dataatividade?: number;
+  id_atividade: number;
+  excluida: boolean;
+  data: Date;
+}
+
+export interface IAlunoDataAtividade {
+  id_dataatividade: number;
+  id_aluno: number;
+}
+
 export interface ILocal {
   id_local?: number;
   nome: string;

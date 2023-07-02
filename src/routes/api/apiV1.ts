@@ -11,6 +11,10 @@ import cLocal from "../../controllers/cLocal";
 import cPreceptor from "../../controllers/cPreceptor";
 import checarHabilidade from "../../middleware/habilidades";
 import acessoPadrao from "../../middleware/middlewareJwt";
+import cAtividade from "../../controllers/cAtividade";
+import cPrecAtividade from "../../controllers/cPrecAtividade";
+import cDataAtividade from "../../controllers/cDataAtividade";
+import cAlunoDataAtividade from "../../controllers/cAlunoDataAtividade";
 
 const apiV1 = express.Router();
 
@@ -70,5 +74,21 @@ apiV1.post("/local", checarHabilidade("edit", "local"), cLocal.criarVarios);
 apiV1.get("/local", checarHabilidade("read", "local"), cLocal.listar);
 apiV1.put("/local", checarHabilidade("edit", "local"), cLocal.editarVarios);
 apiV1.delete("/local/:ids", checarHabilidade("edit", "local"), cLocal.deletarVarios);
+
+//ATIVIDADE
+apiV1.post("/atividade", checarHabilidade("edit", "atividade"), cAtividade.criarVarios);
+apiV1.get("/atividade", checarHabilidade("read", "atividade"), cAtividade.listar);
+apiV1.put("/atividade", checarHabilidade("edit", "atividade"), cAtividade.editarVarios);
+apiV1.delete("/atividade/:ids", checarHabilidade("edit", "atividade"), cAtividade.deletarVarios);
+
+//PREC-ATIVIDADE
+apiV1.post("/prec-atividade", checarHabilidade("edit", "coord-estagio"), cPrecAtividade.criarVarios);
+
+//DATA-ATIVIDADE
+apiV1.post("/data-atividade", checarHabilidade("edit", "coord-estagio"), cDataAtividade.criarVarios);
+apiV1.put("/data-atividade", checarHabilidade("edit", "atividade"), cDataAtividade.editarVarios);
+
+//ALUNO-DATA-ATIVIDADE
+apiV1.post("/aluno-data-atividade", checarHabilidade("edit", "coord-estagio"), cAlunoDataAtividade.criarVarios);
 
 export default apiV1;

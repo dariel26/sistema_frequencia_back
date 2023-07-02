@@ -84,7 +84,7 @@ const DBAluno = {
   },
   listar: async () => {
     const sql =
-      "SELECT id_aluno, nome, matricula, papel, estado, id_grupo FROM Aluno ORDER BY nome ASC";
+      "SELECT * FROM view_aluno ORDER BY nome ASC";
     const [linhas] = await db.query(sql);
     return linhas;
   },

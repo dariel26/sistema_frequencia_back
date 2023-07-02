@@ -9,7 +9,7 @@ const DBGrupo = {
     return res;
   },
   listar: async () => {
-    const sql = `SELECT * FROM view_grupo_aluno`;
+    const sql = `SELECT * FROM view_grupo`;
     const [linhas] = await db.query(sql);
     return linhas;
   },

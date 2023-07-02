@@ -9,10 +9,7 @@ const DBEstagio = {
     return res;
   },
   listar: async () => {
-    const sql = `SELECT veg.id_estagio, veg.nome_estagio, veg.nome_coordenador, veg.grupos
-    FROM view_estagio_grupo veg
-    GROUP BY veg.id_estagio 
-    ORDER BY veg.nome_estagio`;
+    const sql = `SELECT * FROM view_estagio`;
     const [linhas] = await db.query(sql);
     return linhas;
   },

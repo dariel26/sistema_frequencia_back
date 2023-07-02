@@ -62,35 +62,203 @@ FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE,
 UNIQUE(id_grupo, id_estagio)
 );
 
+CREATE TABLE Atividade(
+id_atividade BIGINT PRIMARY KEY AUTO_INCREMENT,
+id_estagio INT,
+nome TEXT,
+hora_inicial TEXT,
+hora_final TEXT,
+intervalo_alunos TEXT,
+alunos_no_dia INT,
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
+);
+
+CREATE TABLE PrecAtividade (
+id_preceptor INT,
+id_atividade BIGINT UNIQUE,
+FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor) ON DELETE CASCADE,
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
+);
+
+CREATE TABLE DataAtividade (
+id_dataatividade BIGINT PRIMARY KEY AUTO_INCREMENT,
+id_atividade BIGINT,
+data DATE,
+excluida BOOLEAN,
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE,
+UNIQUE(id_atividade, data, excluida)
+);
+
+CREATE TABLE AlunoDataAtividade (
+id_aluno BIGINT,
+id_dataatividade BIGINT,
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
+FOREIGN KEY(id_dataatividade) REFERENCES DataAtividade (id_dataatividade) ON DELETE CASCADE,
+UNIQUE(id_aluno, id_dataatividade)
+);
+
 CREATE TABLE jwt (
     id_token BIGINT PRIMARY KEY AUTO_INCREMENT,
     token text,
     validade DATETIME
 );
 
-CREATE VIEW view_grupo_aluno AS 
-SELECT g.id_grupo, g.nome AS nome_grupo, 
-CASE WHEN COUNT(a.id_aluno) = 0 THEN JSON_ARRAY()
-            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', a.nome, 'matricula', a.matricula, 'id_aluno', a.id_aluno))
-       END AS alunos
-FROM Grupo AS g 
-LEFT JOIN Aluno a ON a.id_grupo = g.id_grupo
-GROUP BY g.id_grupo, g.nome;
-
-CREATE VIEW view_estagio_grupo AS 
-SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
-CASE WHEN COUNT(g.id_grupo) = 0 THEN JSON_ARRAY()
-            ELSE JSON_ARRAYAGG(JSON_OBJECT('nome', g.nome, 'data_inicial', eg.data_inicial, 'data_final', eg.data_final, 'id_grupo', g.id_grupo, 'id_estagiogrupo', eg.id_estagiogrupo))
-       END AS grupos
-FROM Estagio AS e 
-LEFT JOIN CoordEstagio AS ce ON ce.id_estagio = e.id_estagio
-LEFT JOIN Coordenador AS c ON ce.id_coordenador = c.id_coordenador
-LEFT JOIN EstagioGrupo AS eg ON eg.id_estagio = e.id_estagio
-LEFT JOIN Grupo AS g ON g.id_grupo = eg.id_grupo
-GROUP BY e.id_estagio, c.nome;
-
 CREATE VIEW view_usuario AS
 SELECT a.matricula AS login, a.senha, a.papel, a.nome, a.estado, a.id_aluno AS id
 FROM Aluno a UNION ALL SELECT c.email AS login, c.senha, c.papel, c.nome, c.estado, c.id_coordenador AS id
 FROM Coordenador c UNION ALL SELECT p.email AS login, p.senha, p.papel, p.nome, p.estado, p.id_preceptor AS id
 FROM Preceptor p;
+
+
+CREATE VIEW view_aluno AS SELECT
+    al.id_aluno,
+    al.nome,
+    al.papel,
+    al.matricula,
+    g.id_grupo,
+    g.nome AS nome_grupo,
+    COALESCE((SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'nome_estagio', e.nome,
+                'data_inicial', eg.data_inicial,
+                'data_final', eg.data_final
+            )
+        )
+        FROM EstagioGrupo AS eg
+        INNER JOIN Estagio AS e ON e.id_estagio = eg.id_estagio
+        WHERE eg.id_grupo = g.id_grupo), JSON_ARRAY()
+    ) AS estagios,
+    COALESCE((SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'id_atividade', at.id_atividade,
+                'nome_atividade', at.nome,
+                'hora_inicial', at.hora_inicial,
+                'hora_final', at.hora_final,
+                'data', da.data,
+                'excluida', da.excluida,
+                'id_dataatividade', da.id_dataatividade
+            )
+        )
+        FROM AlunoDataAtividade AS ada
+        INNER JOIN DataAtividade AS da ON da.id_dataatividade = ada.id_dataatividade
+        INNER JOIN Atividade AS at ON at.id_atividade = da.id_atividade
+        WHERE ada.id_aluno = al.id_aluno
+    ), JSON_ARRAY()) AS datas
+FROM Aluno AS al
+LEFT JOIN Grupo AS g ON g.id_grupo = al.id_grupo
+GROUP BY al.id_aluno;
+
+CREATE VIEW view_atividade AS SELECT
+    a.id_atividade,
+    a.nome AS nome_atividade,
+    a.id_estagio,
+    a.hora_inicial,
+    a.hora_final,
+    a.intervalo_alunos,
+    a.alunos_no_dia,
+    p.nome AS nome_preceptor,
+    COALESCE((
+        SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'data', da.data,
+                'excluida', da.excluida,
+                'id_dataatividade', da.id_dataatividade,
+                'alunos', COALESCE((
+                    SELECT JSON_ARRAYAGG(
+						JSON_OBJECT(
+							'nome', al.nome,
+							'id_aluno', al.id_aluno
+						)
+                    )
+                    FROM Aluno AS al WHERE al.id_aluno = ada.id_aluno
+                ), JSON_ARRAY())
+            )
+        )
+        FROM DataAtividade AS da
+        INNER JOIN AlunoDataAtividade AS ada ON ada.id_dataatividade = da.id_dataatividade
+        WHERE a.id_atividade = da.id_atividade
+    ), JSON_ARRAY()) AS datas
+FROM Atividade AS a
+LEFT JOIN PrecAtividade AS pa ON pa.id_atividade = a.id_atividade
+LEFT JOIN Preceptor AS p ON p.id_preceptor = pa.id_preceptor
+GROUP BY a.id_atividade;
+
+CREATE VIEW view_grupo AS
+SELECT g.id_grupo, g.nome AS nome_grupo,
+	COALESCE((SELECT JSON_ARRAYAGG(
+				JSON_OBJECT(
+				  'nome', al.nome,
+				  'id_aluno', al.id_aluno,
+                  'matricula', al.matricula
+				)
+			) FROM Aluno AS al WHERE al.id_grupo=g.id_grupo ORDER BY al.nome
+	), JSON_ARRAY()) AS alunos,
+    COALESCE((SELECT JSON_ARRAYAGG(
+		JSON_OBJECT(
+					'nome', e.nome,
+                    'id_estagio', e.id_estagio,
+                    'id_coordenador', c.id_coordenador,
+                    'nome_coordenador', c.nome,
+                    'data_inicial', eg.data_inicial,
+                    'data_final', eg.data_final
+				)
+			) FROM Estagio AS e 
+            INNER JOIN EstagioGrupo AS eg ON eg.id_estagio=e.id_estagio 
+            INNER JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
+            INNER JOIN Coordenador AS c ON c.id_coordenador=ce.id_coordenador
+            WHERE eg.id_grupo = g.id_grupo
+		), JSON_ARRAY()) AS estagios
+FROM Grupo AS g
+GROUP BY g.id_grupo ORDER BY g.nome;
+
+CREATE VIEW view_estagio AS
+SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
+COALESCE((SELECT JSON_ARRAYAGG(
+			JSON_OBJECT(
+				'nome', g.nome,
+                'id_grupo', g.id_grupo,
+                'data_inicial', eg.data_inicial,
+                'data_final', eg.data_final,
+                'id_estagiogrupo', eg.id_estagiogrupo,
+                'alunos', COALESCE((SELECT JSON_ARRAYAGG(
+									JSON_OBJECT(
+                                    'nome', al.nome,
+                                    'id_aluno', al.id_aluno,
+                                    'matricula', al.matricula
+                                    )) FROM Aluno AS al WHERE al.id_grupo=g.id_grupo ORDER BY al.nome ASC), JSON_ARRAY())
+))
+	FROM EstagioGrupo AS eg
+        LEFT JOIN Grupo AS g ON g.id_grupo=eg.id_grupo
+        WHERE eg.id_estagio=e.id_estagio
+), JSON_ARRAY()) AS grupos,
+COALESCE((SELECT JSON_ARRAYAGG(
+					JSON_OBJECT(
+                    'id_atividade', at.id_atividade,
+                    'nome_atividade', at.nome,
+                    'intervalo_alunos', at.intervalo_alunos,
+                    'alunos_no_dia', at.alunos_no_dia,
+                    'hora_inicial', at.hora_inicial,
+                    'hora_final', at.hora_final,
+                    'nome_preceptor', p.nome,
+                    'id_preceptor', p.id_preceptor,
+                    'datas', COALESCE((SELECT JSON_ARRAYAGG(
+												JSON_OBJECT(
+                                                'data', da.data,
+                                                'excluida', da.excluida,
+                                                'id_dataatividade', da.id_dataatividade,
+                                                'alunos', COALESCE((SELECT JSON_ARRAYAGG(
+																		JSON_OBJECT(
+																			'nome', al.nome,
+                                                                            'id_aluno', al.id_aluno
+                                                                            )) FROM Aluno AS al 
+                                                                            INNER JOIN AlunoDataAtividade AS ada ON ada.id_aluno=al.id_aluno
+                                                                            WHERE ada.id_dataatividade=da.id_dataatividade), JSON_ARRAY())
+                                                ))FROM DataAtividade AS da WHERE da.id_atividade=at.id_atividade),
+                    JSON_ARRAY())
+						)) FROM Atividade AS at 
+                        INNER JOIN PrecAtividade AS pa ON pa.id_atividade=at.id_atividade
+                        INNER JOIN Preceptor AS p ON p.id_preceptor=pa.id_preceptor), JSON_ARRAY()) AS atividades
+FROM Estagio AS e 
+LEFT JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
+LEFT JOIN Coordenador AS c ON c.id_coordenador=ce.id_coordenador
+GROUP BY e.id_estagio ORDER BY e.nome
