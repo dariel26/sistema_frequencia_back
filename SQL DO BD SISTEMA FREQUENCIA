@@ -183,7 +183,7 @@ CREATE VIEW view_atividade AS SELECT
             )
         )
         FROM DataAtividade AS da
-        INNER JOIN AlunoDataAtividade AS ada ON ada.id_dataatividade = da.id_dataatividade
+        LEFT JOIN AlunoDataAtividade AS ada ON ada.id_dataatividade = da.id_dataatividade
         WHERE a.id_atividade = da.id_atividade
     ), JSON_ARRAY()) AS datas
 FROM Atividade AS a
@@ -221,8 +221,7 @@ SELECT g.id_grupo, g.nome AS nome_grupo,
 FROM Grupo AS g
 GROUP BY g.id_grupo ORDER BY g.nome;
 
-CREATE VIEW view_estagio AS
-SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
+CREATE VIEW view_estagio AS SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
 COALESCE((SELECT JSON_ARRAYAGG(
 			JSON_OBJECT(
 				'nome', g.nome,
@@ -261,14 +260,15 @@ COALESCE((SELECT JSON_ARRAYAGG(
 																			'nome', al.nome,
                                                                             'id_aluno', al.id_aluno
                                                                             )) FROM Aluno AS al 
-                                                                            INNER JOIN AlunoDataAtividade AS ada ON ada.id_aluno=al.id_aluno
+                                                                            LEFT JOIN AlunoDataAtividade AS ada ON ada.id_aluno=al.id_aluno
                                                                             WHERE ada.id_dataatividade=da.id_dataatividade), JSON_ARRAY())
                                                 ))FROM DataAtividade AS da WHERE da.id_atividade=at.id_atividade),
                     JSON_ARRAY())
 						)) FROM Atividade AS at 
-                        INNER JOIN PrecAtividade AS pa ON pa.id_atividade=at.id_atividade
-                        INNER JOIN Preceptor AS p ON p.id_preceptor=pa.id_preceptor), JSON_ARRAY()) AS atividades
+                        LEFT JOIN PrecAtividade AS pa ON pa.id_atividade=at.id_atividade
+                        LEFT JOIN Preceptor AS p ON p.id_preceptor=pa.id_preceptor 
+                        WHERE at.id_estagio=e.id_estagio), JSON_ARRAY()) AS atividades
 FROM Estagio AS e 
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
 LEFT JOIN Coordenador AS c ON c.id_coordenador=ce.id_coordenador
-GROUP BY e.id_estagio ORDER BY e.nome
+GROUP BY e.id_estagio ORDER BY e.nome;
