@@ -22,6 +22,12 @@ const DBEstagioGrupo = {
     const res = await db.query(sql, [ids]);
     return res;
   },
+  deletarPorIdsEstagio: async (ids: Array<string>) => {
+    console.log(ids);
+    const sql = "DELETE FROM EstagioGrupo WHERE id_estagio IN (?)";
+    const res = await db.query(sql, [ids]);
+    return res;
+  },
 };
 
 export default DBEstagioGrupo;

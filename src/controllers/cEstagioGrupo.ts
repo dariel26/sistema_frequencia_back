@@ -6,6 +6,9 @@ const cEstagioGrupo = {
   async criarVarios(req: Request, res: Response) {
     let { dados } = req.body;
     try {
+      const ids = dados.map(
+        ({ id_estagio }: { id_estagio: string }) => id_estagio
+      );
       dados = dados.map(
         ({
           id_estagio,
@@ -30,6 +33,7 @@ const cEstagioGrupo = {
             .replace("T", " "),
         })
       );
+      await DBEstagioGrupo.deletarPorIdsEstagio(ids);
       await DBEstagioGrupo.criar(dados);
       res.status(201).json({ message: "Associação salva!" });
     } catch (err) {
