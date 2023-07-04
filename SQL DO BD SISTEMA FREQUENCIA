@@ -132,7 +132,7 @@ CREATE VIEW view_aluno AS SELECT
             )
         )
         FROM EstagioGrupo AS eg
-        INNER JOIN Estagio AS e ON e.id_estagio = eg.id_estagio
+        LEFT JOIN Estagio AS e ON e.id_estagio = eg.id_estagio
         WHERE eg.id_grupo = g.id_grupo), JSON_ARRAY()
     ) AS estagios,
     COALESCE((SELECT JSON_ARRAYAGG(
@@ -147,8 +147,8 @@ CREATE VIEW view_aluno AS SELECT
             )
         )
         FROM AlunoDataAtividade AS ada
-        INNER JOIN DataAtividade AS da ON da.id_dataatividade = ada.id_dataatividade
-        INNER JOIN Atividade AS at ON at.id_atividade = da.id_atividade
+        LEFT JOIN DataAtividade AS da ON da.id_dataatividade = ada.id_dataatividade
+        LEFT JOIN Atividade AS at ON at.id_atividade = da.id_atividade
         WHERE ada.id_aluno = al.id_aluno
     ), JSON_ARRAY()) AS datas
 FROM Aluno AS al
