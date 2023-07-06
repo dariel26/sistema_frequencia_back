@@ -93,10 +93,14 @@ id_atividade BIGINT,
 data DATE,
 excluida BOOLEAN,
 FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE,
-UNIQUE(id_atividade, data, excluida)
+UNIQUE(id_atividade, data)
 );
 
 CREATE TABLE AlunoDataAtividade (
+id_alunodataatividade BIGINT PRIMARY KEY AUTO_INCREMENT,
+horario_entrada TEXT,
+horario_saida TEXT,
+coordenadas JSON,
 id_aluno BIGINT,
 id_dataatividade BIGINT,
 FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
