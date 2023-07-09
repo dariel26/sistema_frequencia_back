@@ -8,7 +8,8 @@ const cCoordenador = {
     const { coordenadores } = req.body;
     try {
       await DBCoordenador.criar(coordenadores);
-      res.status(201).json({ message: "Coordenadores salvos!" });
+      const novosCoordenadores = await DBCoordenador.listar(); 
+      res.status(201).json(novosCoordenadores);
     } catch (err) {
       trataErr(err, res);
     }

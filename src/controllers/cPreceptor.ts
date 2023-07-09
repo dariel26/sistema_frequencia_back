@@ -7,7 +7,8 @@ const cPreceptor = {
     const { preceptores } = req.body;
     try {
       await DBPreceptor.criar(preceptores);
-      res.status(201).json({ message: "Preceptores salvos!" });
+      const novosPreceptores = await DBPreceptor.listar();
+      res.status(201).json(novosPreceptores);
     } catch (err) {
       trataErr(err, res);
     }

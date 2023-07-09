@@ -27,7 +27,10 @@ export default async function acessoPadrao(
     if (dados[0][0] === undefined) {
       const requisicao = req as CustomRequest;
       requisicao.infoToken = infoToken as IToken;
+      setTimeout(() => {
         return next();
+      }, 1000)
+        
     } else {
       return res.status(401).json();
     }
