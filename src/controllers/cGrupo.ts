@@ -7,7 +7,8 @@ const cGrupo = {
     const { grupos } = req.body;
     try {
       await DBGrupo.criar(grupos);
-      res.status(201).json({ message: "Grupos salvos!" });
+      const novosGrupos = await DBGrupo.listar();
+      res.status(201).json(novosGrupos);
     } catch (err) {
       trataErr(err, res);
     }

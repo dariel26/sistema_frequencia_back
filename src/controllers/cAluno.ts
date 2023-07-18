@@ -7,7 +7,7 @@ const cAluno = {
     const { alunos } = req.body;
     try {
       await DBAluno.criar(alunos);
-      const novosAlunos = await DBAluno.listar(); 
+      const novosAlunos = await DBAluno.listar();
       res.status(201).json(novosAlunos);
     } catch (err) {
       trataErr(err, res);
@@ -34,7 +34,8 @@ const cAluno = {
     const { novosDados } = req.body;
     try {
       await DBAluno.editar(novosDados);
-      res.status(200).json({ message: "Alunos atualizados!" });
+      const alunosAtualizados = await DBAluno.listar();
+      res.status(200).json(alunosAtualizados);
     } catch (err) {
       trataErr(err, res);
     }

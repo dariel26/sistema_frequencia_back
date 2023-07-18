@@ -7,7 +7,8 @@ const cEstagio = {
     const { estagios } = req.body;
     try {
       await DBEstagio.criar(estagios);
-      res.status(201).json({ message: "Estágios salvos!" });
+      const novosEstagios = await DBEstagio.listar();
+      res.status(201).json(novosEstagios);
     } catch (err) {
       trataErr(err, res);
     }
