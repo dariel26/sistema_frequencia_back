@@ -7,7 +7,8 @@ const cAluno = {
     const { alunos } = req.body;
     try {
       await DBAluno.criar(alunos);
-      res.status(201).json({ message: "Alunos salvos!" });
+      const novosAlunos = await DBAluno.listar(); 
+      res.status(201).json(novosAlunos);
     } catch (err) {
       trataErr(err, res);
     }
