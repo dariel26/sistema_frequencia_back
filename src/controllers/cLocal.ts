@@ -7,8 +7,8 @@ const cLocal = {
     const { locais } = req.body;
     try {
       await DBLocal.criar(locais);
-      const locaisExistentes = await DBLocal.listar();
-      res.status(201).json(locaisExistentes);
+      const novosLocais = await DBLocal.listar();
+      res.status(201).json(novosLocais);
     } catch (err) {
       trataErr(err, res);
     }

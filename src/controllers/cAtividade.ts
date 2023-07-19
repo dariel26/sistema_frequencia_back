@@ -7,7 +7,8 @@ const cAtividade = {
     const { atividades } = req.body;
     try {
       await DBAtividade.criar(atividades);
-      res.status(201).json({ message: "Atividades salvos!" });
+      const novasAtividades = await DBAtividade.listar();
+      res.status(201).json(novasAtividades);
     } catch (err) {
       trataErr(err, res);
     }
