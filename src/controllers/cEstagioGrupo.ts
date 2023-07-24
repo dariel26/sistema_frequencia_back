@@ -33,9 +33,17 @@ const cEstagioGrupo = {
             .replace("T", " "),
         })
       );
-      await DBEstagioGrupo.deletarPorIdsEstagio(ids);
       await DBEstagioGrupo.criar(dados);
       res.status(201).json({ message: "Associação salva!" });
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
+  async editarVarios(req: Request, res: Response) {
+    const { novosDados } = req.body;
+    try {
+      await DBEstagioGrupo.editar(novosDados);
+      res.status(200).json({ message: "Editado!" });
     } catch (err) {
       trataErr(err, res);
     }

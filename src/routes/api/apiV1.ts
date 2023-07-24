@@ -68,6 +68,7 @@ apiV1.post("/coord-estagio", checarHabilidade("edit", "coord-estagio"), cCoordEs
 
 //ESTAGIO-GRUPO
 apiV1.post("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.criarVarios);
+apiV1.put("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.editarVarios);
 apiV1.delete("/estagio-grupo/:ids", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.deletarVarios);
 
 //LOCAL

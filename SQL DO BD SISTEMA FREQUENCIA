@@ -55,11 +55,11 @@ CREATE TABLE EstagioGrupo (
 data_inicial DATE,
 data_final DATE,
 id_estagiogrupo INT PRIMARY KEY auto_increment,
-id_grupo BIGINT,
+id_grupo BIGINT NULL,
 id_estagio INT,
 FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo) ON DELETE CASCADE,
 FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE,
-UNIQUE(id_grupo, id_estagio)
+UNIQUE(id_estagio, id_grupo)
 );
 
 CREATE TABLE Atividade(
