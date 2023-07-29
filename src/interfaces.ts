@@ -59,6 +59,14 @@ export interface IEstagio {
 export interface IGrupo {
   id_grupo?: number;
   nome: string;
+  alunos: IAluno[];
+  estagios: IEstagio[];
+}
+
+export interface IAlunoSubgrupo {
+  nome_aluno: string;
+  aluno_incluido: boolean;
+  id_aluno?: number;
 }
 
 export interface IAtividade {

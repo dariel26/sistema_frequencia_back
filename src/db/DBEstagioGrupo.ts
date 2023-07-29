@@ -17,7 +17,6 @@ const DBEstagioGrupo = {
     return res;
   },
   deletar: async (ids: Array<string>) => {
-    console.log(ids);
     const sql = "DELETE FROM EstagioGrupo WHERE id_estagiogrupo IN (?)";
     const res = await db.query(sql, [ids]);
     return res;

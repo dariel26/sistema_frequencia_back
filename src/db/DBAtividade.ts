@@ -92,7 +92,7 @@ const DBAtividade = {
     const ids = novosDados.map(({ id_atividade }) => id_atividade);
     sql += ` WHERE id_atividade IN (${ids.map((item) => item).join(", ")})`;
     let values: any = [];
-    for (let dado of novosDados) {
+    for (let dado of novosDados) { //TODO a ordem dos valores do objeto influenciam e podem dar valores errados
       const array = Object.values(dado);
       const id_atividade = array.shift();
       values.push(array.flatMap((valor) => [id_atividade, valor]));

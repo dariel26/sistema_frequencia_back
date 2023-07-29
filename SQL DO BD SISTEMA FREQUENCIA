@@ -59,7 +59,9 @@ id_grupo BIGINT NULL,
 id_estagio INT,
 FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo) ON DELETE CASCADE,
 FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE,
-UNIQUE(id_estagio, id_grupo)
+UNIQUE(id_estagio, id_grupo),
+UNIQUE(id_estagio, data_inicial),
+UNIQUE(id_estagio, data_final)
 );
 
 CREATE TABLE Atividade(
@@ -204,8 +206,8 @@ SELECT g.id_grupo, g.nome AS nome_grupo,
 				  'nome', al.nome,
 				  'id_aluno', al.id_aluno,
                   'matricula', al.matricula
-				)
-			) FROM Aluno AS al WHERE al.id_grupo=g.id_grupo ORDER BY al.nome
+				) 
+			) FROM Aluno AS al WHERE al.id_grupo=g.id_grupo ORDER BY al.id_aluno ASC
 	), JSON_ARRAY()) AS alunos,
     COALESCE((SELECT JSON_ARRAYAGG(
 		JSON_OBJECT(
@@ -223,7 +225,8 @@ SELECT g.id_grupo, g.nome AS nome_grupo,
             WHERE eg.id_grupo = g.id_grupo
 		), JSON_ARRAY()) AS estagios
 FROM Grupo AS g
-GROUP BY g.id_grupo ORDER BY g.nome;
+GROUP BY g.id_grupo ORDER BY g.id_grupo ASC;
+
 
 CREATE VIEW view_estagio AS SELECT e.id_estagio, e.nome AS nome_estagio, c.nome AS nome_coordenador,
 COALESCE((SELECT JSON_ARRAYAGG(
@@ -253,6 +256,7 @@ COALESCE((SELECT JSON_ARRAYAGG(
                     'hora_inicial', at.hora_inicial,
                     'hora_final', at.hora_final,
                     'nome_preceptor', p.nome,
+                    'nome_local', lo.nome,
                     'id_preceptor', p.id_preceptor,
                     'datas', COALESCE((SELECT JSON_ARRAYAGG(
 												JSON_OBJECT(
@@ -271,6 +275,8 @@ COALESCE((SELECT JSON_ARRAYAGG(
 						)) FROM Atividade AS at 
                         LEFT JOIN PrecAtividade AS pa ON pa.id_atividade=at.id_atividade
                         LEFT JOIN Preceptor AS p ON p.id_preceptor=pa.id_preceptor 
+                        LEFT JOIN LocalAtividade AS la ON la.id_atividade=at.id_atividade
+                        LEFT JOIN Local AS lo ON lo.id_local=la.id_local
                         WHERE at.id_estagio=e.id_estagio), JSON_ARRAY()) AS atividades
 FROM Estagio AS e 
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
