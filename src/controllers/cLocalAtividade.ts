@@ -5,7 +5,6 @@ import { trataErr } from "../errors";
 const cLocalAtividade = {
   async criarVarios(req: Request, res: Response) {
     const { dados } = req.body;
-    console.log(dados);
     try {
       await DBLocalAtividade.deletar(
         dados.map(({ id_atividade }: { id_atividade: string }) => id_atividade)
