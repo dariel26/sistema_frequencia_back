@@ -72,6 +72,13 @@ hora_inicial TEXT,
 hora_final TEXT,
 intervalo_alunos TEXT,
 alunos_no_dia INT,
+segunda BOOLEAN,
+terca BOOLEAN,
+quarta BOOLEAN,
+quinta BOOLEAN,
+sexta BOOLEAN,
+sabado BOOLEAN,
+domingo BOOLEAN,
 FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
 );
 
@@ -100,14 +107,29 @@ UNIQUE(id_atividade, data)
 
 CREATE TABLE AlunoDataAtividade (
 id_alunodataatividade BIGINT PRIMARY KEY AUTO_INCREMENT,
-horario_entrada TEXT,
-horario_saida TEXT,
-coordenadas JSON,
+data DATE,
+id_aluno BIGINT,
+id_atividade BIGINT,
+estado TEXT,
+FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
+);
+
+CREATE TABLE Presenca(
+id_presenca BIGINT PRIMARY KEY AUTO_INCREMENT,
 id_aluno BIGINT,
 id_dataatividade BIGINT,
+id_atividade BIGINT,
+hora_marcada TEXT,
+id_local INT,
+data DATE,
+estado TEXT,
+coordenadas JSON,
 FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
 FOREIGN KEY(id_dataatividade) REFERENCES DataAtividade (id_dataatividade) ON DELETE CASCADE,
-UNIQUE(id_aluno, id_dataatividade)
+FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE,
+FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
+UNIQUE(id_aluno, id_atividade, id_local, data)
 );
 
 CREATE TABLE jwt (
@@ -147,14 +169,13 @@ CREATE VIEW view_aluno AS SELECT
                 'nome_atividade', at.nome,
                 'hora_inicial', at.hora_inicial,
                 'hora_final', at.hora_final,
-                'data', da.data,
-                'excluida', da.excluida,
-                'id_dataatividade', da.id_dataatividade
+                'data', ada.data,
+                'estado', ada.estado,
+                'id_alunodataatividade', ada.id_alunodataatividade
             )
         )
         FROM AlunoDataAtividade AS ada
-        LEFT JOIN DataAtividade AS da ON da.id_dataatividade = ada.id_dataatividade
-        LEFT JOIN Atividade AS at ON at.id_atividade = da.id_atividade
+        LEFT JOIN Atividade AS at ON at.id_atividade = ada.id_atividade
         WHERE ada.id_aluno = al.id_aluno
     ), JSON_ARRAY()) AS datas
 FROM Aluno AS al
@@ -171,6 +192,13 @@ CREATE VIEW view_atividade AS SELECT
     a.alunos_no_dia,
     p.nome AS nome_preceptor,
     l.nome AS nome_local,
+    a.segunda,
+    a.terca,
+    a.quarta,
+    a.quinta,
+    a.sexta, 
+    a.sabado,
+    a.domingo,
     COALESCE((
         SELECT JSON_ARRAYAGG(
             JSON_OBJECT(
@@ -181,15 +209,17 @@ CREATE VIEW view_atividade AS SELECT
                     SELECT JSON_ARRAYAGG(
 						JSON_OBJECT(
 							'nome', al.nome,
-							'id_aluno', al.id_aluno
+							'id_aluno', al.id_aluno,
+                            'estado', ada.estado
 						)
                     )
-                    FROM Aluno AS al WHERE al.id_aluno = ada.id_aluno
+                    FROM AlunoDataAtividade AS ada 
+                    LEFT JOIN Aluno AS al ON al.id_aluno = ada.id_aluno
+                    WHERE ada.data = da.data AND ada.id_atividade = a.id_atividade
                 ), JSON_ARRAY())
             )
         )
         FROM DataAtividade AS da
-        LEFT JOIN AlunoDataAtividade AS ada ON ada.id_dataatividade = da.id_dataatividade
         WHERE a.id_atividade = da.id_atividade
     ), JSON_ARRAY()) AS datas
 FROM Atividade AS a
@@ -249,35 +279,25 @@ COALESCE((SELECT JSON_ARRAYAGG(
 ), JSON_ARRAY()) AS grupos,
 COALESCE((SELECT JSON_ARRAYAGG(
 					JSON_OBJECT(
-                    'id_atividade', at.id_atividade,
-                    'nome_atividade', at.nome,
-                    'intervalo_alunos', at.intervalo_alunos,
-                    'alunos_no_dia', at.alunos_no_dia,
-                    'hora_inicial', at.hora_inicial,
-                    'hora_final', at.hora_final,
-                    'nome_preceptor', p.nome,
-                    'nome_local', lo.nome,
-                    'id_preceptor', p.id_preceptor,
-                    'datas', COALESCE((SELECT JSON_ARRAYAGG(
-												JSON_OBJECT(
-                                                'data', da.data,
-                                                'excluida', da.excluida,
-                                                'id_dataatividade', da.id_dataatividade,
-                                                'alunos', COALESCE((SELECT JSON_ARRAYAGG(
-																		JSON_OBJECT(
-																			'nome', al.nome,
-                                                                            'id_aluno', al.id_aluno
-                                                                            )) FROM Aluno AS al 
-                                                                            LEFT JOIN AlunoDataAtividade AS ada ON ada.id_aluno=al.id_aluno
-                                                                            WHERE ada.id_dataatividade=da.id_dataatividade), JSON_ARRAY())
-                                                ))FROM DataAtividade AS da WHERE da.id_atividade=at.id_atividade),
-                    JSON_ARRAY())
-						)) FROM Atividade AS at 
-                        LEFT JOIN PrecAtividade AS pa ON pa.id_atividade=at.id_atividade
-                        LEFT JOIN Preceptor AS p ON p.id_preceptor=pa.id_preceptor 
-                        LEFT JOIN LocalAtividade AS la ON la.id_atividade=at.id_atividade
-                        LEFT JOIN Local AS lo ON lo.id_local=la.id_local
-                        WHERE at.id_estagio=e.id_estagio), JSON_ARRAY()) AS atividades
+                    'id_atividade', va.id_atividade,
+                    'nome_atividade', va.nome_atividade,
+                    'id_estagio', va.id_estagio,
+                    'hora_final', va.hora_final,
+                    'hora_inicial', va.hora_inicial,
+                    'intervalo_alunos', va.intervalo_alunos,
+                    'alunos_no_dia', va.alunos_no_dia,
+                    'nome_preceptor', va.nome_preceptor,
+                    'nome_local', va.nome_local,
+                    'segunda', va.segunda,
+                    'terca', va.terca,
+                    'quarta', va.quarta,
+                    'quinta', va.quinta,
+                    'sexta', va.sexta,
+                    'sabado', va.sabado,
+                    'domingo', va.domingo,
+                    'datas', va.datas
+						)) FROM view_atividade AS va 
+                        WHERE va.id_estagio=e.id_estagio), JSON_ARRAY()) AS atividades
 FROM Estagio AS e 
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
 LEFT JOIN Coordenador AS c ON c.id_coordenador=ce.id_coordenador

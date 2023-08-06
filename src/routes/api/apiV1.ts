@@ -16,6 +16,7 @@ import cPrecAtividade from "../../controllers/cPrecAtividade";
 import cDataAtividade from "../../controllers/cDataAtividade";
 import cAlunoDataAtividade from "../../controllers/cAlunoDataAtividade";
 import cLocalAtividade from "../../controllers/cLocalAtividade";
+import cPresenca from "../../controllers/cPresenca";
 
 const apiV1 = express.Router();
 
@@ -95,5 +96,11 @@ apiV1.put("/data-atividade", checarHabilidade("edit", "atividade"), cDataAtivida
 
 //ALUNO-DATA-ATIVIDADE
 apiV1.post("/aluno-data-atividade", checarHabilidade("edit", "coord-estagio"), cAlunoDataAtividade.criarVarios);
+
+//PRESENCA
+apiV1.post("/presenca", checarHabilidade("edit", "atividade"), cPresenca.criarVarias);
+apiV1.get("/presenca", checarHabilidade("read", "atividade"), cPresenca.listar);
+apiV1.put("/presenca", checarHabilidade("edit", "atividade"), cPresenca.editarVarios);
+apiV1.delete("/presenca/:ids", checarHabilidade("edit", "atividade"), cPresenca.deletarVarias);
 
 export default apiV1;

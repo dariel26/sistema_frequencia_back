@@ -4,7 +4,7 @@ import db from "./db";
 const DBAtividade = {
   criar: async (atividades: IAtividade[]) => {
     const sql =
-      "INSERT INTO Atividade (nome, id_estagio, hora_inicial, hora_final, intervalo_alunos, alunos_no_dia) VALUES ?";
+      "INSERT INTO Atividade (nome, id_estagio, hora_inicial, hora_final, intervalo_alunos, alunos_no_dia, segunda, terca, quarta, quinta, sexta, sabado, domingo) VALUES ?";
     const novasAtividades = atividades.map(
       ({
         nome,
@@ -20,6 +20,13 @@ const DBAtividade = {
         hora_final,
         intervalo_alunos,
         alunos_no_dia,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
       ]
     );
     const res = await db.query(sql, [novasAtividades]);
@@ -39,6 +46,13 @@ const DBAtividade = {
       hora_final: string;
       intervalo_alunos: string;
       alunos_no_dia: string;
+      segunda: string;
+      terca: string;
+      quarta: string;
+      quinta: string;
+      sexta: string;
+      sabado: string;
+      domingo: string;
     }[]
   ) => {
     let sql = "UPDATE Atividade SET ";
@@ -49,6 +63,13 @@ const DBAtividade = {
       "hora_final",
       "intervalo_alunos",
       "alunos_no_dia",
+      "segunda",
+      "terca",
+      "quarta",
+      "quinta",
+      "sexta",
+      "sabado",
+      "domingo",
     ];
     const campos_nulos: string[] = [];
     novosDados.forEach((g) => {
@@ -59,6 +80,13 @@ const DBAtividade = {
       if (g.intervalo_alunos === undefined)
         campos_nulos.push("intervalo_alunos");
       if (g.alunos_no_dia === undefined) campos_nulos.push("alunos_no_dia");
+      if (g.segunda === undefined) campos_nulos.push("segunda");
+      if (g.terca === undefined) campos_nulos.push("terca");
+      if (g.quarta === undefined) campos_nulos.push("quarta");
+      if (g.quinta === undefined) campos_nulos.push("quinta");
+      if (g.sexta === undefined) campos_nulos.push("sexta");
+      if (g.sabado === undefined) campos_nulos.push("sabado");
+      if (g.domingo === undefined) campos_nulos.push("domingo");
     });
     campos_disponiveis = campos_disponiveis.filter(
       (campo) => !campos_nulos.includes(campo)
@@ -92,7 +120,8 @@ const DBAtividade = {
     const ids = novosDados.map(({ id_atividade }) => id_atividade);
     sql += ` WHERE id_atividade IN (${ids.map((item) => item).join(", ")})`;
     let values: any = [];
-    for (let dado of novosDados) { //TODO a ordem dos valores do objeto influenciam e podem dar valores errados
+    for (let dado of novosDados) {
+      //TODO a ordem dos valores do objeto influenciam e podem dar valores errados
       const array = Object.values(dado);
       const id_atividade = array.shift();
       values.push(array.flatMap((valor) => [id_atividade, valor]));

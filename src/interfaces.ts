@@ -54,6 +54,7 @@ export interface IToken {
 export interface IEstagio {
   id_estagio?: number;
   nome: string;
+  grupos: IGrupo[];
 }
 
 export interface IGrupo {
@@ -61,6 +62,8 @@ export interface IGrupo {
   nome: string;
   alunos: IAluno[];
   estagios: IEstagio[];
+  data_inicial: string;
+  data_final: string;
 }
 
 export interface IAlunoSubgrupo {
@@ -77,6 +80,15 @@ export interface IAtividade {
   hora_final: string;
   intervalo_alunos: string;
   alunos_no_dia: number;
+  segunda: boolean;
+  terca: boolean;
+  quarta: boolean;
+  quinta: boolean;
+  sexta: boolean;
+  sabado: boolean;
+  domingo: boolean;
+  subgrupos: any;
+  datas: IDataAtividade[];
 }
 
 export interface IPrecAtividade {
@@ -92,13 +104,28 @@ export interface ILocalAtividade {
 export interface IDataAtividade {
   id_dataatividade?: number;
   id_atividade: number;
-  excluida: boolean;
-  data: Date;
+  excluida?: boolean;
+  data: string;
 }
 
 export interface IAlunoDataAtividade {
-  id_dataatividade: number;
+  id_alunodataatividade?: number;
+  data: Date;
   id_aluno: number;
+  id_atividade?: number;
+  estado: string;
+}
+
+export interface IPresenca {
+  id_presenca?: number;
+  id_aluno: number;
+  id_dataatividade: number;
+  id_atividade: number;
+  hora_marcada: string;
+  id_local: number;
+  data: Date;
+  estado: string;
+  coordenadas: string;
 }
 
 export interface ILocal {
