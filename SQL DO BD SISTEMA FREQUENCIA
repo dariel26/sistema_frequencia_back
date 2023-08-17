@@ -302,3 +302,14 @@ FROM Estagio AS e
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
 LEFT JOIN Coordenador AS c ON c.id_coordenador=ce.id_coordenador
 GROUP BY e.id_estagio ORDER BY e.nome;
+
+CREATE VIEW view_presenca AS SELECT ada.id_alunodataatividade, da.excluida, ada.data, at.hora_inicial, at.hora_final, lo.nome AS nome_local, lo.coordenadas,
+ada.id_aluno, al.nome AS nome_aluno, p.nome AS nome_preceptor, al.matricula, at.nome, ada.id_atividade, ada.estado FROM AlunoDataAtividade AS ada
+LEFT JOIN Aluno AS al ON al.id_aluno = ada.id_aluno
+LEFT JOIN Atividade AS at ON at.id_atividade = ada.id_atividade
+LEFT JOIN PrecAtividade AS pa ON pa.id_atividade = at.id_atividade
+LEFT JOIN Preceptor AS p ON p.id_preceptor = pa.id_preceptor
+LEFT JOIN DataAtividade AS da ON da.data = ada.data AND da.id_atividade = at.id_atividade
+LEFT JOIN LocalAtividade AS la ON la.id_atividade = at.id_atividade
+LEFT JOIN Local AS lo ON lo.id_local = la.id_local
+GROUP BY ada.id_alunodataatividade ORDER BY ada.data ASC;

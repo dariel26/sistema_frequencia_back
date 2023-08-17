@@ -5,17 +5,15 @@ function toRadians(degrees: number): number {
 }
 
 export function distancia(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
+  coordenada1: { lat: number; lon: number },
+  coordenada2: { lat: number; lon: number }
 ): number {
   const R = 6371000; // Raio médio da Terra em metros
 
-  const lat1Rad = toRadians(lat1);
-  const lon1Rad = toRadians(lon1);
-  const lat2Rad = toRadians(lat2);
-  const lon2Rad = toRadians(lon2);
+  const lat1Rad = toRadians(coordenada1.lat);
+  const lon1Rad = toRadians(coordenada1.lon);
+  const lat2Rad = toRadians(coordenada2.lat);
+  const lon2Rad = toRadians(coordenada2.lon);
 
   const deltaLat = lat2Rad - lat1Rad;
   const deltaLon = lon2Rad - lon1Rad;
@@ -27,6 +25,19 @@ export function distancia(
 
   const distance = R * c;
   return distance;
+}
+
+export function diferencaAbsEmHoras(data1: Date, data2: Date): number {
+  const milisegundos = data2.getTime() - data1.getTime();
+  const horas = milisegundos / (1000 * 60 * 60);
+  return horas;
+}
+
+export function horarioEmData(data: Date, horario: string): Date {
+  const [hour, minute] = horario.split(":").map(Number);
+  data.setHours(hour);
+  data.setMinutes(minute);
+  return data;
 }
 
 export function obterDatasPorDiaSemana(
