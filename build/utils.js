@@ -19,8 +19,8 @@ function distancia(coordenada1, coordenada2) {
     return distance;
 }
 exports.distancia = distancia;
-function diferencaAbsEmHoras(data1, data2) {
-    const milisegundos = data2.getTime() - data1.getTime();
+function diferencaAbsEmHoras(dataChegada, dataAtividade) {
+    const milisegundos = dataAtividade.getTime() - dataChegada.getTime();
     const horas = milisegundos / (1000 * 60 * 60);
     return horas;
 }

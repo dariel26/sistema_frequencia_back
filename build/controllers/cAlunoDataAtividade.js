@@ -59,9 +59,9 @@ const cAlunoDataAtividade = {
                 const raio = (0, utils_1.distancia)(coordenadaDoUsuario, coordenadaDoLocal);
                 const diferencaEmHoras = (0, utils_1.diferencaAbsEmHoras)(dataAtual, dataAtividade);
                 if (raio > 180)
-                    return res
-                        .status(400)
-                        .json({ message: "Fora do raio de distância permitido" });
+                    return res.status(400).json({
+                        message: `Fora do raio de distância permitido ${raio}`,
+                    });
                 if (diferencaEmHoras > 0.3)
                     return res.status(400).json({
                         message: "Muito cedo, marque a presença faltando menos de 20 minutos",
@@ -70,7 +70,12 @@ const cAlunoDataAtividade = {
                     return res.status(400).json({
                         message: "Fora do tempo limite para marcar presença",
                     });
-                yield DBAlunoDataAtividade_1.default.editar(novosDados);
+                yield DBAlunoDataAtividade_1.default.editar([
+                    {
+                        id_alunodataatividade: novosDados.id_alunodataatividade,
+                        estado: "1",
+                    },
+                ]);
                 res.status(200).json({ message: "Presença marcada!" });
             }
             catch (err) {

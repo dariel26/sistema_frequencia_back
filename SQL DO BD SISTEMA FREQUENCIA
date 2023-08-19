@@ -171,11 +171,13 @@ CREATE VIEW view_aluno AS SELECT
                 'hora_final', at.hora_final,
                 'data', ada.data,
                 'estado', ada.estado,
-                'id_alunodataatividade', ada.id_alunodataatividade
+                'id_alunodataatividade', ada.id_alunodataatividade,
+                'excluida', da.excluida
             )
         )
         FROM AlunoDataAtividade AS ada
         LEFT JOIN Atividade AS at ON at.id_atividade = ada.id_atividade
+        LEFT JOIN DataAtividade AS da ON da.id_atividade=at.id_atividade AND da.data = ada.data
         WHERE ada.id_aluno = al.id_aluno
     ), JSON_ARRAY()) AS datas
 FROM Aluno AS al

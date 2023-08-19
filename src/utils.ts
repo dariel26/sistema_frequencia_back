@@ -27,8 +27,8 @@ export function distancia(
   return distance;
 }
 
-export function diferencaAbsEmHoras(data1: Date, data2: Date): number {
-  const milisegundos = data2.getTime() - data1.getTime();
+export function diferencaAbsEmHoras(dataChegada: Date, dataAtividade: Date): number {
+  const milisegundos = dataAtividade.getTime() - dataChegada.getTime();
   const horas = milisegundos / (1000 * 60 * 60);
   return horas;
 }
