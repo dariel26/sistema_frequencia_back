@@ -1,10 +1,10 @@
-CREATE TABLE Coordenador (
-nome TEXT,
-senha TEXT,
-estado BOOLEAN,
-papel TEXT,
-email VARCHAR(100) UNIQUE,
-id_coordenador INT PRIMARY KEY AUTO_INCREMENT
+CREATE TABLE Usuario (
+id_usuario BIGINT PRIMARY KEY AUTO_INCREMENT,
+papeis JSON,
+papel_atual TEXT,
+nome TEXT, 
+login VARCHAR(200) UNIQUE,
+senha TEXT
 );
 
 CREATE TABLE Grupo (
@@ -12,51 +12,38 @@ id_grupo BIGINT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(200) UNIQUE
 );
 
-CREATE TABLE Aluno (
-senha TEXT,
-nome TEXT,
-estado BOOLEAN,
-aparelho TEXT,
-papel TEXT,
-matricula VARCHAR(20) UNIQUE,
-id_aluno BIGINT PRIMARY KEY auto_increment,
-id_grupo BIGINT,
-FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo)
-);
-
-CREATE TABLE Preceptor (
-nome TEXT,
-email VARCHAR(100) UNIQUE,
-estado BOOLEAN,
-papel TEXT,
-id_preceptor INT PRIMARY KEY AUTO_INCREMENT,
-senha TEXT
-);
-
 CREATE TABLE Estagio (
-id_estagio INT PRIMARY KEY AUTO_INCREMENT,
+id_estagio BIGINT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(200) UNIQUE
 );
 
 CREATE TABLE Local (
-id_local INT PRIMARY KEY AUTO_INCREMENT,
+id_local BIGINT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(200) UNIQUE,
 coordenadas JSON
 );
 
 CREATE TABLE CoordEstagio (
-id_coordenador INT,
-id_estagio INT UNIQUE,
-FOREIGN KEY(id_coordenador) REFERENCES Coordenador (id_coordenador) ON DELETE CASCADE,
+id_usuario BIGINT,
+id_estagio BIGINT UNIQUE,
+FOREIGN KEY(id_usuario) REFERENCES Usuario (id_usuario) ON DELETE CASCADE,
 FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
 );
 
+CREATE TABLE AlunoGrupo (
+id_usuario BIGINT,
+id_grupo BIGINT,
+FOREIGN KEY(id_usuario) REFERENCES Usuario (id_usuario) ON DELETE CASCADE,
+FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo) ON DELETE CASCADE,
+UNIQUE(id_usuario, id_grupo)
+);
+
 CREATE TABLE EstagioGrupo (
+id_estagiogrupo BIGINT PRIMARY KEY AUTO_INCREMENT,
 data_inicial DATE,
 data_final DATE,
-id_estagiogrupo INT PRIMARY KEY auto_increment,
 id_grupo BIGINT NULL,
-id_estagio INT,
+id_estagio BIGINT,
 FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo) ON DELETE CASCADE,
 FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE,
 UNIQUE(id_estagio, id_grupo),
@@ -66,8 +53,8 @@ UNIQUE(id_estagio, data_final)
 
 CREATE TABLE Atividade(
 id_atividade BIGINT PRIMARY KEY AUTO_INCREMENT,
-id_estagio INT,
-nome TEXT,
+id_estagio BIGINT,
+nome VARCHAR(200),
 hora_inicial TEXT,
 hora_final TEXT,
 intervalo_alunos TEXT,
@@ -79,18 +66,19 @@ quinta BOOLEAN,
 sexta BOOLEAN,
 sabado BOOLEAN,
 domingo BOOLEAN,
-FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
+FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE,
+UNIQUE (id_estagio, nome)
 );
 
 CREATE TABLE PrecAtividade (
-id_preceptor INT,
+id_usuario BIGINT,
 id_atividade BIGINT UNIQUE,
-FOREIGN KEY(id_preceptor) REFERENCES Preceptor (id_preceptor) ON DELETE CASCADE,
+FOREIGN KEY(id_usuario) REFERENCES Usuario (id_usuario) ON DELETE CASCADE,
 FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
 );
 
 CREATE TABLE LocalAtividade (
-id_local INT,
+id_local BIGINT,
 id_atividade BIGINT UNIQUE,
 FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
 FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
@@ -108,48 +96,25 @@ UNIQUE(id_atividade, data)
 CREATE TABLE AlunoDataAtividade (
 id_alunodataatividade BIGINT PRIMARY KEY AUTO_INCREMENT,
 data DATE,
-id_aluno BIGINT,
+id_usuario BIGINT,
 id_atividade BIGINT,
 estado TEXT,
-FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
+FOREIGN KEY(id_usuario) REFERENCES Usuario (id_usuario) ON DELETE CASCADE,
 FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE
 );
 
-CREATE TABLE Presenca(
-id_presenca BIGINT PRIMARY KEY AUTO_INCREMENT,
-id_aluno BIGINT,
-id_dataatividade BIGINT,
-id_atividade BIGINT,
-hora_marcada TEXT,
-id_local INT,
-data DATE,
-estado TEXT,
-coordenadas JSON,
-FOREIGN KEY(id_aluno) REFERENCES Aluno (id_aluno) ON DELETE CASCADE,
-FOREIGN KEY(id_dataatividade) REFERENCES DataAtividade (id_dataatividade) ON DELETE CASCADE,
-FOREIGN KEY(id_atividade) REFERENCES Atividade (id_atividade) ON DELETE CASCADE,
-FOREIGN KEY(id_local) REFERENCES Local (id_local) ON DELETE CASCADE,
-UNIQUE(id_aluno, id_atividade, id_local, data)
-);
-
 CREATE TABLE jwt (
-    id_token BIGINT PRIMARY KEY AUTO_INCREMENT,
-    token text,
-    validade DATETIME
+id_token BIGINT PRIMARY KEY AUTO_INCREMENT,
+token text,
+validade DATETIME
 );
-
-CREATE VIEW view_usuario AS
-SELECT a.matricula AS login, a.senha, a.papel, a.nome, a.estado, a.id_aluno AS id
-FROM Aluno a UNION ALL SELECT c.email AS login, c.senha, c.papel, c.nome, c.estado, c.id_coordenador AS id
-FROM Coordenador c UNION ALL SELECT p.email AS login, p.senha, p.papel, p.nome, p.estado, p.id_preceptor AS id
-FROM Preceptor p;
-
 
 CREATE VIEW view_aluno AS SELECT
-    al.id_aluno,
+    al.id_usuario,
     al.nome,
-    al.papel,
-    al.matricula,
+    al.papeis,
+    al.papel_atual,
+    al.login,
     g.id_grupo,
     g.nome AS nome_grupo,
     COALESCE((SELECT JSON_ARRAYAGG(
@@ -178,11 +143,12 @@ CREATE VIEW view_aluno AS SELECT
         FROM AlunoDataAtividade AS ada
         LEFT JOIN Atividade AS at ON at.id_atividade = ada.id_atividade
         LEFT JOIN DataAtividade AS da ON da.id_atividade=at.id_atividade AND da.data = ada.data
-        WHERE ada.id_aluno = al.id_aluno
+        WHERE ada.id_usuario = al.id_usuario
     ), JSON_ARRAY()) AS datas
-FROM Aluno AS al
-LEFT JOIN Grupo AS g ON g.id_grupo = al.id_grupo
-GROUP BY al.id_aluno;
+FROM Usuario AS al
+LEFT JOIN AlunoGrupo AS ag ON ag.id_usuario = al.id_usuario
+LEFT JOIN Grupo AS g ON g.id_grupo = ag.id_grupo
+GROUP BY al.id_usuario;
 
 CREATE VIEW view_atividade AS SELECT
     a.id_atividade,
@@ -211,12 +177,12 @@ CREATE VIEW view_atividade AS SELECT
                     SELECT JSON_ARRAYAGG(
 						JSON_OBJECT(
 							'nome', al.nome,
-							'id_aluno', al.id_aluno,
+							'id_aluno', al.id_usuario,
                             'estado', ada.estado
 						)
                     )
                     FROM AlunoDataAtividade AS ada 
-                    LEFT JOIN Aluno AS al ON al.id_aluno = ada.id_aluno
+                    LEFT JOIN Usuario AS al ON al.id_usuario = ada.id_usuario
                     WHERE ada.data = da.data AND ada.id_atividade = a.id_atividade
                 ), JSON_ARRAY())
             )
@@ -226,7 +192,7 @@ CREATE VIEW view_atividade AS SELECT
     ), JSON_ARRAY()) AS datas
 FROM Atividade AS a
 LEFT JOIN PrecAtividade AS pa ON pa.id_atividade = a.id_atividade
-LEFT JOIN Preceptor AS p ON p.id_preceptor = pa.id_preceptor
+LEFT JOIN Usuario AS p ON p.id_usuario = pa.id_usuario
 LEFT JOIN LocalAtividade AS la ON la.id_atividade=a.id_atividade
 LEFT JOIN Local AS l ON l.id_local=la.id_local
 GROUP BY a.id_atividade;
@@ -236,16 +202,18 @@ SELECT g.id_grupo, g.nome AS nome_grupo,
 	COALESCE((SELECT JSON_ARRAYAGG(
 				JSON_OBJECT(
 				  'nome', al.nome,
-				  'id_aluno', al.id_aluno,
-                  'matricula', al.matricula
+				  'id_usuario', al.id_usuario,
+                  'login', al.login
 				) 
-			) FROM Aluno AS al WHERE al.id_grupo=g.id_grupo ORDER BY al.id_aluno ASC
+			) FROM AlunoGrupo AS ag 
+            LEFT JOIN Usuario AS al ON al.id_usuario=ag.id_usuario
+            WHERE ag.id_grupo=g.id_grupo
 	), JSON_ARRAY()) AS alunos,
     COALESCE((SELECT JSON_ARRAYAGG(
 		JSON_OBJECT(
 					'nome', e.nome,
                     'id_estagio', e.id_estagio,
-                    'id_coordenador', c.id_coordenador,
+                    'id_usuario', c.id_usuario,
                     'nome_coordenador', c.nome,
                     'data_inicial', eg.data_inicial,
                     'data_final', eg.data_final
@@ -253,7 +221,7 @@ SELECT g.id_grupo, g.nome AS nome_grupo,
 			) FROM Estagio AS e 
             INNER JOIN EstagioGrupo AS eg ON eg.id_estagio=e.id_estagio 
             INNER JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
-            INNER JOIN Coordenador AS c ON c.id_coordenador=ce.id_coordenador
+            INNER JOIN Usuario AS c ON c.id_usuario=ce.id_usuario
             WHERE eg.id_grupo = g.id_grupo
 		), JSON_ARRAY()) AS estagios
 FROM Grupo AS g
@@ -271,9 +239,12 @@ COALESCE((SELECT JSON_ARRAYAGG(
                 'alunos', COALESCE((SELECT JSON_ARRAYAGG(
 									JSON_OBJECT(
                                     'nome', al.nome,
-                                    'id_aluno', al.id_aluno,
-                                    'matricula', al.matricula
-                                    )) FROM Aluno AS al WHERE al.id_grupo=g.id_grupo ORDER BY al.nome ASC), JSON_ARRAY())
+                                    'id_usuario', al.id_usuario,
+                                    'matricula', al.login
+                                    )) FROM AlunoGrupo AS ag 
+                                    LEFT JOIN Usuario AS al ON al.id_usuario=ag.id_usuario 
+                                    WHERE ag.id_grupo = g.id_grupo 
+                                    ), JSON_ARRAY())
 ))
 	FROM EstagioGrupo AS eg
         LEFT JOIN Grupo AS g ON g.id_grupo=eg.id_grupo
@@ -302,15 +273,15 @@ COALESCE((SELECT JSON_ARRAYAGG(
                         WHERE va.id_estagio=e.id_estagio), JSON_ARRAY()) AS atividades
 FROM Estagio AS e 
 LEFT JOIN CoordEstagio AS ce ON ce.id_estagio=e.id_estagio
-LEFT JOIN Coordenador AS c ON c.id_coordenador=ce.id_coordenador
+LEFT JOIN Usuario AS c ON c.id_usuario = ce.id_usuario
 GROUP BY e.id_estagio ORDER BY e.nome;
 
 CREATE VIEW view_presenca AS SELECT ada.id_alunodataatividade, da.excluida, ada.data, at.hora_inicial, at.hora_final, lo.nome AS nome_local, lo.coordenadas,
-ada.id_aluno, al.nome AS nome_aluno, p.nome AS nome_preceptor, al.matricula, at.nome, ada.id_atividade, ada.estado FROM AlunoDataAtividade AS ada
-LEFT JOIN Aluno AS al ON al.id_aluno = ada.id_aluno
+ada.id_usuario, al.nome AS nome_aluno, p.nome AS nome_preceptor, al.login, at.nome, ada.id_atividade, ada.estado FROM AlunoDataAtividade AS ada
+LEFT JOIN Usuario AS al ON al.id_usuario = ada.id_usuario
 LEFT JOIN Atividade AS at ON at.id_atividade = ada.id_atividade
 LEFT JOIN PrecAtividade AS pa ON pa.id_atividade = at.id_atividade
-LEFT JOIN Preceptor AS p ON p.id_preceptor = pa.id_preceptor
+LEFT JOIN Usuario AS p ON p.id_usuario = pa.id_usuario
 LEFT JOIN DataAtividade AS da ON da.data = ada.data AND da.id_atividade = at.id_atividade
 LEFT JOIN LocalAtividade AS la ON la.id_atividade = at.id_atividade
 LEFT JOIN Local AS lo ON lo.id_local = la.id_local
