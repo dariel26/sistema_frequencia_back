@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=dev npx nodemon ./src/index.ts",
+    "dev": "NODE_ENV=dev npx nodemon -r dotenv/config ./src/index.ts",
     "build": "rimraf build && tsc",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add build",
