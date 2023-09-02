@@ -9,6 +9,10 @@ import {
   IEstagio,
   IDataAtividade,
   IAlunoDataAtividade,
+  IViewGrupo,
+  IGrupoEmEstagio,
+  IViewEstagio,
+  IViewAtividade,
 } from "../interfaces";
 import {
   amdEmData,
@@ -33,7 +37,7 @@ function dataAlunoAtividadeMudou(novoDado: { id_atividade: number }) {
   return false;
 }
 
-function retornaDataInicialFinal(estagios: IEstagio[]): {
+function retornaDataInicialFinal(estagios: IViewEstagio[]): {
   dataInicial: Date;
   dataFinal: Date;
 } {
@@ -72,7 +76,7 @@ function edicaoIncorreta(novoDado: { id_atividade: number }): boolean | string {
   return false;
 }
 
-async function atividadeComSubgrupo(atividade: IAtividade, grupos: any[]) {
+async function atividadeComSubgrupo(atividade: IViewAtividade, grupos: any[]) {
   try {
     let subgrupos: any = [];
 
@@ -85,22 +89,22 @@ async function atividadeComSubgrupo(atividade: IAtividade, grupos: any[]) {
 
     subgrupos =
       atividade.id_estagio === null
-        ? grupos.flatMap((g: IGrupo) => ({
+        ? grupos.flatMap((g: IGrupoEmEstagio) => ({
             data_final: g.data_final,
             data_inicial: g.data_inicial,
             alunos: g.alunos.map((a) => ({
               nome_aluno: a.nome,
               aluno_incluido: false,
-              id_aluno: a.id_aluno,
+              id_aluno: a.id_usuario,
             })),
           }))
-        : grupos.map((g: IGrupo) => ({
+        : grupos.map((g: IGrupoEmEstagio) => ({
             data_inicial: g.data_inicial,
             data_final: g.data_final,
             alunos: g.alunos.map((a) => ({
               nome_aluno: a.nome,
               aluno_incluido: false,
-              id_aluno: a.id_aluno,
+              id_aluno: a.id_usuario,
             })),
           }));
 
@@ -132,9 +136,9 @@ async function atividadeComSubgrupo(atividade: IAtividade, grupos: any[]) {
 }
 
 function gruposDaAtividade(
-  estagios: IEstagio[],
-  atividade: IAtividade,
-  grupos: IGrupo[]
+  estagios: IViewEstagio[],
+  atividade: IViewAtividade,
+  grupos: IViewGrupo[]
 ) {
   const estagioDaAtividade = estagios.find(
     (e) => e.id_estagio === atividade.id_estagio
@@ -208,14 +212,14 @@ const cAtividade = {
     try {
       const estagios = await DBEstagio.listar();
       const grupos = await DBGrupo.listar();
-      let atividadeAtualizada: IAtividade;
+      let atividadeAtualizada: IViewAtividade;
 
       const message = edicaoIncorreta(novoDado);
       if (message) return res.status(400).json({ message });
 
       const idEstaAtividade = novoDado.id_atividade;
       let estaAtividade = (await DBAtividade.listar()).find(
-        (a: IAtividade) => a.id_atividade === idEstaAtividade
+        (a: IViewAtividade) => a.id_atividade === idEstaAtividade
       );
       estaAtividade = Object.assign(estaAtividade, novoDado);
       atividadeAtualizada = estaAtividade;

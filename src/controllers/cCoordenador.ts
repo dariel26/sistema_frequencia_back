@@ -1,73 +1,75 @@
-import DBCoordenador from "../db/DBCoordenador";
+import { Request, Response } from "express";
+import DBUsuario from "../db/DBUsuario";
 import { trataErr } from "../errors";
-import { ICoordenador } from "../interfaces";
-import { PAPEL_ADMIN } from "../papeis";
+import cUtils from "./cUtils";
+import { IUsuario, PAPEIS, TIPO_USUARIO } from "../interfaces";
+
+const camposCoordenador: string[] = ["nome", "login", "senha"];
+const papeis: PAPEIS[] = ["COORDENADOR(A)"];
+const tipo: TIPO_USUARIO = "COORDENADOR";
 
 const cCoordenador = {
-  async criarVarios(req: any, res: any) {
+  async criarVarios(req: Request, res: Response) {
     const { coordenadores } = req.body;
+
+    const message = cUtils.verificaNovos(coordenadores, camposCoordenador);
+    if (message) return res.status(400).json({ message });
+
     try {
-      await DBCoordenador.criar(coordenadores);
-      const novosCoordenadores = await DBCoordenador.listar(); 
-      res.status(201).json(novosCoordenadores);
+      const dados: IUsuario[] = coordenadores.map(
+        ({
+          nome,
+          login,
+          senha,
+        }: {
+          nome: string;
+          login: string;
+          senha: string;
+        }) => ({
+          nome,
+          login,
+          senha,
+          papeis: JSON.stringify(papeis),
+          papel_atual: papeis[0],
+          tipo,
+        })
+      );
+      await DBUsuario.criar(dados);
+      const novosCoordenadores = await DBUsuario.buscarPorTipo(tipo);
+
+      res.status(200).json(novosCoordenadores);
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async deletarVarios(req: any, res: any) {
+
+  async deletarVarios(req: Request, res: Response) {
     const ids = req.params.ids.split(",");
     try {
-      const coordenadores = await DBCoordenador.listar();
-      const admins = coordenadores.filter(
-        (c: ICoordenador) => c.papel === PAPEL_ADMIN
-      );
-      const adminsDeletados = admins.filter((a: ICoordenador) =>
-        ids.includes(String(a.id_coordenador))
-      );
-      if (adminsDeletados.length === admins.length) {
-        return res
-          .status(500)
-          .json({ message: "O sistema não pode ficar sem ADMINS" });
-      }
-      await DBCoordenador.deletar(ids);
-      res.status(200).json({ message: "Coordenadores deletados!" });
+      await DBUsuario.deletar(ids);
+      res.status(200).json();
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async editarVarios(req: any, res: any) {
+
+  async listar(_: Request, res: Response) {
+    try {
+      const coordenadores = await DBUsuario.buscarPorTipo(tipo);
+      res.status(200).json(coordenadores);
+    } catch (err) {
+      trataErr(err, res);
+    }
+  },
+  async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
+
+    const message = cUtils.verificaEdicao(novosDados, camposCoordenador);
+    if (message) return res.status(400).json({ message });
+
     try {
-      const coordenadores = await DBCoordenador.listar();
-      const admins = coordenadores.filter(
-        (c: ICoordenador) => c.papel === PAPEL_ADMIN
-      );
-      const novosAdmins = novosDados.filter(
-        (c: ICoordenador) => c.papel === PAPEL_ADMIN
-      );
-      if (novosAdmins.length === 0) {
-        for (let dado of novosDados) {
-          const id = dado.id_coordenador;
-          const coordenador = coordenadores.find(
-            (c: ICoordenador) => c.id_coordenador === id
-          );
-          if (coordenador.papel === PAPEL_ADMIN && admins.length === 1) {
-            return res
-              .status(500)
-              .json({ message: "O sistema não pode ficar sem ADMINS" });
-          }
-        }
-      }
-      await DBCoordenador.editar(novosDados);
-      res.status(200).json({ message: "Coordenadores editados!" });
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-  async listar(_: any, res: any) {
-    try {
-      const coodenadores = await DBCoordenador.listar();
-      res.status(200).json(coodenadores);
+      await DBUsuario.editar(novosDados);
+      res.status(200).json();
     } catch (err) {
       trataErr(err, res);
     }

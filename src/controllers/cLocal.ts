@@ -1,14 +1,21 @@
 import { Request, Response } from "express";
 import DBLocal from "../db/DBLocal";
 import { trataErr } from "../errors";
+import cUtils from "./cUtils";
+
+const camposLocal = ["nome"];
 
 const cLocal = {
   async criarVarios(req: Request, res: Response) {
     const { locais } = req.body;
+
+    const message = cUtils.verificaNovos(locais, camposLocal);
+    if (message) return res.status(400).json({ message });
+
     try {
       await DBLocal.criar(locais);
       const novosLocais = await DBLocal.listar();
-      res.status(201).json(novosLocais);
+      res.status(200).json(novosLocais);
     } catch (err) {
       trataErr(err, res);
     }
@@ -25,16 +32,20 @@ const cLocal = {
     const ids = req.params.ids.split(",");
     try {
       await DBLocal.deletar(ids);
-      res.status(200).json({ message: "Locais deletados!" });
+      res.status(200).json();
     } catch (err) {
       trataErr(err, res);
     }
   },
-  async editarVarios(req: Request, res: Response) {
+  async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
+
+    const message = cUtils.verificaEdicao(novosDados, camposLocal);
+    if (message) return res.status(400).json({ message });
+
     try {
       await DBLocal.editar(novosDados);
-      res.status(200).json({ message: "Locais editados!" });
+      res.status(200).json();
     } catch (err) {
       trataErr(err, res);
     }

@@ -27,7 +27,10 @@ export function distancia(
   return distance;
 }
 
-export function diferencaAbsEmHoras(dataChegada: Date, dataAtividade: Date): number {
+export function diferencaAbsEmHoras(
+  dataChegada: Date,
+  dataAtividade: Date
+): number {
   const milisegundos = dataAtividade.getTime() - dataChegada.getTime();
   const horas = milisegundos / (1000 * 60 * 60);
   return horas;
@@ -38,6 +41,10 @@ export function horarioEmData(data: Date, horario: string): Date {
   data.setHours(hour);
   data.setMinutes(minute);
   return data;
+}
+
+export function dataFrontEmDataBD(data: string): string {
+  return new Date(data).toISOString().slice(0, 10).replace("T", " ");
 }
 
 export function obterDatasPorDiaSemana(

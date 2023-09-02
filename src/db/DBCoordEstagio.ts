@@ -4,9 +4,9 @@ import db from "./db";
 const DBCoordEstagio = {
   criar: async (dados: ICoordEstagio[]) => {
     const sql =
-      "INSERT INTO CoordEstagio (id_coordenador, id_estagio) VALUES ?";
-    const novosDados = dados.map(({ id_coordenador, id_estagio }) => [
-      id_coordenador,
+      "INSERT INTO CoordEstagio (id_usuario, id_estagio) VALUES ?";
+    const novosDados = dados.map(({ id_usuario, id_estagio }) => [
+      id_usuario,
       id_estagio,
     ]);
     const res = await db.query(sql, [novosDados]);

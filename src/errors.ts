@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 export function trataErr(err: any, res: any) {
-  if (process.env.NODE_ENV !== "test") {
+  if (process.env.NODE_ENV === "test") {
     console.log(err);
   }
   if (err.code === "ER_DUP_ENTRY") {

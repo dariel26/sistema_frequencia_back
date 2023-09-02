@@ -21,53 +21,38 @@ const DBEstagioGrupo = {
     const res = await db.query(sql, [ids]);
     return res;
   },
-  editar: async (novosDados: { id_estagiogrupo: string; id_grupo: string }[]) => {
-    let sql = "UPDATE EstagioGrupo SET ";
-    let campos_disponiveis = ["id_grupo"];
-    const campos_nulos: string[] = [];
-    novosDados.forEach((e) => {
-      if (e.id_grupo === undefined) campos_nulos.push("id_grupo");
-    });
-    campos_disponiveis = campos_disponiveis.filter(
-      (campo) => !campos_nulos.includes(campo)
-    );
+  editar: async (dados: {
+    id_estagiogrupo: string;
+    id_grupo: string;
+    id_estagio: string;
+    data_inicial: string;
+    data_final: string;
+  }) => {
+    let sql = "UPDATE EstagioGrupo SET";
+    const valores = [];
 
-    for (let i = 0; i < campos_disponiveis.length; i++) {
-      const c = campos_disponiveis[i];
-      const ultimoI = i === campos_disponiveis.length - 1;
-      if (ultimoI) {
-        sql += `${c}= CASE `;
-        for (let j = 0; j < novosDados.length; j++) {
-          const ultimoJ = j === novosDados.length - 1;
-          if (ultimoJ) {
-            sql += "WHEN id_estagiogrupo = ? THEN ? END ";
-          } else {
-            sql += "WHEN id_estagiogrupo = ? THEN ? ";
-          }
-        }
-      } else {
-        sql += `${c}= CASE `;
-        for (let j = 0; j < novosDados.length; j++) {
-          const ultimoJ = j === novosDados.length - 1;
-          if (ultimoJ) {
-            sql += "WHEN id_estagiogrupo = ? THEN ? END, ";
-          } else {
-            sql += "WHEN id_estagiogrupo = ? THEN ? ";
-          }
-        }
-      }
+    if (dados.id_grupo) {
+      sql += " id_grupo=?,";
+      valores.push(dados.id_grupo);
     }
-    const ids = novosDados.map(({ id_estagiogrupo }) => id_estagiogrupo);
-    sql += ` WHERE id_estagiogrupo IN (${ids.map((item) => item).join(", ")})`;
-    let values: any = [];
-    for (let dado of novosDados) {
-      const array = Object.values(dado);
-      const id_estagiogrupo = array.shift();
-      values.push(array.flatMap((valor) => [id_estagiogrupo, valor]));
+    if (dados.id_estagio) {
+      sql += " id_estagio=?,";
+      valores.push(dados.id_estagio);
     }
-    values = values.flat();
-    const res = await db.query(sql, values);
-    return res;
+    if (dados.data_inicial) {
+      sql += " data_inicial=?,";
+      valores.push(dados.data_inicial);
+    }
+    if (dados.data_final) {
+      sql += " data_final=?,";
+      valores.push(dados.data_final);
+    }
+
+    sql = sql.slice(0, -1);
+    sql += ` WHERE id_estagiogrupo=?`;
+    valores.push(dados.id_estagiogrupo);
+
+    await db.query(sql, valores);
   },
 };
 

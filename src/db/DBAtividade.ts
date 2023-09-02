@@ -1,4 +1,4 @@
-import { IAtividade } from "../interfaces";
+import { IAtividade, IViewAtividade } from "../interfaces";
 import db from "./db";
 
 const DBAtividade = {
@@ -32,7 +32,7 @@ const DBAtividade = {
     const res = await db.query(sql, [novasAtividades]);
     return res;
   },
-  listar: async () => {
+  listar: async (): Promise<IViewAtividade[]> => {
     const sql = `SELECT * FROM view_atividade`;
     const [linhas] = await db.query(sql);
     return linhas;

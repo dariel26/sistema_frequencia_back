@@ -4,7 +4,8 @@ papeis JSON,
 papel_atual TEXT,
 nome TEXT, 
 login VARCHAR(200) UNIQUE,
-senha TEXT
+senha TEXT,
+tipo TEXT
 );
 
 CREATE TABLE Grupo (
@@ -31,11 +32,10 @@ FOREIGN KEY(id_estagio) REFERENCES Estagio (id_estagio) ON DELETE CASCADE
 );
 
 CREATE TABLE AlunoGrupo (
-id_usuario BIGINT,
+id_usuario BIGINT UNIQUE,
 id_grupo BIGINT,
 FOREIGN KEY(id_usuario) REFERENCES Usuario (id_usuario) ON DELETE CASCADE,
-FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo) ON DELETE CASCADE,
-UNIQUE(id_usuario, id_grupo)
+FOREIGN KEY(id_grupo) REFERENCES Grupo (id_grupo) ON DELETE CASCADE
 );
 
 CREATE TABLE EstagioGrupo (
@@ -114,7 +114,7 @@ CREATE VIEW view_aluno AS SELECT
     al.nome,
     al.papeis,
     al.papel_atual,
-    al.login,
+    al.login as matricula,
     g.id_grupo,
     g.nome AS nome_grupo,
     COALESCE((SELECT JSON_ARRAYAGG(
@@ -148,6 +148,7 @@ CREATE VIEW view_aluno AS SELECT
 FROM Usuario AS al
 LEFT JOIN AlunoGrupo AS ag ON ag.id_usuario = al.id_usuario
 LEFT JOIN Grupo AS g ON g.id_grupo = ag.id_grupo
+WHERE al.tipo="ALUNO"
 GROUP BY al.id_usuario;
 
 CREATE VIEW view_atividade AS SELECT
@@ -203,7 +204,7 @@ SELECT g.id_grupo, g.nome AS nome_grupo,
 				JSON_OBJECT(
 				  'nome', al.nome,
 				  'id_usuario', al.id_usuario,
-                  'login', al.login
+                  'matricula', al.login
 				) 
 			) FROM AlunoGrupo AS ag 
             LEFT JOIN Usuario AS al ON al.id_usuario=ag.id_usuario

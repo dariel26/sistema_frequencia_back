@@ -2,19 +2,16 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { compare } from "../cipher/cipher";
-import DBAluno from "../db/DBAluno";
-import DBCoordenador from "../db/DBCoordenador";
-import DBPreceptor from "../db/DBPreceptor";
 import DBUsuario from "../db/DBUsuario";
 import { trataErr } from "../errors";
-import { CustomRequest, IToken, IUsuario } from "../interfaces";
+import { CustomRequest, IInfoUsuario, IToken, IUsuario } from "../interfaces";
 import { defineHabilidadesPara } from "../middleware/habilidades";
 import { tokenSecret } from "../middleware/middlewareJwt";
-import { PAPEL_ADMIN, PAPEL_COORDENADOR, PAPEL_PRECEPTOR } from "../papeis";
 
 const cUsuario = {
   async login(req: Request, res: Response) {
     let { login, senha } = req.body;
+
     try {
       const usuario = await DBUsuario.buscaPorLogin(login);
       if (usuario === undefined) {
@@ -27,11 +24,13 @@ const cUsuario = {
             .json({ message: "O usuário não possui senha no banco de dados" });
         else {
           if (await compare(senha, hashSenha)) {
-            const infoUsuario: IUsuario = {
+            const infoUsuario: IInfoUsuario = {
               nome: usuario.nome,
-              papel: usuario.papel,
+              papel_atual: usuario.papel_atual,
+              papeis: usuario.papeis,
               login: usuario.login,
-              id: usuario.id,
+              id_usuario: usuario.id_usuario,
+              tipo: usuario.tipo,
             };
             const token = jwt.sign(infoUsuario, tokenSecret, {
               expiresIn: "24h",
@@ -49,11 +48,13 @@ const cUsuario = {
 
   async logout(req: Request, res: Response) {
     const { token } = req.headers;
+
+    if (token === undefined)
+      return res.status(400).json({ message: "Token vazio" });
+    if (Array.isArray(token))
+      return res.status(400).json({ message: "Token inválido" });
+
     try {
-      if (token === undefined)
-        return res.status(400).json({ message: "Token vazio" });
-      if (Array.isArray(token))
-        return res.status(400).json({ message: "Token inválido" });
       DBUsuario.invalidarToken(token);
       res.status(200).json();
     } catch (err) {
@@ -64,9 +65,9 @@ const cUsuario = {
   async retornaInfoUsuario(req: Request, res: Response) {
     try {
       const requisicao = req as CustomRequest;
-      const infoToken: IToken = requisicao.infoToken;
+      const infoToken: IInfoUsuario = requisicao.infoToken;
       const habilidades = defineHabilidadesPara(infoToken);
-      const infoUsuario: IUsuario = {
+      const infoUsuario: IInfoUsuario = {
         ...infoToken,
         regrasHabilidades: habilidades.rules,
       };
@@ -97,42 +98,6 @@ const cUsuario = {
           }
         }
       }
-    } catch (err) {
-      trataErr(err, res);
-    }
-  },
-
-  async mudarSenha(req: Request, res: Response) {
-    const { novosDados } = req.body;
-    const requisicao = req as CustomRequest;
-    const infoToken = requisicao.infoToken;
-    try {
-      if (
-        infoToken.papel === PAPEL_COORDENADOR ||
-        infoToken.papel === PAPEL_ADMIN
-      ) {
-        await DBCoordenador.editar(
-          novosDados.map(({ id, senha }: { id: string; senha: string }) => ({
-            id_coordenador: id,
-            senha,
-          }))
-        );
-      } else if (infoToken.papel === PAPEL_PRECEPTOR) {
-        await DBPreceptor.editar(
-          novosDados.map(({ id, senha }: { id: string; senha: string }) => ({
-            id_preceptor: id,
-            senha,
-          }))
-        );
-      } else {
-        await DBAluno.editar(
-          novosDados.map(({ id, senha }: { id: string; senha: string }) => ({
-            id_aluno: id,
-            senha,
-          }))
-        );
-      }
-      res.status(200).json();
     } catch (err) {
       trataErr(err, res);
     }

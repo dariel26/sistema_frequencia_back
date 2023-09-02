@@ -1,16 +1,15 @@
 require("dotenv").config();
 import { AbilityBuilder, createMongoAbility } from "@casl/ability";
-import { IToken } from "../interfaces";
-import { PAPEL_ADMIN, PAPEL_ALUNO, PAPEL_COORDENADOR, PAPEL_PRECEPTOR } from "../papeis";
+import { IInfoUsuario, IToken } from "../interfaces";
 
-export function defineHabilidadesPara(infoToken: IToken) {
+export function defineHabilidadesPara(infoUsuario: IInfoUsuario) {
   const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
-  if (infoToken.papel === PAPEL_ADMIN) {
+  if (infoUsuario.papel_atual === "ADMIN") {
     can("manage", "all");
-  } else if (infoToken.papel === PAPEL_ALUNO) {
+  } else if (infoUsuario.papel_atual === "ALUNO(A)") {
     can("edit", "presenca");
     can("read", "all");
-  } else if (infoToken.papel === PAPEL_COORDENADOR) {
+  } else if (infoUsuario.papel_atual === "COORDENADOR(A)") {
     can("edit", "aluno");
     can("edit", "preceptor");
     can("edit", "grupo");
@@ -20,7 +19,7 @@ export function defineHabilidadesPara(infoToken: IToken) {
     can("edit", "precAtiv");
     can("edit", "estagioGrupo");
     can("read", "all");
-  } else if (infoToken.papel === PAPEL_PRECEPTOR) {
+  } else if (infoUsuario.papel_atual === "PRECEPTOR(A)") {
     can("read", "all");
   }
   return build();
