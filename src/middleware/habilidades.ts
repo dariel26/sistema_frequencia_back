@@ -1,6 +1,6 @@
 require("dotenv").config();
 import { AbilityBuilder, createMongoAbility } from "@casl/ability";
-import { IInfoUsuario, IToken } from "../interfaces";
+import { IInfoUsuario } from "../interfaces";
 
 export function defineHabilidadesPara(infoUsuario: IInfoUsuario) {
   const { can, cannot, build } = new AbilityBuilder(createMongoAbility);

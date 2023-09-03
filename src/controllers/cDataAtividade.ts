@@ -21,7 +21,6 @@ const cDataAtividade = {
   },
   async editarVarios(req: Request, res: Response) {
     const { novosDados } = req.body;
-    console.log(novosDados);
     try {
       await DBDataAtividade.editar(novosDados);
       res.status(200).json({ message: "Datas de atividades editadas!" });

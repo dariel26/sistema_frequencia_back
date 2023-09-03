@@ -2,26 +2,28 @@ import { Request, Response } from "express";
 import DBCoordEstagio from "../db/DBCoordEstagio";
 import { trataErr } from "../errors";
 import cMessages from "./cMessages";
+import DBAlunoGrupo from "../db/DBAlunoGrupo";
 
-const camposCoordEstagio = ["id_estagio", "id_usuario"];
+const camposAlunoGrupo = ["id_grupo", "id_usuario"];
 
-const cCoordEstagio = {
+const cAlunoGrupo = {
   async criarVarios(req: Request, res: Response) {
     const { dados } = req.body;
 
-    const message = cMessages.verificaNovos(dados, camposCoordEstagio);
+    const message = cMessages.verificaNovos(dados, camposAlunoGrupo);
     if (message) return res.status(400).json({ message });
 
     try {
-      await DBCoordEstagio.deletar(
-        dados.map(({ id_estagio }: { id_estagio: string }) => id_estagio)
+      await DBAlunoGrupo.deletar(
+        dados.map(({ id_usuario }: { id_usuario: string }) => id_usuario)
       );
-      await DBCoordEstagio.criar(dados);
+      await DBAlunoGrupo.criar(dados);
       res.status(200).json();
     } catch (err) {
+      console.log(err);
       trataErr(err, res);
     }
   },
 };
 
-export default cCoordEstagio;
+export default cAlunoGrupo;

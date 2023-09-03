@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { compare } from "../cipher/cipher";
 import DBUsuario from "../db/DBUsuario";
 import { trataErr } from "../errors";
-import { CustomRequest, IInfoUsuario, IToken, IUsuario } from "../interfaces";
+import { CustomRequest, IInfoUsuario } from "../interfaces";
 import { defineHabilidadesPara } from "../middleware/habilidades";
 import { tokenSecret } from "../middleware/middlewareJwt";
 

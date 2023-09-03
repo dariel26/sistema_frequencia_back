@@ -2,13 +2,24 @@ import { IDataAtividade } from "../interfaces";
 import db from "./db";
 
 const DBDataAtividade = {
+  buscar: async (id_atividade: number) => {
+    const sql = "SELECT * FROM DataAtividade WHERE id_atividade = ?";
+    const [datasAtividade] = await db.query(sql, [id_atividade]);
+    return datasAtividade;
+  },
+  buscarPartindoDe: async (id_atividade: number, dataAmanha: string) => {
+    const sql =
+      "SELECT * FROM DataAtividade WHERE id_atividade = ? AND data >= ?";
+    const [datasAtividade] = await db.query(sql, [id_atividade, dataAmanha]);
+    return datasAtividade;
+  },
   criar: async (dados: IDataAtividade[]) => {
     const sql =
       "INSERT INTO DataAtividade (id_atividade, data, excluida) VALUES ?";
     const novosDados = dados.map(({ id_atividade, data }) => [
       id_atividade,
       data,
-      false,
+      0,
     ]);
     const res = await db.query(sql, [novosDados]);
     return res;
@@ -66,6 +77,16 @@ const DBDataAtividade = {
     const res = await db.query(sql, values);
     return res;
   },
+  deletarPreservandoHistorico: async (
+    ids: Array<string>,
+    dataAmanha: string
+  ) => {
+    const sql =
+      "DELETE FROM DataAtividade WHERE id_atividade IN (?) AND data >= ?";
+    const res = await db.query(sql, [ids, dataAmanha]);
+    return res;
+  },
+
   deletar: async (ids: Array<string>) => {
     const sql = "DELETE FROM DataAtividade WHERE id_atividade IN (?)";
     const res = await db.query(sql, [ids]);

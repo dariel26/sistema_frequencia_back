@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBLocal from "../db/DBLocal";
 import { trataErr } from "../errors";
-import cUtils from "./cUtils";
+import cMessages from "./cMessages";
 
 const camposLocal = ["nome"];
 
@@ -9,7 +9,7 @@ const cLocal = {
   async criarVarios(req: Request, res: Response) {
     const { locais } = req.body;
 
-    const message = cUtils.verificaNovos(locais, camposLocal);
+    const message = cMessages.verificaNovos(locais, camposLocal);
     if (message) return res.status(400).json({ message });
 
     try {
@@ -40,7 +40,7 @@ const cLocal = {
   async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
 
-    const message = cUtils.verificaEdicao(novosDados, camposLocal);
+    const message = cMessages.verificaEdicao(novosDados, camposLocal);
     if (message) return res.status(400).json({ message });
 
     try {

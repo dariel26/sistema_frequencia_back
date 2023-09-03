@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBEstagioGrupo from "../db/DBEstagioGrupo";
 import { trataErr } from "../errors";
-import cUtils from "./cUtils";
+import cMessages from "./cMessages";
 import { dataFrontEmDataBD } from "../utils";
 
 const camposEstagioGrupo = [
@@ -15,7 +15,7 @@ const cEstagioGrupo = {
   async criarVarios(req: Request, res: Response) {
     let { dados } = req.body;
 
-    const message = cUtils.verificaNovos(dados, camposEstagioGrupo);
+    const message = cMessages.verificaNovos(dados, camposEstagioGrupo);
     if (message) return res.status(400).json({ message });
 
     try {
@@ -42,7 +42,7 @@ const cEstagioGrupo = {
   async editar(req: Request, res: Response) {
     let { novosDados } = req.body;
 
-    const message = cUtils.verificaEdicao(novosDados, camposEstagioGrupo);
+    const message = cMessages.verificaEdicao(novosDados, camposEstagioGrupo);
     if (message) return res.status(400).json({ message });
 
     try {

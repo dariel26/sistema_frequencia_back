@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBEstagio from "../db/DBEstagio";
 import { trataErr } from "../errors";
-import cUtils from "./cUtils";
+import cMessages from "./cMessages";
 
 const camposEstagios = ["nome"];
 
@@ -9,7 +9,7 @@ const cEstagio = {
   async criarVarios(req: Request, res: Response) {
     const { estagios } = req.body;
 
-    const message = cUtils.verificaNovos(estagios, camposEstagios);
+    const message = cMessages.verificaNovos(estagios, camposEstagios);
     if (message) return res.status(400).json({ message });
 
     try {
@@ -40,7 +40,7 @@ const cEstagio = {
   async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
 
-    const message = cUtils.verificaEdicao(novosDados, camposEstagios);
+    const message = cMessages.verificaEdicao(novosDados, camposEstagios);
     if (message) return res.status(400).json({ message });
 
     try {

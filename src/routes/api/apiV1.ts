@@ -16,6 +16,7 @@ import cAlunoDataAtividade from "../../controllers/cAlunoDataAtividade";
 import cLocalAtividade from "../../controllers/cLocalAtividade";
 import cPreceptor from "../../controllers/cPreceptor";
 import cCoordenador from "../../controllers/cCoordenador";
+import cAlunoGrupo from "../../controllers/cAlunoGrupo";
 
 const apiV1 = express.Router();
 
@@ -65,6 +66,9 @@ apiV1.delete("/grupo/:ids", checarHabilidade("edit", "grupo"), cGrupo.deletarVar
 //COORD-ESTAGIO
 apiV1.post("/coord-estagio", checarHabilidade("edit", "coord-estagio"), cCoordEstagio.criarVarios);
 
+//ALUNO-GRUPO
+apiV1.post("/aluno-grupo", checarHabilidade("edit", "coord-estagio"), cAlunoGrupo.criarVarios);
+
 //ESTAGIO-GRUPO
 apiV1.post("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.criarVarios);
 apiV1.put("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.editar);
@@ -79,7 +83,7 @@ apiV1.delete("/local/:ids", checarHabilidade("edit", "local"), cLocal.deletarVar
 //ATIVIDADE
 apiV1.post("/atividade", checarHabilidade("edit", "atividade"), cAtividade.criarVarios);
 apiV1.get("/atividade", checarHabilidade("read", "atividade"), cAtividade.listar);
-apiV1.put("/atividade", checarHabilidade("edit", "atividade"), cAtividade.editarVarios);
+apiV1.put("/atividade", checarHabilidade("edit", "atividade"), cAtividade.editar);
 apiV1.delete("/atividade/:ids", checarHabilidade("edit", "atividade"), cAtividade.deletarVarios);
 
 //PREC-ATIVIDADE

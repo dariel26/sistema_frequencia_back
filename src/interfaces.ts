@@ -48,10 +48,12 @@ export interface JWT {
 }
 
 export interface IToken {
-  papel: string;
+  tipo: string,
+  papeis: string,
+  papel_atual: string;
   nome: string;
   login: string;
-  id: string;
+  id_usuario: string;
 }
 
 export interface IEstagio {
@@ -92,7 +94,7 @@ export interface ILocalAtividade {
 }
 
 export interface IDataAtividade {
-  id_dataatividade: number;
+  id_dataatividade?: number;
   id_atividade: number;
   excluida: boolean;
   data: string;
@@ -100,7 +102,7 @@ export interface IDataAtividade {
 
 export interface IAlunoDataAtividade {
   id_alunodataatividade?: number;
-  data: Date;
+  data: string;
   id_usuario: number;
   id_atividade: number;
   estado: string;
@@ -177,7 +179,20 @@ export interface IViewAtividade {
     id_dataatividade: number;
     alunos: { nome: string; id_aluno: number; estado: boolean }[];
   }[];
-  subgrupos: any[]; //Esta propriedade é colocada pela api.
+}
+
+export interface ISubGrupo {
+  data_inicial: Date;
+  data_final: Date;
+  alunos: {
+    id_aluno: number;
+    nome: string;
+    incluido: boolean;
+  }[];
+}
+
+export interface IViewAtividadeCompleta extends IViewAtividade {
+  subgrupos: ISubGrupo[];
 }
 
 export interface IViewGrupo {

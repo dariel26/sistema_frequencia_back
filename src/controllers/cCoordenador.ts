@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBUsuario from "../db/DBUsuario";
 import { trataErr } from "../errors";
-import cUtils from "./cUtils";
+import cMessages from "./cMessages";
 import { IUsuario, PAPEIS, TIPO_USUARIO } from "../interfaces";
 
 const camposCoordenador: string[] = ["nome", "login", "senha"];
@@ -12,7 +12,7 @@ const cCoordenador = {
   async criarVarios(req: Request, res: Response) {
     const { coordenadores } = req.body;
 
-    const message = cUtils.verificaNovos(coordenadores, camposCoordenador);
+    const message = cMessages.verificaNovos(coordenadores, camposCoordenador);
     if (message) return res.status(400).json({ message });
 
     try {
@@ -64,7 +64,7 @@ const cCoordenador = {
   async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
 
-    const message = cUtils.verificaEdicao(novosDados, camposCoordenador);
+    const message = cMessages.verificaEdicao(novosDados, camposCoordenador);
     if (message) return res.status(400).json({ message });
 
     try {

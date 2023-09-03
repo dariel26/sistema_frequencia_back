@@ -2,9 +2,9 @@ import { IAlunoDataAtividade } from "../interfaces";
 import db from "./db";
 
 const DBAlunoDataAtividade = {
-  buscar: async (id_aluno: string) => {
-    const sql = "SELECT * FROM view_presenca WHERE id_aluno IN (?)";
-    const [presencas] = await db.query(sql, [id_aluno]);
+  buscar: async (id_usuario: string) => {
+    const sql = "SELECT * FROM view_presenca WHERE id_usuario IN (?)";
+    const [presencas] = await db.query(sql, [id_usuario]);
     return presencas;
   },
   buscarPorId: async (id_alunodataatividade: string) => {
@@ -14,9 +14,9 @@ const DBAlunoDataAtividade = {
   },
   criar: async (dados: IAlunoDataAtividade[]) => {
     const sql =
-      "INSERT INTO AlunoDataAtividade (id_aluno, id_atividade, estado, data) VALUES ?";
-    const novosDados = dados.map(({ id_aluno, id_atividade, data, estado }) => [
-      id_aluno,
+      "INSERT INTO AlunoDataAtividade (id_usuario, id_atividade, estado, data) VALUES ?";
+    const novosDados = dados.map(({ id_usuario, id_atividade, data, estado }) => [
+      id_usuario,
       id_atividade,
       estado,
       data,
@@ -24,10 +24,10 @@ const DBAlunoDataAtividade = {
     const res = await db.query(sql, [novosDados]);
     return res;
   },
-  deletarSemPresencas: async (ids: Array<string>) => {
+  deletarPartindoDe: async (id: number, dataAmanha: string) => {
     const sql =
-      "DELETE FROM AlunoDataAtividade WHERE id_atividade IN (?) AND estado != '1'";
-    const res = await db.query(sql, [ids]);
+      "DELETE FROM AlunoDataAtividade WHERE id_atividade IN (?) AND data >= ?";
+    const res = await db.query(sql, [id, dataAmanha]);
     return res;
   },
   deletar: async (ids: Array<string>) => {

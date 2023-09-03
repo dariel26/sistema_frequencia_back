@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBUsuario from "../db/DBUsuario";
 import { trataErr } from "../errors";
-import cUtils from "./cUtils";
+import cMessages from "./cMessages";
 import { IUsuario, PAPEIS, TIPO_USUARIO } from "../interfaces";
 
 const camposPreceptores: string[] = ["nome", "login", "senha"];
@@ -12,7 +12,7 @@ const cPreceptor = {
   async criarVarios(req: Request, res: Response) {
     const { preceptores } = req.body;
 
-    const message = cUtils.verificaNovos(preceptores, camposPreceptores);
+    const message = cMessages.verificaNovos(preceptores, camposPreceptores);
     if (message) return res.status(400).json({ message });
 
     try {
@@ -64,7 +64,7 @@ const cPreceptor = {
   async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
 
-    const message = cUtils.verificaEdicao(novosDados, camposPreceptores);
+    const message = cMessages.verificaEdicao(novosDados, camposPreceptores);
     if (message) return res.status(400).json({ message });
 
     try {

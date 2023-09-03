@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBGrupo from "../db/DBGrupo";
 import { trataErr } from "../errors";
-import cUtils from "./cUtils";
+import cMessages from "./cMessages";
 
 const camposGrupos = ["nome"];
 
@@ -9,7 +9,7 @@ const cGrupo = {
   async criarVarios(req: Request, res: Response) {
     const { grupos } = req.body;
 
-    const message = cUtils.verificaNovos(grupos, camposGrupos);
+    const message = cMessages.verificaNovos(grupos, camposGrupos);
     if (message) return res.status(400).json({ message });
 
     try {
@@ -44,7 +44,7 @@ const cGrupo = {
   async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
 
-    const message = cUtils.verificaEdicao(novosDados, camposGrupos);
+    const message = cMessages.verificaEdicao(novosDados, camposGrupos);
     if (message) return res.status(400).json({ message });
 
     try {
