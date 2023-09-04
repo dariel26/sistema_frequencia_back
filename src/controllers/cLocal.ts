@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBLocal from "../db/DBLocal";
-import { trataErr } from "../errors";
-import cMessages from "./cMessages";
+import { trataErr } from "./userErrors";
+import cMessages from "./messagesDev";
 
 const camposLocal = ["nome"];
 

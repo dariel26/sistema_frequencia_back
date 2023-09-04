@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBCoordEstagio from "../db/DBCoordEstagio";
-import { trataErr } from "../errors";
-import cMessages from "./cMessages";
+import { trataErr } from "./userErrors";
+import cMessages from "./messagesDev";
 
 const camposCoordEstagio = ["id_estagio", "id_usuario"];
 

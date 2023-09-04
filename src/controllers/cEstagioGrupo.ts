@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import DBEstagioGrupo from "../db/DBEstagioGrupo";
-import { trataErr } from "../errors";
-import cMessages from "./cMessages";
-import { dataFrontEmDataBD } from "../utils";
+import { trataErr } from "./userErrors";
+import cMessages from "./messagesDev";
+import cUtils from "./utilidades";
 
 const camposEstagioGrupo = [
   "id_estagio",
@@ -28,8 +28,8 @@ const cEstagioGrupo = {
         }) => ({
           id_estagio: dado.id_estagio,
           id_grupo: dado.id_grupo,
-          data_inicial: dataFrontEmDataBD(dado.data_inicial),
-          data_final: dataFrontEmDataBD(dado.data_final),
+          data_inicial: cUtils.dataFrontEmDataBD(dado.data_inicial),
+          data_final: cUtils.dataFrontEmDataBD(dado.data_final),
         })
       );
 
@@ -49,12 +49,12 @@ const cEstagioGrupo = {
       if (novosDados.data_inicial)
         novosDados = {
           ...novosDados,
-          data_inicial: dataFrontEmDataBD(novosDados.data_inicial),
+          data_inicial: cUtils.dataFrontEmDataBD(novosDados.data_inicial),
         };
       if (novosDados.data_final)
         novosDados = {
           ...novosDados,
-          data_final: dataFrontEmDataBD(novosDados.data_final),
+          data_final: cUtils.dataFrontEmDataBD(novosDados.data_final),
         };
 
       await DBEstagioGrupo.editar(novosDados);

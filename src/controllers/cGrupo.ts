@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBGrupo from "../db/DBGrupo";
-import { trataErr } from "../errors";
-import cMessages from "./cMessages";
+import { trataErr } from "./userErrors";
+import cMessages from "./messagesDev";
 
 const camposGrupos = ["nome"];
 

@@ -131,6 +131,45 @@ function datasNoIntervalo(
   return datasEntreIntervalo;
 }
 
+function toRadians(degrees: number): number {
+  return degrees * (Math.PI / 180);
+}
+function distancia(
+  coordenada1: { lat: number; lon: number },
+  coordenada2: { lat: number; lon: number }
+): number {
+  const R = 6371000; // Raio médio da Terra em metros
+
+  const lat1Rad = toRadians(coordenada1.lat);
+  const lon1Rad = toRadians(coordenada1.lon);
+  const lat2Rad = toRadians(coordenada2.lat);
+  const lon2Rad = toRadians(coordenada2.lon);
+
+  const deltaLat = lat2Rad - lat1Rad;
+  const deltaLon = lon2Rad - lon1Rad;
+
+  const a =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(deltaLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const distance = R * c;
+  return distance;
+}
+
+function diferencaAbsEmHoras(dataChegada: Date, dataAtividade: Date): number {
+  const milisegundos = dataAtividade.getTime() - dataChegada.getTime();
+  const horas = milisegundos / (1000 * 60 * 60);
+  return horas;
+}
+
+function horarioEmData(data: Date, horario: string): Date {
+  const [hour, minute] = horario.split(":").map(Number);
+  data.setHours(hour);
+  data.setMinutes(minute);
+  return data;
+}
+
 const cUtils = {
   encontrarMinEMaxDatas,
   amdEmData,
@@ -143,6 +182,9 @@ const cUtils = {
   dataArarangua,
   extenderArray,
   datasNoIntervalo,
+  distancia,
+  diferencaAbsEmHoras,
+  horarioEmData,
 };
 
 export default cUtils;

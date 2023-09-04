@@ -2,7 +2,7 @@ require("dotenv").config();
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import db from "../db/db";
-import { trataErr } from "../errors";
+import { trataErr } from "../controllers/userErrors";
 import { CustomRequest, IInfoUsuario } from "../interfaces";
 
 export const tokenSecret = "djasAJDi@e23819#@(*!ksDAHS";

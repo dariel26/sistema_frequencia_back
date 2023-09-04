@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBPrecAtividade from "../db/DBPrecAtividade";
-import { trataErr } from "../errors";
+import { trataErr } from "./userErrors";
 
 const cPrecAtividade = {
   async criarVarios(req: Request, res: Response) {

@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import cMessages from "./cMessages";
+import cMessages from "./messagesDev";
 import DBAtividade from "../db/DBAtividade";
 import DBEstagio from "../db/DBEstagio";
-import { trataErr } from "../errors";
+import { trataErr } from "./userErrors";
 import {
   IAlunoDataAtividade,
-  IAtividade,
   IDataAtividade,
   IGrupoEmEstagio,
   ISubGrupo,
@@ -13,8 +12,7 @@ import {
   IViewAtividadeCompleta,
   IViewEstagio,
 } from "../interfaces";
-import { amdEmData } from "../utils";
-import cUtils, { dataEmAmd } from "./cUtils";
+import cUtils, { dataEmAmd } from "./utilidades";
 import DBDataAtividade from "../db/DBDataAtividade";
 import DBAlunoDataAtividade from "../db/DBAlunoDataAtividade";
 
@@ -190,8 +188,8 @@ function atividadesComSubgrupos(
 
     for (const grupo of gruposDaAtividade) {
       subgruposDaAtividade.push({
-        data_inicial: amdEmData(grupo.data_inicial),
-        data_final: amdEmData(grupo.data_final),
+        data_inicial: cUtils.amdEmData(grupo.data_inicial),
+        data_final: cUtils.amdEmData(grupo.data_final),
         alunos: grupo.alunos.map((a, i) => ({
           id_aluno: a.id_usuario,
           nome: a.nome,
@@ -214,8 +212,8 @@ function grupoDaAtividadeGeral(estagios: IViewEstagio[]): IGrupoEmEstagio {
     .sort(cUtils.ordenarPorIdUsuarioASC);
 
   const datas: Date[] = grupos.flatMap(({ data_inicial, data_final }) => [
-    amdEmData(data_inicial),
-    amdEmData(data_final),
+    cUtils.amdEmData(data_inicial),
+    cUtils.amdEmData(data_final),
   ]);
   let [dataInicial, dataFinal] = cUtils.encontrarMinEMaxDatas(datas);
 

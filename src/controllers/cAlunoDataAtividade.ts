@@ -1,24 +1,18 @@
 import { Request, Response } from "express";
 import { getZonedTime, findTimeZone } from "timezone-support";
 import DBAlunoDataAtividade from "../db/DBAlunoDataAtividade";
-import { trataErr } from "../errors";
-import {
-  amdEmData,
-  diferencaAbsEmHoras,
-  distancia,
-  horarioEmData,
-} from "../utils";
+import { trataErr } from "./userErrors";
+import cUtils from "./utilidades";
 
 const cAlunoDataAtividade = {
   async buscarPorId(req: Request, res: Response) {
     //TODO nao precisar passar o id
     const { id } = req.params;
-    const ararangua = findTimeZone("America/Sao_Paulo");
-    const araranguaTime = getZonedTime(new Date(), ararangua);
 
     try {
+      const dataAtual = cUtils.dataTimeArarangua();
       const presencas = await DBAlunoDataAtividade.buscar(id);
-      res.status(200).json({ presencas, dataHora: araranguaTime });
+      res.status(200).json({ presencas, dataAtual });
     } catch (err) {
       trataErr(err, res);
     }
@@ -41,18 +35,12 @@ const cAlunoDataAtividade = {
   async editarPorId(req: Request, res: Response) {
     const { novosDados } = req.body;
     try {
-      const ararangua = findTimeZone("America/Sao_Paulo");
-      const { day, month, year, hours, minutes } = getZonedTime(
-        new Date(),
-        ararangua
-      );
-
       const presenca = await DBAlunoDataAtividade.buscarPorId(
         novosDados.id_alunodataatividade
       );
 
-      const dataAtual = new Date(year, month - 1, day, hours, minutes);
-      const dataAtividade = horarioEmData(
+      const dataAtual = cUtils.dataTimeArarangua();
+      const dataAtividade = cUtils.horarioEmData(
         presenca[0].data,
         presenca[0].hora_inicial
       );
@@ -60,8 +48,11 @@ const cAlunoDataAtividade = {
       const coordenadaDoLocal = presenca[0].coordenadas;
       const coordenadaDoUsuario = novosDados.coordenadas;
 
-      const raio = distancia(coordenadaDoUsuario, coordenadaDoLocal);
-      const diferencaEmHoras = diferencaAbsEmHoras(dataAtual, dataAtividade);
+      const raio = cUtils.distancia(coordenadaDoUsuario, coordenadaDoLocal);
+      const diferencaEmHoras = cUtils.diferencaAbsEmHoras(
+        dataAtual,
+        dataAtividade
+      );
 
       if (raio > 180)
         return res.status(400).json({
@@ -69,7 +60,7 @@ const cAlunoDataAtividade = {
         });
       if (diferencaEmHoras > 0.3)
         return res.status(400).json({
-          message: "Muito cedo, marque a presença faltando menos de 20 minutos",
+          message: "Muito cedo, tente novamente mais tarde.",
         });
       if (diferencaEmHoras < -2)
         return res.status(400).json({
@@ -79,10 +70,10 @@ const cAlunoDataAtividade = {
       await DBAlunoDataAtividade.editar([
         {
           id_alunodataatividade: novosDados.id_alunodataatividade,
-          estado: "1",
+          estado: "PRESENTE",
         },
       ]);
-      res.status(200).json({ message: "Presença marcada!" });
+      res.status(200).json();
     } catch (err) {
       trataErr(err, res);
     }

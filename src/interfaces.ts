@@ -4,6 +4,7 @@ import { Request } from "express";
 
 export type PAPEIS = "ALUNO(A)" | "PRECEPTOR(A)" | "COORDENADOR(A)" | "ADMIN";
 export type TIPO_USUARIO = "ALUNO" | "COORDENADOR" | "PRECEPTOR";
+export type ESTADO_PRESENCA = "AGUARDANDO" | "PRESENTE" | "FALTA" | "REJEITADA";
 
 export interface IInfoUsuario {
   id_usuario: number;
@@ -48,8 +49,8 @@ export interface JWT {
 }
 
 export interface IToken {
-  tipo: string,
-  papeis: string,
+  tipo: string;
+  papeis: string;
   papel_atual: string;
   nome: string;
   login: string;
@@ -105,7 +106,7 @@ export interface IAlunoDataAtividade {
   data: string;
   id_usuario: number;
   id_atividade: number;
-  estado: string;
+  estado: ESTADO_PRESENCA;
 }
 
 export interface ILocal {

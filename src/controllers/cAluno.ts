@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBUsuario from "../db/DBUsuario";
-import { trataErr } from "../errors";
-import cMessages from "./cMessages";
+import { trataErr } from "./userErrors";
+import cMessages from "./messagesDev";
 import { IUsuario, PAPEIS, TIPO_USUARIO } from "../interfaces";
 
 const camposAlunos: string[] = ["nome", "login", "senha"];

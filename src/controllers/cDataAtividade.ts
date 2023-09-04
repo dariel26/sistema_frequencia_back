@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBDataAtividade from "../db/DBDataAtividade";
-import { trataErr } from "../errors";
+import { trataErr } from "./userErrors";
 
 const cDataAtividade = {
   async criarVarios(req: Request, res: Response) {

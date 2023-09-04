@@ -1,4 +1,4 @@
-import { IAlunoDataAtividade } from "../interfaces";
+import { ESTADO_PRESENCA, IAlunoDataAtividade } from "../interfaces";
 import db from "./db";
 
 const DBAlunoDataAtividade = {
@@ -8,19 +8,22 @@ const DBAlunoDataAtividade = {
     return presencas;
   },
   buscarPorId: async (id_alunodataatividade: string) => {
-    const sql = "SELECT * FROM view_presenca WHERE id_alunodataatividade IN (?)";
+    const sql =
+      "SELECT * FROM view_presenca WHERE id_alunodataatividade IN (?)";
     const [presencas] = await db.query(sql, [id_alunodataatividade]);
     return presencas;
   },
   criar: async (dados: IAlunoDataAtividade[]) => {
     const sql =
       "INSERT INTO AlunoDataAtividade (id_usuario, id_atividade, estado, data) VALUES ?";
-    const novosDados = dados.map(({ id_usuario, id_atividade, data, estado }) => [
-      id_usuario,
-      id_atividade,
-      estado,
-      data,
-    ]);
+    const novosDados = dados.map(
+      ({ id_usuario, id_atividade, data, estado }) => [
+        id_usuario,
+        id_atividade,
+        estado,
+        data,
+      ]
+    );
     const res = await db.query(sql, [novosDados]);
     return res;
   },
@@ -38,7 +41,7 @@ const DBAlunoDataAtividade = {
   editar: async (
     novosDados: {
       id_alunodataatividade: string;
-      estado: string;
+      estado: ESTADO_PRESENCA;
     }[]
   ) => {
     let sql = "UPDATE AlunoDataAtividade SET ";
@@ -76,8 +79,12 @@ const DBAlunoDataAtividade = {
         }
       }
     }
-    const ids = novosDados.map(({ id_alunodataatividade }) => id_alunodataatividade);
-    sql += ` WHERE id_alunodataatividade IN (${ids.map((item) => item).join(", ")})`;
+    const ids = novosDados.map(
+      ({ id_alunodataatividade }) => id_alunodataatividade
+    );
+    sql += ` WHERE id_alunodataatividade IN (${ids
+      .map((item) => item)
+      .join(", ")})`;
     let values: any = [];
     for (let dado of novosDados) {
       //TODO a ordem dos valores do objeto influenciam e podem dar valores errados

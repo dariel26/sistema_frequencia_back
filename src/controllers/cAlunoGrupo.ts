@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DBCoordEstagio from "../db/DBCoordEstagio";
-import { trataErr } from "../errors";
-import cMessages from "./cMessages";
+import { trataErr } from "./userErrors";
+import cMessages from "./messagesDev";
 import DBAlunoGrupo from "../db/DBAlunoGrupo";
 
 const camposAlunoGrupo = ["id_grupo", "id_usuario"];
