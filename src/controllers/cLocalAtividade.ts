@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBLocalAtividade from "../db/DBLocalAtividade";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 
 const cLocalAtividade = {
   async criarVarios(req: Request, res: Response) {
@@ -12,7 +12,7 @@ const cLocalAtividade = {
       await DBLocalAtividade.criar(dados);
       res.status(201).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

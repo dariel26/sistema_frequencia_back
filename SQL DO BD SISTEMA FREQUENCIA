@@ -111,6 +111,7 @@ validade DATETIME
 
 CREATE VIEW view_aluno AS SELECT
     al.id_usuario,
+    al.login,
     al.nome,
     al.papeis,
     al.papel_atual,

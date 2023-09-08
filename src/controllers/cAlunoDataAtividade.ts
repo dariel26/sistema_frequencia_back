@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getZonedTime, findTimeZone } from "timezone-support";
 import DBAlunoDataAtividade from "../db/DBAlunoDataAtividade";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cUtils from "./utilidades";
 
 const cAlunoDataAtividade = {
@@ -14,7 +14,7 @@ const cAlunoDataAtividade = {
       const presencas = await DBAlunoDataAtividade.buscar(id);
       res.status(200).json({ presencas, dataAtual });
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async criarVarios(req: Request, res: Response) {
@@ -29,7 +29,7 @@ const cAlunoDataAtividade = {
       await DBAlunoDataAtividade.criar(dados);
       res.status(201).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async editarPorId(req: Request, res: Response) {
@@ -47,7 +47,6 @@ const cAlunoDataAtividade = {
 
       const coordenadaDoLocal = presenca[0].coordenadas;
       const coordenadaDoUsuario = novosDados.coordenadas;
-
       const raio = cUtils.distancia(coordenadaDoUsuario, coordenadaDoLocal);
       const diferencaEmHoras = cUtils.diferencaAbsEmHoras(
         dataAtual,
@@ -75,7 +74,7 @@ const cAlunoDataAtividade = {
       ]);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

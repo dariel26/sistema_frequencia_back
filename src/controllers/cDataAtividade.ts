@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBDataAtividade from "../db/DBDataAtividade";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 
 const cDataAtividade = {
   async criarVarios(req: Request, res: Response) {
@@ -16,7 +16,7 @@ const cDataAtividade = {
       await DBDataAtividade.criar(datas);
       res.status(201).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async editarVarios(req: Request, res: Response) {
@@ -25,7 +25,7 @@ const cDataAtividade = {
       await DBDataAtividade.editar(novosDados);
       res.status(200).json({ message: "Datas de atividades editadas!" });
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

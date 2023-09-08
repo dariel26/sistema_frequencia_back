@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import cMessages from "./messagesDev";
 import DBAtividade from "../db/DBAtividade";
 import DBEstagio from "../db/DBEstagio";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import {
   IAlunoDataAtividade,
   IDataAtividade,
@@ -45,10 +45,12 @@ const cAtividade = {
 
     try {
       await DBAtividade.criar(atividades);
-      const novasAtividades = await DBAtividade.listar();
+      const estagios = await DBEstagio.listar();
+      let novasAtividades = await DBAtividade.listar();
+      novasAtividades = atividadesComSubgrupos(novasAtividades, estagios);
       res.status(200).json(novasAtividades);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async listar(_: Request, res: Response) {
@@ -59,7 +61,7 @@ const cAtividade = {
       const atividadesCompletas = atividadesComSubgrupos(atividades, estagios);
       res.status(200).json(atividadesCompletas);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   editar: async (req: Request, res: Response) => {
@@ -120,6 +122,10 @@ const cAtividade = {
           cUtils.dataEmDataBD(dataAmanha)
         );
 
+        await DBAlunoDataAtividade.deletarPartindoDe(
+          atividadeCompleta.id_atividade,
+          cUtils.dataEmDataBD(dataAmanha)
+        );
         await atualizaAlunosDatasAtividade(
           atividadeCompleta.subgrupos,
           alunosNoDia,
@@ -143,10 +149,10 @@ const cAtividade = {
       }
 
       await DBAtividade.editar(novosDados);
-      res.status(200).json();
+      res.status(200).json(atividadeCompleta);
     } catch (err) {
       console.log(err);
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async deletarVarios(req: Request, res: Response) {
@@ -155,7 +161,7 @@ const cAtividade = {
       await DBAtividade.deletar(ids);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };
@@ -183,8 +189,8 @@ function atividadesComSubgrupos(
     const [idxAlunoInicialStr, idxAlunoFinalStr] = (
       atividade.intervalo_alunos ?? "5000-5001"
     ).split("-");
-    const idxAlunoInicial = parseInt(idxAlunoInicialStr);
-    const idxAlunoFinal = parseInt(idxAlunoFinalStr);
+    const idxAlunoInicial = parseInt(idxAlunoInicialStr) - 1;
+    const idxAlunoFinal = parseInt(idxAlunoFinalStr) - 1;
 
     for (const grupo of gruposDaAtividade) {
       subgruposDaAtividade.push({
@@ -258,7 +264,7 @@ async function atualizaDatasAtividade(
     [atividadeCompleta.id_atividade.toString()],
     cUtils.dataEmDataBD(dataAmanha)
   );
-  await DBDataAtividade.criar(datasAtividade);
+  if (datasAtividade.length > 0) await DBDataAtividade.criar(datasAtividade);
 }
 
 async function atualizaAlunosDatasAtividade(
@@ -303,7 +309,7 @@ async function atualizaAlunosDatasAtividade(
             id_atividade,
             id_dataatividade,
             data,
-            estado: "AGUARDANDO",
+            estado: "CRIADA",
           }));
         });
       }

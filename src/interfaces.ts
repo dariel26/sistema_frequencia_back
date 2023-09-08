@@ -4,7 +4,7 @@ import { Request } from "express";
 
 export type PAPEIS = "ALUNO(A)" | "PRECEPTOR(A)" | "COORDENADOR(A)" | "ADMIN";
 export type TIPO_USUARIO = "ALUNO" | "COORDENADOR" | "PRECEPTOR";
-export type ESTADO_PRESENCA = "AGUARDANDO" | "PRESENTE" | "FALTA" | "REJEITADA";
+export type ESTADO_PRESENCA = "CRIADA" | "PRESENTE" | "REJEITADA" | "ATESTADO";
 
 export interface IInfoUsuario {
   id_usuario: number;
@@ -86,7 +86,7 @@ export interface IAtividade {
 
 export interface IPrecAtividade {
   id_atividade: number;
-  id_preceptor: number;
+  id_usuario: number;
 }
 
 export interface ILocalAtividade {

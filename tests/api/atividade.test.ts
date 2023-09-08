@@ -235,31 +235,31 @@ describe("Atividade", () => {
       atividades.body[1].datas.map(({ data, alunos }) => ({ data, ...alunos }))
     ).toEqual([
       {
-        "0": { nome: alunoA.nome, estado: "AGUARDANDO", id_aluno: id_usuarioA },
+        "0": { nome: alunoA.nome, estado: "CRIADA", id_aluno: id_usuarioA },
         data: "2100-09-20",
       },
       {
-        "0": { nome: alunoA.nome, estado: "AGUARDANDO", id_aluno: id_usuarioA },
+        "0": { nome: alunoA.nome, estado: "CRIADA", id_aluno: id_usuarioA },
         data: "2100-09-27",
       },
       {
-        "0": { nome: alunoB.nome, estado: "AGUARDANDO", id_aluno: id_usuarioB },
+        "0": { nome: alunoB.nome, estado: "CRIADA", id_aluno: id_usuarioB },
         data: "2100-10-04",
       },
       {
-        "0": { nome: alunoB.nome, estado: "AGUARDANDO", id_aluno: id_usuarioB },
+        "0": { nome: alunoB.nome, estado: "CRIADA", id_aluno: id_usuarioB },
         data: "2100-10-11",
       },
       {
-        "0": { nome: alunoB.nome, estado: "AGUARDANDO", id_aluno: id_usuarioB },
+        "0": { nome: alunoB.nome, estado: "CRIADA", id_aluno: id_usuarioB },
         data: "2100-10-18",
       },
       {
-        "0": { nome: alunoC.nome, estado: "AGUARDANDO", id_aluno: id_usuarioC },
+        "0": { nome: alunoC.nome, estado: "CRIADA", id_aluno: id_usuarioC },
         data: "2100-10-25",
       },
       {
-        "0": { nome: alunoC.nome, estado: "AGUARDANDO", id_aluno: id_usuarioC },
+        "0": { nome: alunoC.nome, estado: "CRIADA", id_aluno: id_usuarioC },
         data: "2100-11-01",
       },
     ]);

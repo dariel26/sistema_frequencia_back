@@ -2,7 +2,7 @@ require("dotenv").config();
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import db from "../db/db";
-import { trataErr } from "../controllers/userErrors";
+import { userError } from "../controllers/userErrors";
 import { CustomRequest, IInfoUsuario } from "../interfaces";
 
 export const tokenSecret = "djasAJDi@e23819#@(*!ksDAHS";
@@ -27,13 +27,11 @@ export default async function acessoPadrao(
     if (dados[0][0] === undefined) {
       const requisicao = req as CustomRequest;
       requisicao.infoToken = infoToken as IInfoUsuario;
-      setTimeout(() => {
-        return next();
-      }, 1000);
+      return next();
     } else {
       return res.status(401).json();
     }
   } catch (err) {
-    trataErr(err, res);
+    userError(err, res);
   }
 }

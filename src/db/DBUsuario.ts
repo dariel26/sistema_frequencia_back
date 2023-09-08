@@ -92,7 +92,7 @@ const DBUsuario = {
     }
     if (dados.senha) {
       sql += " senha=?,";
-      valores.push(dados.senha);
+      valores.push(await cipher(dados.senha));
     }
     if (dados.papel_atual) {
       sql += " papel_atual=?,";
@@ -100,7 +100,7 @@ const DBUsuario = {
     }
     if (dados.papeis) {
       sql += " papeis=?,";
-      valores.push(dados.papeis);
+      valores.push(JSON.stringify(dados.papeis));
     }
 
     sql = sql.slice(0, -1);

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBUsuario from "../db/DBUsuario";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cMessages from "./messagesDev";
 import { IUsuario, PAPEIS, TIPO_USUARIO } from "../interfaces";
 
@@ -39,7 +39,7 @@ const cAluno = {
 
       res.status(200).json(novosAlunos);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 
@@ -49,7 +49,7 @@ const cAluno = {
       await DBUsuario.deletar(ids);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 
@@ -58,7 +58,7 @@ const cAluno = {
       const alunos = await DBUsuario.listarAlunos();
       res.status(200).json(alunos);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async editar(req: Request, res: Response) {
@@ -71,7 +71,7 @@ const cAluno = {
       await DBUsuario.editar(novosDados);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

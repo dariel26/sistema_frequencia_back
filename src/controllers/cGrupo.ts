@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBGrupo from "../db/DBGrupo";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cMessages from "./messagesDev";
 
 const camposGrupos = ["nome"];
@@ -18,7 +18,7 @@ const cGrupo = {
 
       res.status(200).json(novosGrupos);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 
@@ -27,7 +27,7 @@ const cGrupo = {
       const grupos = await DBGrupo.listar();
       res.status(200).json(grupos);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 
@@ -37,7 +37,7 @@ const cGrupo = {
       await DBGrupo.deletar(ids);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 
@@ -51,7 +51,7 @@ const cGrupo = {
       await DBGrupo.editar(novosDados);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

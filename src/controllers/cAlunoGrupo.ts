@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBCoordEstagio from "../db/DBCoordEstagio";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cMessages from "./messagesDev";
 import DBAlunoGrupo from "../db/DBAlunoGrupo";
 
@@ -21,7 +21,16 @@ const cAlunoGrupo = {
       res.status(200).json();
     } catch (err) {
       console.log(err);
-      trataErr(err, res);
+      userError(err, res);
+    }
+  },
+  async deletarVarios(req: Request, res: Response) {
+    const ids = req.params.ids.split(",");
+    try {
+      await DBAlunoGrupo.deletar(ids);
+      res.status(200).json();
+    } catch (err) {
+      userError(err, res);
     }
   },
 };

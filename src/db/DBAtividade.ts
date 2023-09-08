@@ -83,37 +83,37 @@ const DBAtividade = {
       sql += " intervalo_alunos=?,";
       valores.push(dados.intervalo_alunos);
     }
-    if (dados.alunos_no_dia) {
+    if (dados.alunos_no_dia !== undefined) {
       sql += " alunos_no_dia=?,";
       valores.push(dados.alunos_no_dia);
     }
-    if (dados.segunda) {
+    if (dados.segunda !== undefined) {
       sql += " segunda=?,";
-      valores.push(dados.segunda);
+      valores.push(dados.segunda ? 1 : 0);
     }
-    if (dados.terca) {
+    if (dados.terca !== undefined) {
       sql += " terca=?,";
-      valores.push(dados.terca);
+      valores.push(dados.terca ? 1 : 0);
     }
-    if (dados.quarta) {
+    if (dados.quarta !== undefined) {
       sql += " quarta=?,";
-      valores.push(dados.quarta);
+      valores.push(dados.quarta ? 1 : 0);
     }
-    if (dados.quinta) {
+    if (dados.quinta !== undefined) {
       sql += " quinta=?,";
-      valores.push(dados.quinta);
+      valores.push(dados.quinta ? 1 : 0);
     }
-    if (dados.sexta) {
+    if (dados.sexta !== undefined) {
       sql += " sexta=?,";
-      valores.push(dados.sexta);
+      valores.push(dados.sexta ? 1 : 0);
     }
-    if (dados.sabado) {
+    if (dados.sabado !== undefined) {
       sql += " sabado=?,";
-      valores.push(dados.sabado);
+      valores.push(dados.sabado ? 1 : 0);
     }
-    if (dados.domingo) {
+    if (dados.domingo !== undefined) {
       sql += " domingo=?,";
-      valores.push(dados.domingo);
+      valores.push(dados.domingo ? 1 : 0);
     }
 
     sql = sql.slice(0, -1);

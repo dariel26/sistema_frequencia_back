@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBEstagio from "../db/DBEstagio";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cMessages from "./messagesDev";
 
 const camposEstagios = ["nome"];
@@ -17,7 +17,7 @@ const cEstagio = {
       const novosEstagios = await DBEstagio.listar();
       res.status(200).json(novosEstagios);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async listar(_: Request, res: Response) {
@@ -25,7 +25,7 @@ const cEstagio = {
       const estagios = await DBEstagio.listar();
       res.status(200).json(estagios);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async deletarVarios(req: Request, res: Response) {
@@ -34,7 +34,7 @@ const cEstagio = {
       await DBEstagio.deletar(ids);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async editar(req: Request, res: Response) {
@@ -47,7 +47,7 @@ const cEstagio = {
       await DBEstagio.editar(novosDados);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

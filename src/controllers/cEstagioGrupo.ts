@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import DBEstagioGrupo from "../db/DBEstagioGrupo";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cMessages from "./messagesDev";
 import cUtils from "./utilidades";
 
-const camposEstagioGrupo = [
-  "id_estagio",
-  "id_grupo",
+const camposEstagioGrupo = ["id_estagio", "data_inicial", "data_final"];
+
+const camposEstagioGrupoEdicao = [
+  "id_estagiogrupo",
   "data_inicial",
   "data_final",
+  "id_grupo",
 ];
 
 const cEstagioGrupo = {
@@ -36,13 +38,15 @@ const cEstagioGrupo = {
       await DBEstagioGrupo.criar(dados);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async editar(req: Request, res: Response) {
     let { novosDados } = req.body;
-
-    const message = cMessages.verificaEdicao(novosDados, camposEstagioGrupo);
+    const message = cMessages.verificaEdicao(
+      novosDados,
+      camposEstagioGrupoEdicao
+    );
     if (message) return res.status(400).json({ message });
 
     try {
@@ -60,7 +64,7 @@ const cEstagioGrupo = {
       await DBEstagioGrupo.editar(novosDados);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async deletarVarios(req: Request, res: Response) {
@@ -69,7 +73,7 @@ const cEstagioGrupo = {
       await DBEstagioGrupo.deletar(ids);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

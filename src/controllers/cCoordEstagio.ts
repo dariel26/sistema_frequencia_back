@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBCoordEstagio from "../db/DBCoordEstagio";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cMessages from "./messagesDev";
 
 const camposCoordEstagio = ["id_estagio", "id_usuario"];
@@ -19,7 +19,7 @@ const cCoordEstagio = {
       await DBCoordEstagio.criar(dados);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

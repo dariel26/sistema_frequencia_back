@@ -18,6 +18,7 @@ export function defineHabilidadesPara(infoUsuario: IInfoUsuario) {
     can("edit", "ativLocalAluno");
     can("edit", "precAtiv");
     can("edit", "estagioGrupo");
+    can("edit", "coordenador"); //TODO Sempre e quando seja ele mesmo
     can("read", "all");
   } else if (infoUsuario.papel_atual === "PRECEPTOR(A)") {
     can("read", "all");

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DBLocal from "../db/DBLocal";
-import { trataErr } from "./userErrors";
+import { userError } from "./userErrors";
 import cMessages from "./messagesDev";
 
 const camposLocal = ["nome"];
@@ -17,7 +17,7 @@ const cLocal = {
       const novosLocais = await DBLocal.listar();
       res.status(200).json(novosLocais);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async listar(_: Request, res: Response) {
@@ -25,7 +25,7 @@ const cLocal = {
       const locais = await DBLocal.listar();
       res.status(200).json(locais);
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async deletarVarios(req: Request, res: Response) {
@@ -34,7 +34,7 @@ const cLocal = {
       await DBLocal.deletar(ids);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
   async editar(req: Request, res: Response) {
@@ -47,7 +47,7 @@ const cLocal = {
       await DBLocal.editar(novosDados);
       res.status(200).json();
     } catch (err) {
-      trataErr(err, res);
+      userError(err, res);
     }
   },
 };

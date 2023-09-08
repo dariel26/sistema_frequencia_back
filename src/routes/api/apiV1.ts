@@ -32,6 +32,7 @@ apiV1.get("/logout", cUsuario.logout);
 //USUARIO
 apiV1.get("/usuario/info", cUsuario.retornaInfoUsuario);
 apiV1.get("/usuario/padrao", cUsuario.usuarioSenhaPadrao);
+apiV1.put("/usuario/", checarHabilidade("edit", "coordenador"), cUsuario.editar);
 
 //COORDENADOR
 apiV1.post("/coordenador", checarHabilidade("edit", "coordenador"), cCoordenador.criarVarios);
@@ -68,7 +69,7 @@ apiV1.post("/coord-estagio", checarHabilidade("edit", "coord-estagio"), cCoordEs
 
 //ALUNO-GRUPO
 apiV1.post("/aluno-grupo", checarHabilidade("edit", "coord-estagio"), cAlunoGrupo.criarVarios);
-
+apiV1.delete("/aluno-grupo/:ids", checarHabilidade("edit", "coord-estagio"), cAlunoGrupo.deletarVarios)
 //ESTAGIO-GRUPO
 apiV1.post("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.criarVarios);
 apiV1.put("/estagio-grupo", checarHabilidade("edit", "estagio-grupo"), cEstagioGrupo.editar);
