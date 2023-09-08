@@ -39,7 +39,7 @@ const cGrupo = {
     } catch (err) {
       userError(err, res);
     }
-  },
+  }, 
 
   async editar(req: Request, res: Response) {
     const { novosDados } = req.body;
