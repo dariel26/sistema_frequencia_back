@@ -10,7 +10,7 @@ const cAlunoDataAtividade = {
     const { id } = req.params;
 
     try {
-      const dataAtual = cUtils.dataTimeArarangua();
+      const dataAtual = cUtils.dataArarangua();
       const presencas = await DBAlunoDataAtividade.buscar(id);
       res.status(200).json({ presencas, dataAtual });
     } catch (err) {
@@ -39,7 +39,7 @@ const cAlunoDataAtividade = {
         novosDados.id_alunodataatividade
       );
 
-      const dataAtual = cUtils.dataTimeArarangua();
+      const dataAtual = cUtils.dataArarangua();
       const dataAtividade = cUtils.horarioEmData(
         presenca[0].data,
         presenca[0].hora_inicial

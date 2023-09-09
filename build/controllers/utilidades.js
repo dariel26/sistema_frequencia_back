@@ -1,7 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataEmAmd = exports.amdEmData = exports.encontrarMinEMaxDatas = void 0;
 const timezone_support_1 = require("timezone-support");
+const moment_timezone_1 = __importDefault(require("moment-timezone"));
+const zona = "America/Sao_Paulo";
+moment_timezone_1.default.tz.setDefault(zona);
 function encontrarMinEMaxDatas(datas) {
     if (!Array.isArray(datas) || datas.length === 0) {
         return [];
@@ -67,14 +73,14 @@ function dataEmDataBD(data) {
     return data.toISOString().slice(0, 10).replace("T", " ");
 }
 function dataTimeArarangua() {
-    const ararangua = (0, timezone_support_1.findTimeZone)("America/Sao_Paulo");
+    const ararangua = (0, timezone_support_1.findTimeZone)(zona);
     const { year, month, day, hours, minutes } = (0, timezone_support_1.getZonedTime)(new Date(), ararangua);
     return new Date(year, month - 1, day, hours, minutes);
 }
 function dataArarangua() {
-    const ararangua = (0, timezone_support_1.findTimeZone)("America/Sao_Paulo");
-    const { year, month, day } = (0, timezone_support_1.getZonedTime)(new Date(), ararangua);
-    return new Date(year, month - 1, day);
+    const ararangua = (0, timezone_support_1.findTimeZone)(zona);
+    const zonedTime = (0, timezone_support_1.getZonedTime)(new Date(), ararangua);
+    return moment_timezone_1.default.tz(zonedTime, zona).toDate();
 }
 function ordenarPorIdUsuarioASC(usuario1, usuario2) {
     if (usuario1.id_usuario < usuario2.id_usuario)

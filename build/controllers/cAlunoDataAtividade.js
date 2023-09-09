@@ -21,7 +21,7 @@ const cAlunoDataAtividade = {
             //TODO nao precisar passar o id
             const { id } = req.params;
             try {
-                const dataAtual = utilidades_1.default.dataTimeArarangua();
+                const dataAtual = utilidades_1.default.dataArarangua();
                 const presencas = yield DBAlunoDataAtividade_1.default.buscar(id);
                 res.status(200).json({ presencas, dataAtual });
             }
@@ -48,7 +48,7 @@ const cAlunoDataAtividade = {
             const { novosDados } = req.body;
             try {
                 const presenca = yield DBAlunoDataAtividade_1.default.buscarPorId(novosDados.id_alunodataatividade);
-                const dataAtual = utilidades_1.default.dataTimeArarangua();
+                const dataAtual = utilidades_1.default.dataArarangua();
                 const dataAtividade = utilidades_1.default.horarioEmData(presenca[0].data, presenca[0].hora_inicial);
                 const coordenadaDoLocal = presenca[0].coordenadas;
                 const coordenadaDoUsuario = novosDados.coordenadas;

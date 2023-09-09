@@ -1,5 +1,10 @@
 import { findTimeZone, getZonedTime } from "timezone-support";
+import moment from "moment-timezone";
 import { IDataAtividade } from "../interfaces";
+
+const zona = "America/Sao_Paulo";
+
+moment.tz.setDefault(zona);
 
 export function encontrarMinEMaxDatas(datas: Date[]) {
   if (!Array.isArray(datas) || datas.length === 0) {
@@ -82,7 +87,7 @@ function dataEmDataBD(data: Date): string {
 }
 
 function dataTimeArarangua(): Date {
-  const ararangua = findTimeZone("America/Sao_Paulo");
+  const ararangua = findTimeZone(zona);
   const { year, month, day, hours, minutes } = getZonedTime(
     new Date(),
     ararangua
@@ -92,10 +97,10 @@ function dataTimeArarangua(): Date {
 }
 
 function dataArarangua(): Date {
-  const ararangua = findTimeZone("America/Sao_Paulo");
-  const { year, month, day } = getZonedTime(new Date(), ararangua);
+  const ararangua = findTimeZone(zona);
+  const zonedTime = getZonedTime(new Date(), ararangua);
 
-  return new Date(year, month - 1, day);
+  return moment.tz(zonedTime, zona).toDate();
 }
 
 function ordenarPorIdUsuarioASC(
