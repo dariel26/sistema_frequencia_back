@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataEmAmd = exports.amdEmData = exports.encontrarMinEMaxDatas = void 0;
-const timezone_support_1 = require("timezone-support");
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const zona = "America/Sao_Paulo";
 moment_timezone_1.default.tz.setDefault(zona);
@@ -72,15 +71,8 @@ function dataFrontEmDataBD(data) {
 function dataEmDataBD(data) {
     return data.toISOString().slice(0, 10).replace("T", " ");
 }
-function dataTimeArarangua() {
-    const ararangua = (0, timezone_support_1.findTimeZone)(zona);
-    const { year, month, day, hours, minutes } = (0, timezone_support_1.getZonedTime)(new Date(), ararangua);
-    return new Date(year, month - 1, day, hours, minutes);
-}
 function dataArarangua() {
-    const ararangua = (0, timezone_support_1.findTimeZone)(zona);
-    const zonedTime = (0, timezone_support_1.getZonedTime)(new Date(), ararangua);
-    return moment_timezone_1.default.tz(zonedTime, zona).toDate();
+    return moment_timezone_1.default.tz(zona).toDate();
 }
 function ordenarPorIdUsuarioASC(usuario1, usuario2) {
     if (usuario1.id_usuario < usuario2.id_usuario)
@@ -142,7 +134,6 @@ const cUtils = {
     datasPorDiaSemana,
     dataFrontEmDataBD,
     dataEmDataBD,
-    dataTimeArarangua,
     dataArarangua,
     extenderArray,
     datasNoIntervalo,

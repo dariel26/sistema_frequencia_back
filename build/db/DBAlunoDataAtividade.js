@@ -19,6 +19,14 @@ const DBAlunoDataAtividade = {
         const [presencas] = yield db_1.default.query(sql, [id_usuario]);
         return presencas;
     }),
+    buscarPorData: (datas) => __awaiter(void 0, void 0, void 0, function* () {
+        const sql = "SELECT * FROM view_presenca WHERE data >= ? AND data <= ? ";
+        const [presencas] = yield db_1.default.query(sql, [
+            datas.data_inicial,
+            datas.data_final,
+        ]);
+        return presencas;
+    }),
     buscarPorId: (id_alunodataatividade) => __awaiter(void 0, void 0, void 0, function* () {
         const sql = "SELECT * FROM view_presenca WHERE id_alunodataatividade IN (?)";
         const [presencas] = yield db_1.default.query(sql, [id_alunodataatividade]);
@@ -46,56 +54,16 @@ const DBAlunoDataAtividade = {
         return res;
     }),
     editar: (novosDados) => __awaiter(void 0, void 0, void 0, function* () {
-        let sql = "UPDATE AlunoDataAtividade SET ";
-        let campos_disponiveis = ["estado"];
-        const campos_nulos = [];
-        novosDados.forEach((g) => {
-            if (g.estado === undefined)
-                campos_nulos.push("estado");
-        });
-        campos_disponiveis = campos_disponiveis.filter((campo) => !campos_nulos.includes(campo));
-        for (let i = 0; i < campos_disponiveis.length; i++) {
-            const c = campos_disponiveis[i];
-            const ultimoI = i === campos_disponiveis.length - 1;
-            if (ultimoI) {
-                sql += `${c}= CASE `;
-                for (let j = 0; j < novosDados.length; j++) {
-                    const ultimoJ = j === novosDados.length - 1;
-                    if (ultimoJ) {
-                        sql += "WHEN id_alunodataatividade = ? THEN ? END ";
-                    }
-                    else {
-                        sql += "WHEN id_alunodataatividade = ? THEN ? ";
-                    }
-                }
-            }
-            else {
-                sql += `${c}= CASE `;
-                for (let j = 0; j < novosDados.length; j++) {
-                    const ultimoJ = j === novosDados.length - 1;
-                    if (ultimoJ) {
-                        sql += "WHEN id_alunodataatividade = ? THEN ? END, ";
-                    }
-                    else {
-                        sql += "WHEN id_alunodataatividade = ? THEN ? ";
-                    }
-                }
-            }
+        let sql = "UPDATE AlunoDataAtividade SET";
+        const valores = [];
+        if (novosDados.estado) {
+            sql += " estado=?,";
+            valores.push(novosDados.estado);
         }
-        const ids = novosDados.map(({ id_alunodataatividade }) => id_alunodataatividade);
-        sql += ` WHERE id_alunodataatividade IN (${ids
-            .map((item) => item)
-            .join(", ")})`;
-        let values = [];
-        for (let dado of novosDados) {
-            //TODO a ordem dos valores do objeto influenciam e podem dar valores errados
-            const array = Object.values(dado);
-            const id_alunodataatividade = array.shift();
-            values.push(array.flatMap((valor) => [id_alunodataatividade, valor]));
-        }
-        values = values.flat();
-        const res = yield db_1.default.query(sql, values);
-        return res;
+        sql = sql.slice(0, -1);
+        sql += ` WHERE id_alunodataatividade=?`;
+        valores.push(novosDados.id_alunodataatividade);
+        yield db_1.default.query(sql, valores);
     }),
 };
 exports.default = DBAlunoDataAtividade;

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const DBAlunoDataAtividade_1 = __importDefault(require("../db/DBAlunoDataAtividade"));
 const userErrors_1 = require("./userErrors");
 const utilidades_1 = __importDefault(require("./utilidades"));
+const messagesDev_1 = __importDefault(require("./messagesDev"));
 const cAlunoDataAtividade = {
     buscarPorId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -26,6 +27,30 @@ const cAlunoDataAtividade = {
                 res.status(200).json({ presencas, dataAtual });
             }
             catch (err) {
+                (0, userErrors_1.userError)(err, res);
+            }
+        });
+    },
+    buscarPorDatas(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { datas } = req.query;
+            if (!Array.isArray(datas))
+                return res.status(400).json({ message: "As datas devem vim em array" });
+            const [data_inicial, data_final] = datas;
+            if (typeof data_inicial !== "string" || typeof data_final !== "string")
+                return res.status(400).json({
+                    message: "Os objetos data_inicial ou final estão em formatos errados",
+                });
+            try {
+                const dataAtual = utilidades_1.default.dataArarangua();
+                const presencas = yield DBAlunoDataAtividade_1.default.buscarPorData({
+                    data_inicial,
+                    data_final,
+                });
+                res.status(200).json({ presencas, dataAtual });
+            }
+            catch (err) {
+                console.log(err);
                 (0, userErrors_1.userError)(err, res);
             }
         });
@@ -44,6 +69,25 @@ const cAlunoDataAtividade = {
         });
     },
     editarPorId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { novosDados } = req.body;
+            const message = messagesDev_1.default.verificaEdicao(novosDados, [
+                "id_alunodataatividade",
+                "estado",
+            ]);
+            if (message)
+                return res.status(400).json({ message });
+            try {
+                yield DBAlunoDataAtividade_1.default.editar(novosDados);
+                res.status(200).json();
+            }
+            catch (err) {
+                console.log(err);
+                (0, userErrors_1.userError)(err, res);
+            }
+        });
+    },
+    marcarPresenca(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { novosDados } = req.body;
             try {
@@ -66,12 +110,10 @@ const cAlunoDataAtividade = {
                     return res.status(400).json({
                         message: "Fora do tempo limite para marcar presença",
                     });
-                yield DBAlunoDataAtividade_1.default.editar([
-                    {
-                        id_alunodataatividade: novosDados.id_alunodataatividade,
-                        estado: "PRESENTE",
-                    },
-                ]);
+                yield DBAlunoDataAtividade_1.default.editar({
+                    id_alunodataatividade: novosDados.id_alunodataatividade,
+                    estado: "PRESENTE",
+                });
                 res.status(200).json();
             }
             catch (err) {

@@ -87,5 +87,7 @@ apiV1.put("/data-atividade", (0, habilidades_1.default)("edit", "atividade"), cD
 //ALUNO-DATA-ATIVIDADE
 apiV1.post("/aluno-data-atividade", (0, habilidades_1.default)("edit", "coord-estagio"), cAlunoDataAtividade_1.default.criarVarios);
 apiV1.get("/aluno-data-atividade/id_aluno/:id", (0, habilidades_1.default)("read", "local"), cAlunoDataAtividade_1.default.buscarPorId);
-apiV1.put("/aluno-data-atividade", (0, habilidades_1.default)("edit", "presenca"), cAlunoDataAtividade_1.default.editarPorId);
+apiV1.get("/aluno-data-atividade/datas", (0, habilidades_1.default)("read", "local"), cAlunoDataAtividade_1.default.buscarPorDatas);
+apiV1.put("/aluno-data-atividade/aluno", (0, habilidades_1.default)("edit", "presenca"), cAlunoDataAtividade_1.default.marcarPresenca);
+apiV1.put("/aluno-data-atividade", (0, habilidades_1.default)("edit", "coord-estagio"), cAlunoDataAtividade_1.default.editarPorId);
 exports.default = apiV1;

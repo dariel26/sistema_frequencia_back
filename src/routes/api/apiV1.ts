@@ -100,7 +100,10 @@ apiV1.put("/data-atividade", checarHabilidade("edit", "atividade"), cDataAtivida
 //ALUNO-DATA-ATIVIDADE
 apiV1.post("/aluno-data-atividade", checarHabilidade("edit", "coord-estagio"), cAlunoDataAtividade.criarVarios);
 apiV1.get("/aluno-data-atividade/id_aluno/:id", checarHabilidade("read", "local"), cAlunoDataAtividade.buscarPorId);
-apiV1.put("/aluno-data-atividade", checarHabilidade("edit", "presenca"), cAlunoDataAtividade.editarPorId);
+apiV1.get("/aluno-data-atividade/datas", checarHabilidade("read", "local"), cAlunoDataAtividade.buscarPorDatas);
+apiV1.put("/aluno-data-atividade/aluno", checarHabilidade("edit", "presenca"), cAlunoDataAtividade.marcarPresenca);
+apiV1.put("/aluno-data-atividade", checarHabilidade("edit", "coord-estagio"), cAlunoDataAtividade.editarPorId);
+
 
 
 export default apiV1;

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { getZonedTime, findTimeZone } from "timezone-support";
 import DBAlunoDataAtividade from "../db/DBAlunoDataAtividade";
 import { userError } from "./userErrors";
 import cUtils from "./utilidades";
+import cMessages from "./messagesDev";
 
 const cAlunoDataAtividade = {
   async buscarPorId(req: Request, res: Response) {
@@ -14,6 +14,31 @@ const cAlunoDataAtividade = {
       const presencas = await DBAlunoDataAtividade.buscar(id);
       res.status(200).json({ presencas, dataAtual });
     } catch (err) {
+      userError(err, res);
+    }
+  },
+  async buscarPorDatas(req: Request, res: Response) {
+    const { datas } = req.query;
+
+    if (!Array.isArray(datas))
+      return res.status(400).json({ message: "As datas devem vim em array" });
+
+    const [data_inicial, data_final] = datas;
+
+    if (typeof data_inicial !== "string" || typeof data_final !== "string")
+      return res.status(400).json({
+        message: "Os objetos data_inicial ou final estão em formatos errados",
+      });
+
+    try {
+      const dataAtual = cUtils.dataArarangua();
+      const presencas = await DBAlunoDataAtividade.buscarPorData({
+        data_inicial,
+        data_final,
+      });
+      res.status(200).json({ presencas, dataAtual });
+    } catch (err) {
+      console.log(err);
       userError(err, res);
     }
   },
@@ -34,6 +59,24 @@ const cAlunoDataAtividade = {
   },
   async editarPorId(req: Request, res: Response) {
     const { novosDados } = req.body;
+
+    const message = cMessages.verificaEdicao(novosDados, [
+      "id_alunodataatividade",
+      "estado",
+    ]);
+    if (message) return res.status(400).json({ message });
+
+    try {
+      await DBAlunoDataAtividade.editar(novosDados);
+      res.status(200).json();
+    } catch (err) {
+      console.log(err);
+      userError(err, res);
+    }
+  },
+  async marcarPresenca(req: Request, res: Response) {
+    const { novosDados } = req.body;
+
     try {
       const presenca = await DBAlunoDataAtividade.buscarPorId(
         novosDados.id_alunodataatividade
@@ -66,12 +109,10 @@ const cAlunoDataAtividade = {
           message: "Fora do tempo limite para marcar presença",
         });
 
-      await DBAlunoDataAtividade.editar([
-        {
-          id_alunodataatividade: novosDados.id_alunodataatividade,
-          estado: "PRESENTE",
-        },
-      ]);
+      await DBAlunoDataAtividade.editar({
+        id_alunodataatividade: novosDados.id_alunodataatividade,
+        estado: "PRESENTE",
+      });
       res.status(200).json();
     } catch (err) {
       userError(err, res);

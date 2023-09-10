@@ -1,4 +1,3 @@
-import { findTimeZone, getZonedTime } from "timezone-support";
 import moment from "moment-timezone";
 import { IDataAtividade } from "../interfaces";
 
@@ -86,21 +85,8 @@ function dataEmDataBD(data: Date): string {
   return data.toISOString().slice(0, 10).replace("T", " ");
 }
 
-function dataTimeArarangua(): Date {
-  const ararangua = findTimeZone(zona);
-  const { year, month, day, hours, minutes } = getZonedTime(
-    new Date(),
-    ararangua
-  );
-
-  return new Date(year, month - 1, day, hours, minutes);
-}
-
 function dataArarangua(): Date {
-  const ararangua = findTimeZone(zona);
-  const zonedTime = getZonedTime(new Date(), ararangua);
-
-  return moment.tz(zonedTime, zona).toDate();
+  return moment.tz(zona).toDate();
 }
 
 function ordenarPorIdUsuarioASC(
@@ -183,7 +169,6 @@ const cUtils = {
   datasPorDiaSemana,
   dataFrontEmDataBD,
   dataEmDataBD,
-  dataTimeArarangua,
   dataArarangua,
   extenderArray,
   datasNoIntervalo,
