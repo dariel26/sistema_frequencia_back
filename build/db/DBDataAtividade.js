@@ -88,6 +88,11 @@ const DBDataAtividade = {
         const res = yield db_1.default.query(sql, [ids, dataAmanha]);
         return res;
     }),
+    deletarPorId: (ids) => __awaiter(void 0, void 0, void 0, function* () {
+        const sql = "DELETE FROM DataAtividade WHERE id_dataatividade IN (?)";
+        const res = yield db_1.default.query(sql, [ids]);
+        return res;
+    }),
     deletar: (ids) => __awaiter(void 0, void 0, void 0, function* () {
         const sql = "DELETE FROM DataAtividade WHERE id_atividade IN (?)";
         const res = yield db_1.default.query(sql, [ids]);

@@ -82,12 +82,14 @@ apiV1.post("/prec-atividade", (0, habilidades_1.default)("edit", "coord-estagio"
 //LOCAL-ATIVIDADE
 apiV1.post("/local-atividade", (0, habilidades_1.default)("edit", "coord-estagio"), cLocalAtividade_1.default.criarVarios);
 //DATA-ATIVIDADE
-apiV1.post("/data-atividade", (0, habilidades_1.default)("edit", "coord-estagio"), cDataAtividade_1.default.criarVarios);
+apiV1.post("/data-atividade", (0, habilidades_1.default)("edit", "coord-estagio"), cDataAtividade_1.default.criar);
 apiV1.put("/data-atividade", (0, habilidades_1.default)("edit", "atividade"), cDataAtividade_1.default.editarVarios);
+apiV1.delete("/data-atividade/:ids", (0, habilidades_1.default)("edit", "atividade"), cDataAtividade_1.default.deletar);
 //ALUNO-DATA-ATIVIDADE
 apiV1.post("/aluno-data-atividade", (0, habilidades_1.default)("edit", "coord-estagio"), cAlunoDataAtividade_1.default.criarVarios);
 apiV1.get("/aluno-data-atividade/id_aluno/:id", (0, habilidades_1.default)("read", "local"), cAlunoDataAtividade_1.default.buscarPorId);
 apiV1.get("/aluno-data-atividade/datas", (0, habilidades_1.default)("read", "local"), cAlunoDataAtividade_1.default.buscarPorDatas);
 apiV1.put("/aluno-data-atividade/aluno", (0, habilidades_1.default)("edit", "presenca"), cAlunoDataAtividade_1.default.marcarPresenca);
 apiV1.put("/aluno-data-atividade", (0, habilidades_1.default)("edit", "coord-estagio"), cAlunoDataAtividade_1.default.editarPorId);
+apiV1.delete("/aluno-data-atividade/:id_atividade", (0, habilidades_1.default)("edit", "atividade"), cAlunoDataAtividade_1.default.deletar);
 exports.default = apiV1;

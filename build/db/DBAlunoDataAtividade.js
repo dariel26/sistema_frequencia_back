@@ -33,13 +33,8 @@ const DBAlunoDataAtividade = {
         return presencas;
     }),
     criar: (dados) => __awaiter(void 0, void 0, void 0, function* () {
-        const sql = "INSERT INTO AlunoDataAtividade (id_usuario, id_atividade, estado, data) VALUES ?";
-        const novosDados = dados.map(({ id_usuario, id_atividade, data, estado }) => [
-            id_usuario,
-            id_atividade,
-            estado,
-            data,
-        ]);
+        const sql = "INSERT INTO AlunoDataAtividade (id_usuario, id_atividade, estado, data, periodo, id_dataatividade) VALUES ?";
+        const novosDados = dados.map(({ id_usuario, id_atividade, data, estado, periodo, id_dataatividade, }) => [id_usuario, id_atividade, estado, data, periodo, id_dataatividade]);
         const res = yield db_1.default.query(sql, [novosDados]);
         return res;
     }),
@@ -48,9 +43,16 @@ const DBAlunoDataAtividade = {
         const res = yield db_1.default.query(sql, [id, dataAmanha]);
         return res;
     }),
-    deletar: (ids) => __awaiter(void 0, void 0, void 0, function* () {
+    deletar: (dados) => __awaiter(void 0, void 0, void 0, function* () {
+        const ids = dados.map(({ id_atividade }) => id_atividade);
+        const datas = dados.map(({ data }) => data);
+        const sql = "DELETE FROM AlunoDataAtividade WHERE id_atividade IN (?) AND data IN (?)";
+        const res = yield db_1.default.query(sql, [ids, datas]);
+        return res;
+    }),
+    limpar: (id_atividade) => __awaiter(void 0, void 0, void 0, function* () {
         const sql = "DELETE FROM AlunoDataAtividade WHERE id_atividade IN (?)";
-        const res = yield db_1.default.query(sql, [ids]);
+        const res = yield db_1.default.query(sql, [id_atividade]);
         return res;
     }),
     editar: (novosDados) => __awaiter(void 0, void 0, void 0, function* () {

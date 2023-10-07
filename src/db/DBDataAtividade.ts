@@ -87,6 +87,12 @@ const DBDataAtividade = {
     return res;
   },
 
+  deletarPorId: async (ids: Array<string>) => {
+    const sql = "DELETE FROM DataAtividade WHERE id_dataatividade IN (?)";
+    const res = await db.query(sql, [ids]);
+    return res;
+  },
+
   deletar: async (ids: Array<string>) => {
     const sql = "DELETE FROM DataAtividade WHERE id_atividade IN (?)";
     const res = await db.query(sql, [ids]);

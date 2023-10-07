@@ -94,8 +94,9 @@ apiV1.post("/prec-atividade", checarHabilidade("edit", "coord-estagio"), cPrecAt
 apiV1.post("/local-atividade", checarHabilidade("edit", "coord-estagio"), cLocalAtividade.criarVarios);
 
 //DATA-ATIVIDADE
-apiV1.post("/data-atividade", checarHabilidade("edit", "coord-estagio"), cDataAtividade.criarVarios);
+apiV1.post("/data-atividade", checarHabilidade("edit", "coord-estagio"), cDataAtividade.criar);
 apiV1.put("/data-atividade", checarHabilidade("edit", "atividade"), cDataAtividade.editarVarios);
+apiV1.delete("/data-atividade/:ids", checarHabilidade("edit", "atividade"), cDataAtividade.deletar);
 
 //ALUNO-DATA-ATIVIDADE
 apiV1.post("/aluno-data-atividade", checarHabilidade("edit", "coord-estagio"), cAlunoDataAtividade.criarVarios);
@@ -103,6 +104,7 @@ apiV1.get("/aluno-data-atividade/id_aluno/:id", checarHabilidade("read", "local"
 apiV1.get("/aluno-data-atividade/datas", checarHabilidade("read", "local"), cAlunoDataAtividade.buscarPorDatas);
 apiV1.put("/aluno-data-atividade/aluno", checarHabilidade("edit", "presenca"), cAlunoDataAtividade.marcarPresenca);
 apiV1.put("/aluno-data-atividade", checarHabilidade("edit", "coord-estagio"), cAlunoDataAtividade.editarPorId);
+apiV1.delete("/aluno-data-atividade/:id_atividade", checarHabilidade("edit", "atividade"), cAlunoDataAtividade.deletar);
 
 
 

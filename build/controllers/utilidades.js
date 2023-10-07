@@ -5,6 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataEmAmd = exports.amdEmData = exports.encontrarMinEMaxDatas = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
+const MANHA = "Manhã";
+const TARDE = "Tarde";
+const NOITE = "Noite";
 const zona = "America/Sao_Paulo";
 moment_timezone_1.default.tz.setDefault(zona);
 function encontrarMinEMaxDatas(datas) {
@@ -126,6 +129,36 @@ function horarioEmData(data, horario) {
     data.setMinutes(minute);
     return data;
 }
+function obterPeriodoDoDia(horaInicial, horaFinal) {
+    if (!horaInicial || !horaFinal)
+        return undefined;
+    const inicio = horaParaMinutos(horaInicial);
+    const fim = horaParaMinutos(horaFinal);
+    const duracaoManha = calcularDuracao(inicio, fim, horaParaMinutos("00:00"), horaParaMinutos("11:59"));
+    const duracaoTarde = calcularDuracao(inicio, fim, horaParaMinutos("12:00"), horaParaMinutos("17:59"));
+    const duracaoNoite = calcularDuracao(inicio, fim, horaParaMinutos("18:00"), horaParaMinutos("23:59"));
+    if (duracaoManha >= duracaoTarde && duracaoManha >= duracaoNoite) {
+        return MANHA;
+    }
+    else if (duracaoTarde >= duracaoManha && duracaoTarde >= duracaoNoite) {
+        return TARDE;
+    }
+    else {
+        return NOITE;
+    }
+}
+function calcularDuracao(inicio, fim, periodoInicio, periodoFim) {
+    if (inicio <= periodoFim && fim >= periodoInicio) {
+        return Math.min(fim, periodoFim) - Math.max(inicio, periodoInicio);
+    }
+    else {
+        return 0;
+    }
+}
+function horaParaMinutos(hora) {
+    const [horas, minutos] = hora.split(":");
+    return parseInt(horas) * 60 + parseInt(minutos);
+}
 const cUtils = {
     encontrarMinEMaxDatas,
     amdEmData,
@@ -140,5 +173,6 @@ const cUtils = {
     distancia,
     diferencaAbsEmHoras,
     horarioEmData,
+    obterPeriodoDoDia,
 };
 exports.default = cUtils;

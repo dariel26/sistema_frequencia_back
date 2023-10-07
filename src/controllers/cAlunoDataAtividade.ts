@@ -3,6 +3,7 @@ import DBAlunoDataAtividade from "../db/DBAlunoDataAtividade";
 import { userError } from "./userErrors";
 import cUtils from "./utilidades";
 import cMessages from "./messagesDev";
+import { IAlunoDataAtividade } from "../interfaces";
 
 const cAlunoDataAtividade = {
   async buscarPorId(req: Request, res: Response) {
@@ -38,20 +39,21 @@ const cAlunoDataAtividade = {
       });
       res.status(200).json({ presencas, dataAtual });
     } catch (err) {
-      console.log(err);
       userError(err, res);
     }
   },
   async criarVarios(req: Request, res: Response) {
     const { dados } = req.body;
     try {
-      await DBAlunoDataAtividade.deletar(
-        dados.map(
-          ({ id_dataatividade }: { id_dataatividade: string }) =>
-            id_dataatividade
-        )
+      const dadosNormalizados: IAlunoDataAtividade[] = dados.map(
+        (d: IAlunoDataAtividade) => ({
+          ...d,
+          data: cUtils.dataFrontEmDataBD(d.data),
+          estado: "CRIADA",
+        })
       );
-      await DBAlunoDataAtividade.criar(dados);
+      await DBAlunoDataAtividade.deletar(dadosNormalizados);
+      await DBAlunoDataAtividade.criar(dadosNormalizados);
       res.status(201).json();
     } catch (err) {
       userError(err, res);
@@ -70,7 +72,6 @@ const cAlunoDataAtividade = {
       await DBAlunoDataAtividade.editar(novosDados);
       res.status(200).json();
     } catch (err) {
-      console.log(err);
       userError(err, res);
     }
   },
@@ -113,6 +114,16 @@ const cAlunoDataAtividade = {
         id_alunodataatividade: novosDados.id_alunodataatividade,
         estado: "PRESENTE",
       });
+      res.status(200).json();
+    } catch (err) {
+      userError(err, res);
+    }
+  },
+  async deletar(req: Request, res: Response) {
+    const { id_atividade } = req.params;
+
+    try {
+      await DBAlunoDataAtividade.limpar(id_atividade);
       res.status(200).json();
     } catch (err) {
       userError(err, res);

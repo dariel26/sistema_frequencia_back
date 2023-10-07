@@ -20,6 +20,16 @@ export interface IInfoUsuario {
   >[];
 }
 
+export interface IToken {
+  tipo: string;
+  papeis: string;
+  papel_atual: string;
+  nome: string;
+  login: string;
+  id_usuario: string;
+}
+
+//Banco de dados
 export interface IUsuario {
   id_usuario: number;
   nome: string;
@@ -35,26 +45,10 @@ export interface IAlunoGrupo {
   id_grupo: number;
 }
 
-// Interface criada para subdividir grupos e mostrar nas atividades.
-export interface IAlunoSubgrupo {
-  nome_aluno: string;
-  aluno_incluido: boolean;
-  id_aluno: number;
-}
-
 export interface JWT {
   id_token: number;
   token: string;
   validade: string;
-}
-
-export interface IToken {
-  tipo: string;
-  papeis: string;
-  papel_atual: string;
-  nome: string;
-  login: string;
-  id_usuario: string;
 }
 
 export interface IEstagio {
@@ -68,20 +62,12 @@ export interface IGrupo {
 }
 
 export interface IAtividade {
-  id_atividade?: number;
+  id_atividade: number;
   id_estagio: number;
   nome: string;
   hora_inicial: string;
   hora_final: string;
-  intervalo_alunos: string;
-  alunos_no_dia: number;
-  segunda: boolean;
-  terca: boolean;
-  quarta: boolean;
-  quinta: boolean;
-  sexta: boolean;
-  sabado: boolean;
-  domingo: boolean;
+  periodo: string;
 }
 
 export interface IPrecAtividade {
@@ -95,18 +81,20 @@ export interface ILocalAtividade {
 }
 
 export interface IDataAtividade {
-  id_dataatividade?: number;
+  id_dataatividade: number;
   id_atividade: number;
   excluida: boolean;
   data: string;
 }
 
 export interface IAlunoDataAtividade {
-  id_alunodataatividade?: number;
+  id_alunodataatividade: number;
   data: string;
   id_usuario: number;
   id_atividade: number;
   estado: ESTADO_PRESENCA;
+  periodo: string;
+  id_dataatividade: number;
 }
 
 export interface ILocal {
@@ -154,6 +142,8 @@ export interface IViewAluno {
     estado: string;
     id_alunodataatividade: number;
     excluida: boolean;
+    periodo: string;
+    id_dataatividade: number;
   }[];
 }
 
@@ -163,37 +153,16 @@ export interface IViewAtividade {
   id_estagio: number;
   hora_inicial: string;
   hora_final: string;
-  intervalo_alunos: string;
-  alunos_no_dia: number;
+  periodo: string;
   nome_preceptor: string;
   nome_local: string;
-  segunda: boolean;
-  terca: boolean;
-  quarta: boolean;
-  quinta: boolean;
-  sexta: boolean;
-  sabado: boolean;
-  domingo: boolean;
   datas: {
     data: string;
     excluida: boolean;
     id_dataatividade: number;
+    periodo: string;
     alunos: { nome: string; id_aluno: number; estado: boolean }[];
   }[];
-}
-
-export interface ISubGrupo {
-  data_inicial: Date;
-  data_final: Date;
-  alunos: {
-    id_aluno: number;
-    nome: string;
-    incluido: boolean;
-  }[];
-}
-
-export interface IViewAtividadeCompleta extends IViewAtividade {
-  subgrupos: ISubGrupo[];
 }
 
 export interface IViewGrupo {
@@ -214,46 +183,36 @@ export interface IViewGrupo {
   }[];
 }
 
-//Interface que representa os grupos dentro dos estagios
-export interface IGrupoEmEstagio {
-  nome: string;
-  id_grupo: number;
-  data_inicial: string;
-  data_final: string;
-  id_estagiogrupo: number;
-  alunos: {
-    nome: string;
-    id_usuario: number;
-    matricula: string;
-  }[];
-}
-
 export interface IViewEstagio {
   id_estagio: number;
   nome_estagio: string;
   nome_coordenador: string;
-  grupos: IGrupoEmEstagio[];
+  grupos: {
+    nome: string;
+    id_grupo: number;
+    data_inicial: string;
+    data_final: string;
+    id_estagiogrupo: number;
+    alunos: {
+      nome: string;
+      id_usuario: number;
+      matricula: string;
+    }[];
+  }[];
   atividades: {
     id_atividade: number;
     nome_atividade: string;
     id_estagio: number;
     hora_final: string;
     hora_inicial: string;
-    intervalo_alunos: string;
-    alunos_no_dia: number;
     nome_preceptor: string;
     nome_local: string;
-    segunda: boolean;
-    terca: boolean;
-    quarta: boolean;
-    quinta: boolean;
-    sexta: boolean;
-    sabado: boolean;
-    domingo: boolean;
+    periodo: string;
     datas: {
       data: string;
       excluida: boolean;
       id_dataatividade: number;
+      periodo: string;
       alunos: { nome: string; id_aluno: number; estado: boolean }[];
     }[];
   }[];

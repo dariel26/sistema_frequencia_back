@@ -26,14 +26,16 @@ const DBAlunoDataAtividade = {
   },
   criar: async (dados: IAlunoDataAtividade[]) => {
     const sql =
-      "INSERT INTO AlunoDataAtividade (id_usuario, id_atividade, estado, data) VALUES ?";
+      "INSERT INTO AlunoDataAtividade (id_usuario, id_atividade, estado, data, periodo, id_dataatividade) VALUES ?";
     const novosDados = dados.map(
-      ({ id_usuario, id_atividade, data, estado }) => [
+      ({
         id_usuario,
         id_atividade,
-        estado,
         data,
-      ]
+        estado,
+        periodo,
+        id_dataatividade,
+      }) => [id_usuario, id_atividade, estado, data, periodo, id_dataatividade]
     );
     const res = await db.query(sql, [novosDados]);
     return res;
@@ -44,9 +46,17 @@ const DBAlunoDataAtividade = {
     const res = await db.query(sql, [id, dataAmanha]);
     return res;
   },
-  deletar: async (ids: Array<string>) => {
+  deletar: async (dados: { data: string; id_atividade: number }[]) => {
+    const ids = dados.map(({ id_atividade }) => id_atividade);
+    const datas = dados.map(({ data }) => data);
+    const sql =
+      "DELETE FROM AlunoDataAtividade WHERE id_atividade IN (?) AND data IN (?)";
+    const res = await db.query(sql, [ids, datas]);
+    return res;
+  },
+  limpar: async (id_atividade: string) => {
     const sql = "DELETE FROM AlunoDataAtividade WHERE id_atividade IN (?)";
-    const res = await db.query(sql, [ids]);
+    const res = await db.query(sql, [id_atividade]);
     return res;
   },
   editar: async (novosDados: {
@@ -60,7 +70,7 @@ const DBAlunoDataAtividade = {
       sql += " estado=?,";
       valores.push(novosDados.estado);
     }
-    
+
     sql = sql.slice(0, -1);
     sql += ` WHERE id_alunodataatividade=?`;
     valores.push(novosDados.id_alunodataatividade);

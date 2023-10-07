@@ -4,36 +4,14 @@ import db from "./db";
 const DBAtividade = {
   criar: async (atividades: IAtividade[]) => {
     const sql =
-      "INSERT INTO Atividade (nome, id_estagio, hora_inicial, hora_final, intervalo_alunos, alunos_no_dia, segunda, terca, quarta, quinta, sexta, sabado, domingo) VALUES ?";
+      "INSERT INTO Atividade (nome, id_estagio, hora_inicial, hora_final, periodo) VALUES ?";
     const novasAtividades = atividades.map(
-      ({
+      ({ nome, id_estagio, hora_inicial, hora_final, periodo }) => [
         nome,
         id_estagio,
         hora_inicial,
         hora_final,
-        intervalo_alunos,
-        alunos_no_dia,
-        segunda,
-        terca,
-        quarta,
-        quinta,
-        sexta,
-        sabado,
-        domingo,
-      }) => [
-        nome,
-        id_estagio,
-        hora_inicial,
-        hora_final,
-        intervalo_alunos,
-        alunos_no_dia,
-        segunda,
-        terca,
-        quarta,
-        quinta,
-        sexta,
-        sabado,
-        domingo,
+        periodo,
       ]
     );
     const res = await db.query(sql, [novasAtividades]);
@@ -50,15 +28,7 @@ const DBAtividade = {
     nome: string;
     hora_inicial: string;
     hora_final: string;
-    intervalo_alunos: string;
-    alunos_no_dia: string;
-    segunda: string;
-    terca: string;
-    quarta: string;
-    quinta: string;
-    sexta: string;
-    sabado: string;
-    domingo: string;
+    periodo: string;
   }) => {
     let sql = "UPDATE Atividade SET";
     const valores = [];
@@ -79,41 +49,9 @@ const DBAtividade = {
       sql += " hora_final=?,";
       valores.push(dados.hora_final);
     }
-    if (dados.intervalo_alunos) {
-      sql += " intervalo_alunos=?,";
-      valores.push(dados.intervalo_alunos);
-    }
-    if (dados.alunos_no_dia !== undefined) {
-      sql += " alunos_no_dia=?,";
-      valores.push(dados.alunos_no_dia);
-    }
-    if (dados.segunda !== undefined) {
-      sql += " segunda=?,";
-      valores.push(dados.segunda ? 1 : 0);
-    }
-    if (dados.terca !== undefined) {
-      sql += " terca=?,";
-      valores.push(dados.terca ? 1 : 0);
-    }
-    if (dados.quarta !== undefined) {
-      sql += " quarta=?,";
-      valores.push(dados.quarta ? 1 : 0);
-    }
-    if (dados.quinta !== undefined) {
-      sql += " quinta=?,";
-      valores.push(dados.quinta ? 1 : 0);
-    }
-    if (dados.sexta !== undefined) {
-      sql += " sexta=?,";
-      valores.push(dados.sexta ? 1 : 0);
-    }
-    if (dados.sabado !== undefined) {
-      sql += " sabado=?,";
-      valores.push(dados.sabado ? 1 : 0);
-    }
-    if (dados.domingo !== undefined) {
-      sql += " domingo=?,";
-      valores.push(dados.domingo ? 1 : 0);
+    if (dados.periodo) {
+      sql += " periodo=?,";
+      valores.push(dados.periodo);
     }
 
     sql = sql.slice(0, -1);

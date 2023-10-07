@@ -50,7 +50,6 @@ const cAlunoDataAtividade = {
                 res.status(200).json({ presencas, dataAtual });
             }
             catch (err) {
-                console.log(err);
                 (0, userErrors_1.userError)(err, res);
             }
         });
@@ -59,8 +58,9 @@ const cAlunoDataAtividade = {
         return __awaiter(this, void 0, void 0, function* () {
             const { dados } = req.body;
             try {
-                yield DBAlunoDataAtividade_1.default.deletar(dados.map(({ id_dataatividade }) => id_dataatividade));
-                yield DBAlunoDataAtividade_1.default.criar(dados);
+                const dadosNormalizados = dados.map((d) => (Object.assign(Object.assign({}, d), { data: utilidades_1.default.dataFrontEmDataBD(d.data), estado: "CRIADA" })));
+                yield DBAlunoDataAtividade_1.default.deletar(dadosNormalizados);
+                yield DBAlunoDataAtividade_1.default.criar(dadosNormalizados);
                 res.status(201).json();
             }
             catch (err) {
@@ -82,7 +82,6 @@ const cAlunoDataAtividade = {
                 res.status(200).json();
             }
             catch (err) {
-                console.log(err);
                 (0, userErrors_1.userError)(err, res);
             }
         });
@@ -114,6 +113,18 @@ const cAlunoDataAtividade = {
                     id_alunodataatividade: novosDados.id_alunodataatividade,
                     estado: "PRESENTE",
                 });
+                res.status(200).json();
+            }
+            catch (err) {
+                (0, userErrors_1.userError)(err, res);
+            }
+        });
+    },
+    deletar(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id_atividade } = req.params;
+            try {
+                yield DBAlunoDataAtividade_1.default.limpar(id_atividade);
                 res.status(200).json();
             }
             catch (err) {
