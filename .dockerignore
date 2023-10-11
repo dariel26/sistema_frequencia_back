@@ -1,0 +1,8 @@
+.gitignore
+.env
+.env.exemplo
+vercel.json
+
+build
+node_modules
+coverage
