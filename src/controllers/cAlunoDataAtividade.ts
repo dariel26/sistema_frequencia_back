@@ -96,18 +96,19 @@ const cAlunoDataAtividade = {
         dataAtual,
         dataAtividade
       );
+      console.log(diferencaEmHoras);
 
       if (raio > 180)
         return res.status(400).json({
           message: `Fora do raio de distância permitido ${raio}`,
         });
-      if (diferencaEmHoras > 0.3)
+      if (diferencaEmHoras > 0.34)
         return res.status(400).json({
           message: "Muito cedo, tente novamente mais tarde.",
         });
       if (diferencaEmHoras < -2)
         return res.status(400).json({
-          message: "Fora do tempo limite para marcar presença",
+          message: "Fora do tempo limite para marcar presença " + JSON.stringify(dataAtividade.toUTCString()) + JSON.stringify(dataAtual.toUTCString()) + presenca[0].hora_inicial,
         });
 
       await DBAlunoDataAtividade.editar({

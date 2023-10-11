@@ -1,13 +1,15 @@
 import moment from "moment-timezone";
 import { IDataAtividade } from "../interfaces";
 
+const zona = "America/Sao_Paulo";
 const MANHA = "Manhã";
 const TARDE = "Tarde";
 const NOITE = "Noite";
 
-const zona = "America/Sao_Paulo";
 
 moment.tz.setDefault(zona);
+
+process.env.TZ=zona;
 
 export function encontrarMinEMaxDatas(datas: Date[]) {
   if (!Array.isArray(datas) || datas.length === 0) {
@@ -90,7 +92,7 @@ function dataEmDataBD(data: Date): string {
 }
 
 function dataArarangua(): Date {
-  return moment.tz(zona).toDate();
+  return moment(new Date()).tz(zona).toDate();
 }
 
 function ordenarPorIdUsuarioASC(
@@ -152,7 +154,7 @@ function distancia(
   return distance;
 }
 
-function diferencaAbsEmHoras(dataChegada: Date, dataAtividade: Date): number {
+function diferencaEmHoras(dataChegada: Date, dataAtividade: Date): number {
   const milisegundos = dataAtividade.getTime() - dataChegada.getTime();
   const horas = milisegundos / (1000 * 60 * 60);
   return horas;
@@ -162,7 +164,7 @@ function horarioEmData(data: Date, horario: string): Date {
   const [hour, minute] = horario.split(":").map(Number);
   data.setHours(hour);
   data.setMinutes(minute);
-  return data;
+  return moment(data).tz(zona).toDate();
 }
 
 function obterPeriodoDoDia(horaInicial: string, horaFinal: string) {
@@ -228,7 +230,7 @@ const cUtils = {
   extenderArray,
   datasNoIntervalo,
   distancia,
-  diferencaAbsEmHoras,
+  diferencaAbsEmHoras: diferencaEmHoras,
   horarioEmData,
   obterPeriodoDoDia,
 };

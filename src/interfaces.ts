@@ -120,6 +120,14 @@ export interface CustomRequest extends Request {
   infoToken: IInfoUsuario;
 }
 
+export interface ISubscricao {
+  id_usuario: number;
+  endpoint: string;
+  expiracao: Date;
+  u_key: string;
+  autenticidade: string;
+}
+
 export interface IViewAluno {
   id_usuario: number;
   nome: string;
@@ -139,7 +147,7 @@ export interface IViewAluno {
     hora_inicial: string;
     hora_final: string;
     data: string;
-    estado: string;
+    estado: ESTADO_PRESENCA;
     id_alunodataatividade: number;
     excluida: boolean;
     periodo: string;

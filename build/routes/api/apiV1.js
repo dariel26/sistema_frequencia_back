@@ -22,6 +22,7 @@ const cLocalAtividade_1 = __importDefault(require("../../controllers/cLocalAtivi
 const cPreceptor_1 = __importDefault(require("../../controllers/cPreceptor"));
 const cCoordenador_1 = __importDefault(require("../../controllers/cCoordenador"));
 const cAlunoGrupo_1 = __importDefault(require("../../controllers/cAlunoGrupo"));
+const cSubscricao_1 = __importDefault(require("../../controllers/cSubscricao"));
 const apiV1 = express_1.default.Router();
 //LOGIN
 apiV1.post("/login", cUsuario_1.default.login);
@@ -29,9 +30,14 @@ apiV1.post("/login", cUsuario_1.default.login);
 apiV1.use(middlewareJwt_1.default);
 //LOGOUT
 apiV1.get("/logout", cUsuario_1.default.logout);
+//PUSH-NOTIFICATION
+apiV1.post("/subscricao", cSubscricao_1.default.criaSubscricao);
+apiV1.delete("/subscricao/:id_usuario", cSubscricao_1.default.revogaSubscricao);
+apiV1.get("/subscricao", cSubscricao_1.default.possuiSubscricao);
 //USUARIO
 apiV1.get("/usuario/info", cUsuario_1.default.retornaInfoUsuario);
 apiV1.get("/usuario/padrao", cUsuario_1.default.usuarioSenhaPadrao);
+apiV1.post("/usuario/senha", cUsuario_1.default.editar);
 apiV1.put("/usuario/", (0, habilidades_1.default)("edit", "coordenador"), cUsuario_1.default.editar);
 //COORDENADOR
 apiV1.post("/coordenador", (0, habilidades_1.default)("edit", "coordenador"), cCoordenador_1.default.criarVarios);

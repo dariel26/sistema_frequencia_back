@@ -20,7 +20,6 @@ const cAlunoGrupo = {
       await DBAlunoGrupo.criar(dados);
       res.status(200).json();
     } catch (err) {
-      console.log(err);
       userError(err, res);
     }
   },

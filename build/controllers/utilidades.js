@@ -5,11 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataEmAmd = exports.amdEmData = exports.encontrarMinEMaxDatas = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
+const zona = "America/Sao_Paulo";
 const MANHA = "Manhã";
 const TARDE = "Tarde";
 const NOITE = "Noite";
-const zona = "America/Sao_Paulo";
 moment_timezone_1.default.tz.setDefault(zona);
+process.env.TZ = zona;
 function encontrarMinEMaxDatas(datas) {
     if (!Array.isArray(datas) || datas.length === 0) {
         return [];
@@ -75,7 +76,7 @@ function dataEmDataBD(data) {
     return data.toISOString().slice(0, 10).replace("T", " ");
 }
 function dataArarangua() {
-    return moment_timezone_1.default.tz(zona).toDate();
+    return (0, moment_timezone_1.default)(new Date()).tz(zona).toDate();
 }
 function ordenarPorIdUsuarioASC(usuario1, usuario2) {
     if (usuario1.id_usuario < usuario2.id_usuario)
@@ -118,7 +119,7 @@ function distancia(coordenada1, coordenada2) {
     const distance = R * c;
     return distance;
 }
-function diferencaAbsEmHoras(dataChegada, dataAtividade) {
+function diferencaEmHoras(dataChegada, dataAtividade) {
     const milisegundos = dataAtividade.getTime() - dataChegada.getTime();
     const horas = milisegundos / (1000 * 60 * 60);
     return horas;
@@ -127,7 +128,7 @@ function horarioEmData(data, horario) {
     const [hour, minute] = horario.split(":").map(Number);
     data.setHours(hour);
     data.setMinutes(minute);
-    return data;
+    return (0, moment_timezone_1.default)(data).tz(zona).toDate();
 }
 function obterPeriodoDoDia(horaInicial, horaFinal) {
     if (!horaInicial || !horaFinal)
@@ -171,7 +172,7 @@ const cUtils = {
     extenderArray,
     datasNoIntervalo,
     distancia,
-    diferencaAbsEmHoras,
+    diferencaAbsEmHoras: diferencaEmHoras,
     horarioEmData,
     obterPeriodoDoDia,
 };

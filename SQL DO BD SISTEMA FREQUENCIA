@@ -105,6 +105,15 @@ token text,
 validade DATETIME
 );
 
+CREATE TABLE subscricao(
+id_usuario  BIGINT UNIQUE,
+endpoint VARCHAR(400) UNIQUE,
+expiracao DATETIME,
+u_key TEXT,
+autenticidade TEXT,
+FOREIGN KEY(id_usuario) REFERENCES Usuario (id_usuario) ON DELETE CASCADE
+);
+
 CREATE VIEW view_aluno AS SELECT
     al.id_usuario,
     al.login,

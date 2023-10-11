@@ -17,6 +17,7 @@ import cLocalAtividade from "../../controllers/cLocalAtividade";
 import cPreceptor from "../../controllers/cPreceptor";
 import cCoordenador from "../../controllers/cCoordenador";
 import cAlunoGrupo from "../../controllers/cAlunoGrupo";
+import cSubscricao from "../../controllers/cSubscricao";
 
 const apiV1 = express.Router();
 
@@ -29,9 +30,15 @@ apiV1.use(acessoPadrao);
 //LOGOUT
 apiV1.get("/logout", cUsuario.logout);
 
+//PUSH-NOTIFICATION
+apiV1.post("/subscricao", cSubscricao.criaSubscricao);
+apiV1.delete("/subscricao/:id_usuario", cSubscricao.revogaSubscricao);
+apiV1.get("/subscricao", cSubscricao.possuiSubscricao);
+
 //USUARIO
 apiV1.get("/usuario/info", cUsuario.retornaInfoUsuario);
 apiV1.get("/usuario/padrao", cUsuario.usuarioSenhaPadrao);
+apiV1.post("/usuario/senha", cUsuario.editar);
 apiV1.put("/usuario/", checarHabilidade("edit", "coordenador"), cUsuario.editar);
 
 //COORDENADOR
